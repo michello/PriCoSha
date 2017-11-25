@@ -1,11 +1,6 @@
-# all the imports
-import os
-import sqlite3
-from flask import Flask, request, session, g, redirect, url_for, abort, \
-     render_template
-app = Flask(__name__)
+from flask import Flask, render_template, request, session, url_for, redirect
+from appdef import app
 import login
-
 
 @app.route('/')
 def main():
