@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>index</title>
+  <title>PriCoSha - Home</title>
 </head>
 
 <body>
@@ -10,7 +10,10 @@
 </div>
 
 {% if session['logged_in'] %}
+<a href="/logout">Logout</a>
 <p>You're logged in!</p>
+<p>{{ session['logged_in'] }} </p>
+<p>{{ username }}</p>
 {% else %}
 <div>
   <a href="/login">Login</a>

@@ -26,8 +26,7 @@ def loginAuth():
     if(data):
         session['logged_in'] = True
         session['username'] = username
-        print(username)
-        return redirect(url_for('main'))
+        return render_template('index.html', username=session['username'])
     else:
         error = "Invalid login or username/password"
         return render_template('login.html', error=error)
