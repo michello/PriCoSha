@@ -8,12 +8,13 @@
 <div>
   <h1>PriCoSha</h1>
 </div>
+
+{% if session['logged_in'] %}
+<p>You're logged in!</p>
+{% else %}
 <div>
   <a href="/login">Login</a>
 </div>
-
-{% if error %}
-	<p class="error"><strong>Error:</strong> {{error}}</p>
 {% endif %}
 
 </body>

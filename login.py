@@ -24,6 +24,7 @@ def loginAuth():
     cursor.close()
 
     if(data):
+        session['logged_in'] = True
         session['username'] = username
         print(username)
         return redirect(url_for('main'))
