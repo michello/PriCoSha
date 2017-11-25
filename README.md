@@ -7,6 +7,6 @@ a system for privately sharing content items among groups of people
 - pip install PyMySQL
 
 ## To do
-[x] Login
-[] View content items and information
-[] Manage tags
+- [x] Login
+- [ ] View content items and information
+- [ ] Manage tags
