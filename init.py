@@ -1,10 +1,8 @@
 from flask import Flask, render_template, request, session, url_for, redirect
 from appdef import app
-import login, logout
-
-@app.route('/')
-def main():
-    return render_template("index.html")
+import main, login, logout
+import pymysql.cursors
+import time
 
 
 app.secret_key = 'D7X15LEycA'
