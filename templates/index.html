@@ -27,14 +27,15 @@
       <a href="/login">Login</a>
     </div>
   {% else %}
-    <i>Hi {{ session['username'] }} ! </i>
+
+    <i>Hi {{ session['users'][session['username']]['first_name'] }} ! </i>
     <a href="/logout">Logout</a>
     <a href="/tags">Tags</a>
 
     {% for post in data %}
     <div id = "post">
         <h2>{{ post['data'] }}</h2>
-        <h3>{{ post['username'] }}</h3>
+        <h3>{{ session['users'][post['username']]['first_name'] }} ({{ post['username'] }})</h3>
 
         {% if (post['file_path']) %}
           <img src = {{ post['file_path'] }} />
@@ -63,7 +64,7 @@
         <p id = "comments">
           {% for comment in commentsData %}
               {% if comment['id'] == post['id'] %}
-                {{ comment['username'] }} says {{ comment['comment_text'] }} on {{ comment['timest'] }}
+                {{ session['users'][comment['username']]['first_name'] }} ({{ comment['username'] }}) says {{ comment['comment_text'] }} on {{ comment['timest'] }}
               {% endif %}
           {% endfor %}
         </p>

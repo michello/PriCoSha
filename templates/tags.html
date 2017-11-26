@@ -27,13 +27,13 @@
       <a href="/login">Login</a>
     </div>
   {% else %}
-    <i>Hi {{ session['username'] }} ! </i> <a href="/logout">Logout</a> <a href ="/">Home</a>
+    <i>Hi {{ session['users'][session['username']]['first_name'] }} ! </i> <a href="/logout">Logout</a> <a href ="/">Home</a>
     <p>
       {% if (data) %}
         <p> These are your pending tags: </p>
         <form action="/proccessTags" method="POST">
           {% for tagRequest in data %}
-            <p>{{ tagRequest['username_tagger'] }} has tagged you in  Post ID {{ tagRequest['id'] }}</p>
+            <p>{{ session['users'][tagRequest['username_tagger']]['first_name'] }} ({{ tagRequest['username_tagger'] }}) has tagged you in  Post ID {{ tagRequest['id'] }}</p>
             <input type ="radio" name ={{tagRequest['id']}} value=True> Accept</input>
             <input type ="radio" name ={{tagRequest['id']}} value=False>Decline</input>
             <input type="submit" value = Submit />
