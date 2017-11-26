@@ -29,7 +29,6 @@ def proccessTags():
         executeQuery(query, post, user)
     return redirect(url_for('tags'))
 
-
 def executeQuery(command, post, user):
     cursor = conn.cursor()
     cursor.execute(command, (post, user))

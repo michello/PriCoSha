@@ -20,7 +20,8 @@ INSERT INTO content (id, username, timest, file_path, content_name, public) VALU
 (1, 'ml4963', CURRENT_TIMESTAMP, "/static/posts_pic/image_1.jpg", "My birthday", 1),
 (2, 'al4604', TIMESTAMP("2017-07-23",  "13:10:11"), "/static/posts_pic/image_2.png", "Cooking an artichoke", 0),
 (3, 'cy986', CURRENT_TIMESTAMP, "/static/posts_pic/image_3.jpg", "I want a fluffy dog.", 0),
-(4, 'jy1906', TIMESTAMP("2017-09-15",  "13:10:11"), "/static/posts_pic/image_4.jpg", "My first magikarp!", 0);
+(4, 'jy1906', TIMESTAMP("2017-09-15",  "13:10:11"), "/static/posts_pic/image_4.jpg", "My first magikarp!", 0),
+(4, 'jh383', TIMESTAMP("2016-12-25",  "13:10:11"), "/static/posts_pic/image_5.jpg", "I love pusheens~", 1);
 
 --- tag
 INSERT INTO tag (id, username_tagger, username_taggee, timest, status) VALUES
