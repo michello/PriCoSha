@@ -23,14 +23,12 @@ def proccessTags():
     user = session['username']
     if (choice == "True"):
         query = 'UPDATE tag SET status = 1 WHERE id =%s AND username_taggee =%s'
-        executeQuery(query, post, user)
     else:
         query = 'DELETE FROM tag WHERE id =%s AND username_taggee=%s'
-        executeQuery(query, post, user)
+    executeQuery(query, post, user)
     return redirect(url_for('tags'))
 
 def executeQuery(command, post, user):
     cursor = conn.cursor()
     cursor.execute(command, (post, user))
-    data = cursor.fetchone()
     cursor.close()
