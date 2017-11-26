@@ -2,23 +2,85 @@
 <html>
 <head>
   <title>PriCoSha - Home</title>
+  <style>
+    img {
+      width: 250px;
+      height: auto;
+    }
+
+    body {
+      width: 500px;
+      margin: 0 auto;
+    }
+
+  </style>
+
 </head>
 
 <body>
-<div>
-  <h1>PriCoSha</h1>
-</div>
+  <div>
+    <h1>PriCoSha</h1>
+  </div>
 
-{% if not session['logged_in'] %}
-<div>
-  <a href="/login">Login</a>
-</div>
-{% else %}
-<a href="/logout">Logout</a>
-<p>You're logged in!</p>
-<p>{{ session['logged_in'] }} </p>
-<p>{{ username }}</p>
-{% endif %}
+  {% if not session['logged_in'] %}
+    <div>
+      <a href="/login">Login</a>
+    </div>
+  {% else %}
+    <i>Hi {{ session['username'] }} ! </i>
+    <a href="/logout">Logout</a>
+    <a href="/tags">Tags</a>
+
+    {% for post in data %}
+    <div id = "post">
+        <h2>{{ post['data'] }}</h2>
+        <h3>{{ post['username'] }}</h3>
+
+        {% if (post['file_path']) %}
+          <img src = {{ post['file_path'] }} />
+        {% endif %}
+
+        <p>
+          {{ post['content_name'] }}
+        </p>
+        <p>
+          <i>Posted on {{ post['timest'] }}</i>
+        </p>
+        <p>
+          <i>Tags:</i>
+            {% for tag in tagsData %}
+                {% if tag['id'] == post['id'] %}
+                  {{ tag['username_taggee'] }}
+                {% endif %}
+            {% endfor %}
+        </p>
+        <p>
+          <i>pid {{ post['id'] }}.</i>
+        </p>
+        <p>
+          <i>Comments:</i>
+        </p>
+        <p id = "comments">
+          {% for comment in commentsData %}
+              {% if comment['id'] == post['id'] %}
+                {{ comment['username'] }} says {{ comment['comment_text'] }} on {{ comment['timest'] }}
+              {% endif %}
+          {% endfor %}
+        </p>
+
+
+    </div>
+    <!--
+        {'timest': datetime.datetime(2017, 7, 23, 13, 10, 11),
+        'id': 2,
+        'public': 0,
+        'username': 'al4604',
+        'file_path': 'http://www.oceanmist.com/artichokes/wp-content/uploads/sites/2/2016/08/image006.png',
+        'content_name': 'Cooking an artichoke'}
+    -->
+      <hr>
+    {% endfor %}
+  {% endif %}
 
 </body>
 

@@ -8,5 +8,5 @@ a system for privately sharing content items among groups of people
 
 ## To do
 - [x] Login
-- [ ] View content items and information
-- [ ] Manage tags
+- [x] View content items and information `buggy`
+- [ ] Manage tags `in progress`

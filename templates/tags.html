@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PriCoSha - Tags</title>
+  <style>
+    img {
+      width: 250px;
+      height: auto;
+    }
+
+    body {
+      width: 500px;
+      margin: 0 auto;
+    }
+
+  </style>
+
+</head>
+
+<body>
+  <div>
+    <h1>PriCoSha</h1>
+  </div>
+
+  {% if not session['logged_in'] %}
+    <div>
+      <a href="/login">Login</a>
+    </div>
+  {% else %}
+    <i>Hi {{ session['username'] }} ! </i> <a href="/logout">Logout</a> <a href ="/">Home</a>
+    <p>
+      {% if (data) %}
+        These are your pending tags:
+        {% for tag in data %}
+            {{ data }}
+        {% endfor %}
+      {% else %}
+        You do not have any pending tags!
+      {% endif %}
+    </p>
+
+  {% endif %}
+
+</body>
+
+</html>

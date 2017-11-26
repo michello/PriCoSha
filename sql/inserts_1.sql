@@ -15,8 +15,19 @@ INSERT INTO member (username, group_name, username_creator) VALUES ('cy986', 'MA
 ('ml4963', 'James the Bae', 'jy1906'),
 ('jh383', 'James the Bae', 'jy1906');
 
--- adding content
+--- adding content
 INSERT INTO content (id, username, timest, file_path, content_name, public) VALUES
-(1, 'ml4963', CURRENT_TIMESTAMP, "http://food.fnr.sndimg.com/content/dam/images/food/fullset/2009/4/5/1/IG1C17_30946_s4x3.jpg", "My birthday", 1),
-(2, 'al4604', TIMESTAMP("2017-07-23",  "13:10:11"), "http://www.oceanmist.com/artichokes/wp-content/uploads/sites/2/2016/08/image006.png", "Cooking an artichoke", 0),
-(3, 'cy986', CURRENT_TIMESTAMP, "http://www.dogbreedslist.info/uploads/allimg/dog-pictures/Pomeranian-1.jpg", "I want a fluffy dog.", 0)
+(1, 'ml4963', CURRENT_TIMESTAMP, "/static/posts_pic/image_1.jpg", "My birthday", 1),
+(2, 'al4604', TIMESTAMP("2017-07-23",  "13:10:11"), "/static/posts_pic/image_2.png", "Cooking an artichoke", 0),
+(3, 'cy986', CURRENT_TIMESTAMP, "/static/posts_pic/image_3.jpg", "I want a fluffy dog.", 0),
+(4, 'jy1906', TIMESTAMP("2017-09-15",  "13:10:11"), "/static/posts_pic/image_4.jpg", "My first magikarp!", 0);
+
+--- tag
+INSERT INTO tag (id, username_tagger, username_taggee, timest, status) VALUES
+(1, 'ml4963', 'al4604', CURRENT_TIMESTAMP, 0),
+(1, 'ml4963', 'cy986', CURRENT_TIMESTAMP, 0),
+(4, 'jy1906', 'ml4963', TIMESTAMP("2017-09-16",  "13:10:11"), 0);
+
+--- adding comments
+INSERT INTO comment (	id,	username,	timest, comment_text) VALUES
+(2, 'ml4963', TIMESTAMP("2017-07-23",  "14:10:11"), "Artichokes are great! 8D");
