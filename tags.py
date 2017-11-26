@@ -14,3 +14,11 @@ def tags():
     cursor.close()
 
     return render_template("tags.html", data=data)
+
+
+@app.route('/proccessTags', methods=['GET', 'POST'])
+def proccessTags():
+    if (request.form['choice']):
+        print("Hello!")
+    else:
+        return redirect(url_for('tags'))

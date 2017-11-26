@@ -4,11 +4,20 @@ import tags
 
 @app.route('/')
 def main():
+
+
     if (session.get('logged_in') == True):
 
         # get all the posts
-        postQuery = 'SELECT * FROM CONTENT WHERE username in (SELECT username FROM member WHERE username_creator="ml4963") OR username in (SELECT username FROM member WHERE group_name in (SELECT group_name FROM member WHERE member.username ="ml4963") AND username != "ml4963") OR username in (SELECT username_creator FROM member WHERE username ="ml4963") GROUP BY timest ASC'
-        postData = getData(postQuery)
+        # postQuery = 'SELECT * FROM CONTENT WHERE username in (SELECT username FROM member WHERE username_creator="ml4963") OR username in (SELECT username FROM member WHERE group_name in (SELECT group_name FROM member WHERE member.username ="ml4963") AND username != "ml4963") OR username in (SELECT username_creator FROM member WHERE username ="ml4963") GROUP BY timest ASC'
+        postQuery = 'SELECT * FROM CONTENT WHERE username in (SELECT username FROM member WHERE username_creator=%s) OR username in (SELECT username FROM member WHERE group_name in (SELECT group_name FROM member WHERE member.username = %s) AND username != %s) OR username in (SELECT username_creator FROM member WHERE username = %s) GROUP BY timest ASC'
+        cursor = conn.cursor()
+        username = session['username']
+        cursor.execute(postQuery, (username, username, username, username))
+        postData = cursor.fetchall()
+        cursor.close()
+
+        #postData = getData(postQuery)
 
         # get all the tags
         tagsQuery = 'SELECT * FROM tag WHERE status = 1'
