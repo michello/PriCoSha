@@ -10,7 +10,7 @@ def main():
 
         # get all the posts
         # postQuery = 'SELECT * FROM CONTENT WHERE username in (SELECT username FROM member WHERE username_creator="ml4963") OR username in (SELECT username FROM member WHERE group_name in (SELECT group_name FROM member WHERE member.username ="ml4963") AND username != "ml4963") OR username in (SELECT username_creator FROM member WHERE username ="ml4963") GROUP BY timest ASC'
-        postQuery = 'SELECT * FROM CONTENT WHERE username in (SELECT username FROM member WHERE username_creator=%s) OR username in (SELECT username FROM member WHERE group_name in (SELECT group_name FROM member WHERE member.username = %s) AND username != %s) OR username in (SELECT username_creator FROM member WHERE username = %s) GROUP BY timest ASC'
+        postQuery = 'SELECT content.id, content.username, content.timest, content.file_path, content.content_name FROM CONTENT WHERE content.public = 1 OR username in (SELECT username FROM member WHERE username = %s) OR username in (SELECT username FROM member WHERE group_name in (SELECT group_name FROM member WHERE member.username = %s)) OR username in (SELECT username_creator FROM member WHERE username = %s) ORDER BY timest DSC'
         cursor = conn.cursor()
         username = session['username']
         cursor.execute(postQuery, (username, username, username, username))

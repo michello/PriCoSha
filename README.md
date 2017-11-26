@@ -9,10 +9,10 @@ Run `python init.py` in command prompt or terminal at the root folder of this pr
 - [x] View content items and information `buggy -- still need to have name display instead of username and have public posts visible`
 - [x] Manage tags
 ### finish the following by `Dec. 1`:
-- [ ] Post a content item
-- [ ] Tag a content item
-- [ ] Add friend
-- [ ] Feature No. 1
+- [ ] Post a content item *assigned to ammy*
+- [ ] Tag a content item *assigned to corinna*
+- [ ] Add friend *assigned to michelle*
+- [ ] Feature No. 1 
 - [ ] Feature No. 2
 - [ ] Feature No. 3
 ### finish by `Dec. 4/5`
