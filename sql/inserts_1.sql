@@ -26,7 +26,9 @@ INSERT INTO content (id, username, timest, file_path, content_name, public) VALU
 INSERT INTO tag (id, username_tagger, username_taggee, timest, status) VALUES
 (1, 'ml4963', 'al4604', CURRENT_TIMESTAMP, 0),
 (1, 'ml4963', 'cy986', CURRENT_TIMESTAMP, 0),
-(4, 'jy1906', 'ml4963', TIMESTAMP("2017-09-16",  "13:10:11"), 0);
+(4, 'jy1906', 'ml4963', TIMESTAMP("2017-09-16",  "13:10:11"), 0),
+(3, 'cy986', 'ml4963', TIMESTAMP("2017-09-16",  "13:10:11"), 0),
+(3, 'cy986', 'al4604', TIMESTAMP("2017-09-16",  "13:10:11"), 0);
 
 --- adding comments
 INSERT INTO comment (	id,	username,	timest, comment_text) VALUES
