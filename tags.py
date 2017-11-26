@@ -4,7 +4,6 @@ from appdef import app, conn
 
 @app.route('/tags')
 def tags():
-
     cursor = conn.cursor()
     # username = ml4963
     # password = wildestdreams
@@ -18,7 +17,20 @@ def tags():
 
 @app.route('/proccessTags', methods=['GET', 'POST'])
 def proccessTags():
-    if (request.form['choice']):
-        print("Hello!")
+    data = request.form
+    post = list(data.keys())[0]
+    choice = data['1']
+    user = session['username']
+    if (choice == "True"):
+        query = 'UPDATE tag SET status = 1 WHERE id =%s AND username_taggee =%s'
+        executeQuery(query, post, user)
     else:
-        return redirect(url_for('tags'))
+        query = 'DELETE FROM tag WHERE id =%s AND username_taggee=%s'
+        executeQuery(query, post, user)
+    return redirect(url_for('tags'))
+
+def executeQuery(command, post, user):
+    cursor = conn.cursor()
+    cursor.execute(command, (post, user))
+    data = cursor.fetchone()
+    cursor.close()

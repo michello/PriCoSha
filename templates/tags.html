@@ -30,14 +30,13 @@
     <i>Hi {{ session['username'] }} ! </i> <a href="/logout">Logout</a> <a href ="/">Home</a>
     <p>
       {% if (data) %}
-      <p> These are your pending tags: </p>
-      {{ data }}
-      <form action="/confirmTags" method="POST">
-        <p>{{ data['username_tagger'] }} has tagged you in  Post ID {{ data['id'] }}</p>
-        <input type ="radio" name ="choice" value="accept"> Accept</input>
-        <input type ="radio" name ="choice" value="decline">Decline</input>
-        <input type="submit" value = Submit />
-      </form>
+        <p> These are your pending tags: </p>
+        <form action="/proccessTags" method="POST">
+          <p>{{ data['username_tagger'] }} has tagged you in  Post ID {{ data['id'] }}</p>
+          <input type ="radio" name ={{data['id']}} value=True> Accept</input>
+          <input type ="radio" name ={{data['id']}} value=False>Decline</input>
+          <input type="submit" value = Submit />
+        </form>
       {% else %}
         You do not have any pending tags!
       {% endif %}
