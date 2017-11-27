@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PriCoSha</title>
+  <style>
+    img {
+      width: 250px;
+      height: auto;
+    }
+
+    body {
+      width: 500px;
+      margin: 0 auto;
+    }
+
+  </style>
+
+</head>
+<body>
+  <div>
+    <h1>PriCoSha</h1>
+  </div>
+  {% if not session['logged_in'] %}
+  <div>
+    <a href="/login">Login</a>
+  </div>
+  {% else %}
+    {% block content %}{% endblock %}
+  {% endif %}
+
+</body>
+</html>
