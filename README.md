@@ -22,7 +22,9 @@ Run `python init.py` in command prompt or terminal at the root folder of this pr
 - like/dislike feature for content items
 - delete content items
 - create/delete friend group
-- profile page for user (which displays first name, last name, and posts they made, commented or tagged in)
+- profile page for user
+- page that displays which friend group  user belongs to
+- search bar for users to find other users 
 
 ## Testing Purposes
 - `Username` is the person's NYU net id.
