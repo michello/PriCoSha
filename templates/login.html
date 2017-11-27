@@ -1,8 +1,6 @@
-<html>
-<head>
-  <title>PriCoSha - Login</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
+
 <h2>Please enter your login information</h2>
 <form action="/loginAuth" method="POST">
   Username or Email <br><input type="text" name = "username" placeholder="username or email" required/> </br>
@@ -16,7 +14,4 @@
 
 <a href="/">Go back</a>
 
-</body>
-
-
-</html>
+{% endblock %}
