@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>PriCoSha - Tags</title>
+  <title>PriCoSha</title>
   <style>
     img {
       width: 250px;
@@ -16,17 +16,14 @@
   </style>
 
 </head>
-<script>
-  var location = window.location.href
-</script>
 <body>
   <div>
     <h1>PriCoSha</h1>
   </div>
   {% if not session['logged_in'] %}
-    <div>
-      <a href="/login">Login</a>
-    </div>
+  <div>
+    <a href="/login">Login</a>
+  </div>
   {% else %}
     {% block content %}{% endblock %}
   {% endif %}

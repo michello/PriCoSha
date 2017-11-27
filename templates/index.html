@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-
+    
     <i>Hi {{ session['users'][session['username']]['first_name'] }} ! </i>
     <a href="/logout">Logout</a>
     <a href="/tags">Tags</a>
