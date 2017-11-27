@@ -4,8 +4,11 @@ import tags
 
 @app.route('/')
 def main():
+
+    # if the user is logged in, have all the posts available to the user display
     if (session.get('logged_in') == True):
-        # get all the posts
+
+        # query to get all the posts available to the user
         postQuery = 'SELECT content.id, content.username, content.timest, content.file_path, content.content_name FROM CONTENT WHERE content.public = 1 OR username in (SELECT username FROM member WHERE username = %s) OR username in (SELECT username FROM member WHERE group_name in (SELECT group_name FROM member WHERE member.username = %s)) OR username in (SELECT username_creator FROM member WHERE username = %s) OR username in (SELECT username FROM member WHERE username_creator= %s) ORDER BY timest DESC'
 
         cursor = conn.cursor()
@@ -13,8 +16,6 @@ def main():
         cursor.execute(postQuery, (username, username, username, username))
         postData = cursor.fetchall()
         cursor.close()
-
-        #postData = getData(postQuery)
 
         # get all the tags
         tagsQuery = 'SELECT * FROM tag WHERE status = 1'
@@ -28,13 +29,12 @@ def main():
         userQuery = 'SELECT username, first_name, last_name FROM person'
         userData = getData(userQuery)
 
-
         storeUsers(userData)
 
         return render_template("index.html", data=postData, tagsData=tagsData, commentsData=commentsData, userData=userData)
-
     return render_template("index.html")
 
+# function to make queries to database to acquire info
 def getData(query):
     cursor = conn.cursor()
     cursor.execute(query)
@@ -43,6 +43,8 @@ def getData(query):
     return(data)
 
 def storeUsers(data):
+    # store users in a session users dictionary
+    # which can be used to access users' first name and last name.
     session['users'] = {}
     for user in data:
         session['users'][user['username']] = {}

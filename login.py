@@ -9,22 +9,24 @@ def login():
 # authenticates logins
 @app.route('/loginAuth', methods=['GET', 'POST'])
 def loginAuth():
+
+    # gets values from login form fields
     username = request.form['username']
     password = request.form['password']
 
+    # initializes & conducts queries to validate login credentials
     cursor = conn.cursor()
-    # username = ml4963
-    # password = wildestdreams
     query = 'SELECT * FROM person WHERE username = %s and password = md5(%s)'
     cursor.execute(query, (username, password))
-    #stores results in var
     data = cursor.fetchone()
     cursor.close()
 
+    # if credentials are found in the database, user is logged in
     if(data):
         session['logged_in'] = True
         session['username'] = username
+        # redirect to homepage
         return redirect(url_for('main', username=session['username']))
-    else:
+    else: # credentials are not found
         error = "Invalid login or username/password"
         return render_template('login.html', error=error)
