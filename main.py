@@ -4,10 +4,8 @@ import tags
 
 @app.route('/')
 def main():
-
     # if the user is logged in, have all the posts available to the user display
     if (session.get('logged_in') == True):
-
         # query to get all the posts available to the user
         postQuery = 'SELECT content.id, content.username, content.timest, content.file_path, content.content_name \
                     FROM CONTENT \
@@ -26,7 +24,7 @@ def main():
                                         FROM member \
                                         WHERE username_creator=%s) \
                     ORDER BY timest DESC'
-                    
+
         cursor = conn.cursor()
         username = session['username']
         cursor.execute(postQuery, (username, username, username, username))
