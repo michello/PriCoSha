@@ -1,0 +1,16 @@
+@font-face {
+	font-family: Futara;
+	src: url(futura medium condensed bt.ttf);
+}
+
+img {
+  width: 250px;
+  height: auto;
+}
+
+body {
+	font-family: Futara;
+	width: 500px;
+	margin: 0 auto;
+}
+
