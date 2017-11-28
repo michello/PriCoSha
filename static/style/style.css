@@ -1,6 +1,12 @@
 @font-face {
 	font-family: Futara;
-	src: url(futura medium condensed bt.ttf);
+	src: url("../font/futura medium condensed bt.ttf");
+}
+
+.title {
+	background: -webkit-linear-gradient(#eee, #333);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 img {
@@ -8,9 +14,14 @@ img {
   height: auto;
 }
 
+
 body {
 	font-family: Futara;
 	width: 500px;
 	margin: 0 auto;
 }
 
+#logo {
+	width: 100px;
+	height: auto;
+}

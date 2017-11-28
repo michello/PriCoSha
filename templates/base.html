@@ -2,12 +2,10 @@
 <html>
 <head>
   <title>PriCoSha</title>
-  <link rel = "stylesheet" href = "style.css"></style>
+  <link rel = "stylesheet" href = "{{ url_for('static', filename='style/style.css') }}"></style>
 </head>
 <body>
-  <div>
-    <h1>PriCoSha</h1>
-  </div>
+  
   {% if not session['logged_in'] %}
   <div>
     <a href="/login">Login</a>

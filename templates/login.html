@@ -2,11 +2,11 @@
 <html>
 <head>
   <title>PriCoSha</title>
-  <link rel = "stylesheet" href = "style.css"></style>
+  <link rel = "stylesheet" href = "{{ url_for('static', filename='style/style.css') }}"></style>
 </head>
 <body>
-    <img src = "brand_assets/logo3.png"></img>
-    
+    <img src = "{{ url_for('static', filename='brand_assets/logo3.png') }}" id="logo"></img>
+
     <h2>Please enter your login information</h2>
     <form action="/loginAuth" method="POST">
       Username or Email <br><input type="text" name = "username" placeholder="username or email" required/> </br>
