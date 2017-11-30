@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
+    
+    <i>Hi {{ session['users'][session['username']]['first_name'] }} ! </i>
+    <a href="/logout">Logout</a>
+    <a href="/tags">Tags</a>
 
     <h1> Edit Post </h1>
-    <form action="/edit-post/processing" method="POST">
+    <form action="/edit-post/processing/{{ post['id'] }}" method="POST">
       File Path <br>
       <input type="text" name = "filepath" placeholder="filepath of your image" required/> </br>
       <br>Post Content <br>

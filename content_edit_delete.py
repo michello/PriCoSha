@@ -6,20 +6,26 @@ import tags, main
 def editPost(post_id):
     return render_template("content_edit.html")
 
-@app.route('/edit-post/processing')
-def editPostProcessed():
+@app.route('/edit-post/processing/<post_id>', methods=['GET', 'POST'])
+def editPostProcessed(post_id):
     filepath = request.form['filepath']
     postContent = request.form['content']
     pubOrPriv = request.form['publicity']
 
     # conducts queries to update post
     cursor = conn.cursor()
-    updateQuery = 'UPDATE * FROM content WHERE file_path = %s AND content_name = %s AND public = %s AND timest = CURRENT_TIMESTAMP'
-    cursor.execute(updateQuery, (username, password))
-    data = cursor.fetchone()
+    updateQuery = 'UPDATE content \
+                   SET \
+                        file_path = %s, \
+                        content_name = %s, \
+                        public = %s, \
+                        timest = CURRENT_TIMESTAMP \
+                   WHERE content.id = '+post_id
+    
+    cursor.execute(updateQuery, (filepath, postContent, pubOrPriv))
     cursor.close()
     
-    return render_template('index.html')
+    return redirect(url_for('index'))
 
 #deletes a post and redirects to indicate the post was deleted
 @app.route('/delete-post/<post_id>')
