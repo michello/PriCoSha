@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+   
+    <i>Hi {{ session['users'][session['username']]['first_name'] }} ! </i>
+    <a href="/logout">Logout</a>
+    <a href ="/">Home</a>
+    <a href="/tags">Tags</a>
+
+    <h1> Post was deleted. </h1>
+    <a href="/">Go back</a>
+
+{% endblock %}

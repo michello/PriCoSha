@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from appdef import app, conn
-import tags
+import tags, content_form
 
 @app.route('/')
 def main():

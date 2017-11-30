@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h1> Edit Post </h1>
+    <form action="/edit-post/processing" method="POST">
+      File Path <br>
+      <input type="text" name = "filepath" placeholder="filepath of your image" required/> </br>
+      <br>Post Content <br>
+      <input type="text" name = "content" placeholder="your updated content" required/></br>
+      <br>Public
+      <input type="radio" name = "publicity" id="public" value="1"> Yes </input>
+      <input type="radio" name = "publicity" id="private" value="0"> No </input> </br>
+      <input type="submit" value = Update />
+    </form>
+
+    <a href="/">Go back</a>
+
+{% endblock %}

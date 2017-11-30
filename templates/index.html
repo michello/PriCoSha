@@ -43,7 +43,9 @@
         </p>
         {% if session['username'] == post['username'] %}
           <!-- change href url for dynamic urls -->
-          <a href ="/edit-post-<post["id"]>">edit post</a>
+          <a href = "/edit-post/{{ post['id'] }}"> edit</a> 
+          <br>
+          <a href = "/delete-post/{{ post['id'] }}"> delete </a> 
         {% endif %}
 
       </div>
