@@ -25,3 +25,12 @@ body {
 	width: 100px;
 	height: auto;
 }
+
+#name {
+	float: left;
+	clear: both;
+}
+
+#group {
+	float: right;
+}

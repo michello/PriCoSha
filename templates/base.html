@@ -5,12 +5,16 @@
   <link rel = "stylesheet" href = "{{ url_for('static', filename='style/style.css') }}"></style>
 </head>
 <body>
-  
+
   {% if not session['logged_in'] %}
   <div>
     <a href="/login">Login</a>
   </div>
   {% else %}
+    <i>Hi {{ session['users'][session['username']]['first_name'] }} ! </i>
+    <a href="/logout">Logout</a>
+    <a href="/tags">Tags</a>
+    <a href="/friends">Friends</a>
     {% block content %}{% endblock %}
   {% endif %}
 

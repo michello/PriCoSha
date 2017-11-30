@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <p>
+    <a href = "/friends">View Friends</a> | <a href = "/addFriends">Add Friends</a> |
+    <a href="/create">Create Friend Group</a>
+  </p>
+  
+  {% for friend in data %}
+  <div clas = "friend">
+      <div id = "name">
+        {% if (friend['username']): %}
+          {% set name = friend['username'] %}
+          {{ friend['username'] }}
+        {% else %}
+          {% set name = friend['username_creator'] %}
+          {{ friend['username_creator'] }}
+        {% endif %}
+        {{ session['users'][name]['first_name'] }}
+        {{ session['users'][name]['last_name'] }}
+      </div>
+      <div id = "group">
+        {{ friend['group_name'] }}
+      </div>
+  </div>
+  {% endfor %}
+
+{% endblock %}
+
+
+<!--
+{'username': 'al4604', 'group_name': 'MAC'}
+-->
