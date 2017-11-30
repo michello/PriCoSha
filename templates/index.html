@@ -1,10 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <i>Hi {{ session['users'][session['username']]['first_name'] }} ! </i>
-    <a href="/logout">Logout</a>
-    <a href="/tags">Tags</a>
-
     {% for post in data %}
     <div id = "post">
         <h2>{{ post['data'] }}</h2>
@@ -43,9 +39,9 @@
         </p>
         {% if session['username'] == post['username'] %}
           <!-- change href url for dynamic urls -->
-          <a href = "/edit-post/{{ post['id'] }}"> edit</a> 
+          <a href = "/edit-post/{{ post['id'] }}"> edit</a>
           <br>
-          <a href = "/delete-post/{{ post['id'] }}"> delete </a> 
+          <a href = "/delete-post/{{ post['id'] }}"> delete </a>
         {% endif %}
 
       </div>
