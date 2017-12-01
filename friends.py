@@ -4,9 +4,12 @@ from appdef import app, conn
 
 @app.route('/friends')
 def friends():
-
     # gotta update this data every time someone successfully adds a user
+    friends = getFriends()
     data = session['users'][session['username']]['friends']
+
+    if (friends != data):
+        data = friends
 
     return render_template('friends.html', data=data)
 
@@ -69,13 +72,14 @@ def addingFriends():
 
     else:
 
+        cursor = conn.cursor()
         query = "SELECT username \
                 FROM person \
                 WHERE username = %s"
-        cursor = conn.cursor()
-        cursor.execute(query, username)
-        data = cursor.fetch.all()
+        cursor.execute(query, (username))
+        data = cursor.fetchone()
         cursor.close()
+
         # if the username is collected
         if (data):
             query = "INSERT INTO member (username, group_name, username_creator) VALUES (%s, %s, %s)"
@@ -94,3 +98,45 @@ def getData(query, param):
     data = cursor.fetchall()
     cursor.close()
     return data
+
+def getFriends():
+    userList = []
+    # query for getting the members of the group of
+    # which the username is creator of
+    creatorQuery = "SELECT username, group_name \
+                FROM member \
+                WHERE username_creator = %s;"
+    cursor = conn.cursor()
+    cursor.execute(creatorQuery, (session['username']))
+    userList.extend(cursor.fetchall())
+    cursor.close()
+
+    # query for getting the members of the group of
+    # which the username is a member of
+    cursor = conn.cursor()
+    memberQuery = "SELECT username, group_name \
+                    FROM member \
+                    WHERE group_name in \
+                       (SELECT group_name \
+                       FROM member \
+                       WHERE username = %s) \
+                    HAVING username != %s;"
+    cursor.execute(memberQuery, (session['username'], session['username']))
+    userList.extend(cursor.fetchall())
+    cursor.close()
+
+    # query for getting the creators of the group of
+    # which the user is a member of
+    friendCreatorQuery = "SELECT username_creator, group_name \
+                            FROM member \
+                            WHERE group_name in \
+                               (SELECT group_name \
+                               FROM member \
+                               WHERE username = %s) \
+                            GROUP BY group_name;"
+    cursor = conn.cursor()
+    cursor.execute(friendCreatorQuery, (session['username']))
+    userList.extend(cursor.fetchall())
+    cursor.close()
+
+    return userList
