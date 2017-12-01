@@ -73,7 +73,7 @@ def addingFriends():
                 FROM person \
                 WHERE username = %s"
         cursor = conn.cursor()
-        cursor.execute(query, (username))
+        cursor.execute(query, username)
         data = cursor.fetch.all()
         cursor.close()
         # if the username is collected
