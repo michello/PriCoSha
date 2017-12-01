@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <p>
+    <a href = "/friends">View Friends</a> | <a href = "/addFriends">Add Friends</a> |
+    <a href="/create">Create Friend Group</a>
+  </p>
+  {% if error %}
+    <p class="error"><strong>Error:</strong> {{ error }}</p>
+  {% endif %}
+  <form action="/addingFriends" method="POST">
+    <p>
+    1. Select a group you own:
+    </p>
+      {% set groups = session['users'][session['username']]['groups'] %}
+      {% if (groups): %}
+        {% for group in groups %}
+          <p>
+            <input type="radio" name="group" value="{{ group['group_name'] }}"> {{ group['group_name'] }}
+            <br>
+            {{ group['description'] }}
+          </p>
+        {% endfor %}
+      {% else: %}
+          You don't own any groups! <a href="createGroup">Make one?</a>
+      {% endif %}
+    <p>
+    2. Type in the first and last name of the person you'd like to add!
+    <p>
+      <input type="name" name="name" placeholder="first and last name">
+    </p>
+    {% if (error == "Please include a username.") or (error == "Username was not found. Please enter a valid one.") %}
+    3. Also include the person's username!
+      <p>
+        <input type="username" name="username" placeholder="username">
+      </p>
+    {% endif %}
+    <p>
+      <input type="submit" value = Submit />
+    </p>
+  </form>
+
+{% endblock %}

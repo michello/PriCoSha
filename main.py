@@ -64,4 +64,58 @@ def storeUsers(data):
         session['users'][user['username']] = {}
         session['users'][user['username']]['first_name'] = user['first_name']
         session['users'][user['username']]['last_name'] = user['last_name']
+        # adding friends for users
+        session['users'][user['username']]['friends'] = []
+        addFriends(session['users'][user['username']]['friends'])
+        # including groups you own
+        session['users'][user['username']]['groups'] = []
+        addGroups(session['users'][user['username']]['groups'])
     return;
+
+def addFriends(userList):
+    # query for getting the members of the group of
+    # which the username is creator of
+    creatorQuery = "SELECT username, group_name \
+                FROM member \
+                WHERE username_creator = %s;"
+    cursor = conn.cursor()
+    cursor.execute(creatorQuery, (session['username']))
+    userList.extend(cursor.fetchall())
+    cursor.close()
+
+    # query for getting the members of the group of
+    # which the username is a member of
+    cursor = conn.cursor()
+    memberQuery = "SELECT username, group_name \
+                    FROM member \
+                    WHERE group_name in \
+                       (SELECT group_name \
+                       FROM member \
+                       WHERE username = %s) \
+                    HAVING username != %s;"
+    cursor.execute(memberQuery, (session['username'], session['username']))
+    userList.extend(cursor.fetchall())
+    cursor.close()
+
+    # query for getting the creators of the group of
+    # which the user is a member of
+    friendCreatorQuery = "SELECT username_creator, group_name \
+                            FROM member \
+                            WHERE group_name in \
+                               (SELECT group_name \
+                               FROM member \
+                               WHERE username = %s) \
+                            GROUP BY group_name;"
+    cursor = conn.cursor()
+    cursor.execute(friendCreatorQuery, (session['username']))
+    userList.extend(cursor.fetchall())
+    cursor.close()
+
+def addGroups(groupList):
+    friendGroup = "SELECT group_name, description \
+                    FROM friendgroup \
+                    WHERE username = %s"
+    cursor = conn.cursor()
+    cursor.execute(friendGroup, (session['username']))
+    groupList.extend(cursor.fetchall())
+    cursor.close()
