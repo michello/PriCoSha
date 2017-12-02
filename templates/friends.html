@@ -8,13 +8,19 @@
 
   {% for friend in data %}
   <div clas = "friend">
+    {% if friend['group_name'] in gname_list %}
+
+      <a href = "/delete-{{friend['username']}}-from-{{friend['group_name']}}">Remove user</a>
+    {% endif %}
       <div id = "name">
+        <!-- if the friend is a member of a group you own -->
         {% if (friend['username']): %}
           {% set name = friend['username'] %}
-          {{ friend['username'] }}
+          {{ name }}
         {% else %}
+          <!-- if the friend is a creator of a group you're a member of -->
           {% set name = friend['username_creator'] %}
-          {{ friend['username_creator'] }}
+          {{ name }}
         {% endif %}
         {{ session['users'][name]['first_name'] }}
         {{ session['users'][name]['last_name'] }}

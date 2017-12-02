@@ -9,10 +9,24 @@ def friends():
     friends = getfriends.getFriend()
     data = session['users'][session['username']]['friends']
 
+
+
     if (friends != data):
         data = friends
 
-    return render_template('friends.html', data=data)
+    gname_list = []
+    for group in session['users'][session['username']]['groups']:
+        gname_list.append(group['group_name'])
+
+
+    return render_template('friends.html', data=data, groups=group, gname_list=gname_list)
+
+@app.route('/delete-<user>-from-<group>')
+def deleteFriends(user, group):
+    command = "DELETE FROM member \
+                WHERE group_name = %s AND username="+ "'" + user + "'"
+    execute(command, (group))
+    return redirect(url_for('friends'))
 
 @app.route('/addFriends')
 def addFriends():
@@ -131,3 +145,10 @@ def getData(query, param):
     data = cursor.fetchall()
     cursor.close()
     return data
+
+def execute(query, param):
+    cursor = conn.cursor()
+    cursor.execute(query, (param))
+    conn.commit()
+    cursor.close()
+    return;

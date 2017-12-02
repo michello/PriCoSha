@@ -11,8 +11,8 @@ Run `python init.py` in command prompt or terminal at the root folder of this pr
 ### finish the following by `Dec. 2`:
 - [ ] Post a content item `assigned to Ammy`
 - [ ] Tag a content item `assigned to Ammy`
-- [x] Add friend (have to test out) `assigned to Michelle`
-- [ ] Feature No. 1 - Create/delete/defriend friend group `assigned to Michelle`
+- [x] Add friend `assigned to Michelle`
+- [x] Feature No. 1 - Create/delete/defriend friend group `assigned to Michelle`
 - [ ] Feature No. 2 - Update/delete content item `assigned to Corinna`
 - [ ] Feature No. 3 - Like/Dislike feature for content item `assigned to Corinna`
 ### test & fix features from `Dec. 5` to `Dec. 7`
