@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <p>
+    <a href = "/friends">View Friends</a> | <a href = "/addFriends">Add Friends</a> |
+    <a href="/createFriend">Create Friend Group</a>
+  </p>
+  {% if error %}
+    <p class="error"><strong>Error:</strong> {{ error }}</p>
+  {% endif %}
+  <form action="/creatingFriends" method="POST">
+    <p>
+    1. Give a name for your group:
+    </p>
+      <input type="name" name="name" placeholder="name">
+    <p>
+    2. Add people to your friend group!
+      <p>
+        {% for member in session['users'].keys() %}
+            <input type="radio" name={{member}} value={{member}}>
+            {{ session['users'][member]['first_name']}} {{ session['users'][member]['last_name'] }} ({{member}})<br>
+        {% endfor %}
+      </p>
+    <p>
+      <input type="submit" value = Submit />
+    </p>
+  </form>
+
+{% endblock %}
