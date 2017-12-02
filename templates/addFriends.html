@@ -3,7 +3,7 @@
 
   <p>
     <a href = "/friends">View Friends</a> | <a href = "/addFriends">Add Friends</a> |
-    <a href="/create">Create Friend Group</a>
+    <a href = "/groups">View Groups</a> | <a href="/createFriend">Create Friend Group</a>
   </p>
   {% if error %}
     <p class="error"><strong>Error:</strong> {{ error }}</p>
@@ -12,9 +12,9 @@
     <p>
     1. Select a group you own:
     </p>
-      {% set groups = session['users'][session['username']]['groups'] %}
-      {% if (groups): %}
-        {% for group in groups %}
+
+      {% if (data): %}
+        {% for group in data %}
           <p>
             <input type="radio" name="group" value="{{ group['group_name'] }}"> {{ group['group_name'] }}
             <br>

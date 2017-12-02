@@ -2,7 +2,9 @@ from flask import session
 from appdef import app, conn
 
 def getFriend():
+
     userList = []
+
     # query for getting the members of the group of
     # which the username is creator of
     creatorQuery = "SELECT username, group_name \

@@ -17,8 +17,10 @@
     2. Add people to your friend group!
       <p>
         {% for member in session['users'].keys() %}
-            <input type="radio" name={{member}} value={{member}}>
-            {{ session['users'][member]['first_name']}} {{ session['users'][member]['last_name'] }} ({{member}})<br>
+            {% if member != session['username'] %}
+              <input type="radio" name={{member}} value={{member}}>
+              {{ session['users'][member]['first_name']}} {{ session['users'][member]['last_name'] }} ({{member}})<br>
+            {% endif %}
         {% endfor %}
       </p>
     <p>

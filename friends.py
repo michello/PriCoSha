@@ -68,6 +68,7 @@ def addingFriends():
              query = "INSERT INTO member (username, group_name, username_creator) VALUES (%s, %s, %s)"
              cursor = conn.cursor()
              cursor.execute(query, (data[0]['username'], group, session['username']))
+             conn.commit()
              cursor.close()
              return redirect(url_for('friends'))
     else:
@@ -85,6 +86,7 @@ def addingFriends():
             query = "INSERT INTO member (username, group_name, username_creator) VALUES (%s, %s, %s)"
             cursor = conn.cursor()
             cursor.execute(query, (data['username'], group, session['username']))
+            conn.commit()
             cursor.close()
             return redirect(url_for('friends'))
         else:
@@ -108,8 +110,9 @@ def creatingFriends():
     cursor = conn.cursor()
     command = "INSERT INTO friendgroup (group_name, username, description) VALUES (%s, %s, %s)"
     cursor.execute(command, (groupName, session['username'], "hullo"))
+    conn.commit()
     cursor.close()
-    
+
     # create a query for each member
     cursor = conn.cursor()
     for member in data:
@@ -117,6 +120,7 @@ def creatingFriends():
             if (member != session['username']):
                 query = "INSERT INTO member (username, group_name, username_creator) VALUES (%s, %s, %s)"
                 cursor.execute(query, (member, groupName, session['username']))
+                conn.commit()
     cursor.close()
 
     return redirect(url_for('friends'))
