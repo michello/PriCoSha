@@ -18,7 +18,7 @@ Run `python init.py` in command prompt or terminal at the root folder of this pr
 ### test & fix features from `Dec. 5` to `Dec. 7`
 ### finish by `Dec. 11`
 - [ ] Feature No. 4 - Register users
-- [ ] Feature No. 5 - Search bar
+- [ ] Feature No. 5 - Add comments
 ### suggested feature
 - profile page for user
 - page that displays which friend group user belongs to
