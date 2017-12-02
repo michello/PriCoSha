@@ -16,7 +16,7 @@ Run `python init.py` in command prompt or terminal at the root folder of this pr
 - [ ] Feature No. 2 - Update/delete content item `assigned to Corinna`
 - [ ] Feature No. 3 - Like/Dislike feature for content item `assigned to Corinna`
 ### test & fix features from `Dec. 5` to `Dec. 7`
-### finish by `Dec. 11`
+### finish by `Dec. 9/10`
 - [ ] Feature No. 4 - Register users
 - [ ] Feature No. 5 - Add comments
 ### suggested feature
