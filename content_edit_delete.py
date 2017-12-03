@@ -7,10 +7,10 @@ global_post_id = ''
 @app.route('/edit-post/<post_id>')
 def editPost(post_id):
     global_post_id = post_id
-    return render_template("content_edit.html")
+    return render_template("content_edit.html", post_id=post_id)
 
-@app.route('/edit-post/processing', methods=['GET', 'POST'])
-def editPostProcessed():
+@app.route('/edit-post/processing-<post_id>', methods=['GET', 'POST'])
+def editPostProcessed(post_id):
     filepath = request.form['filepath']
     postContent = request.form['content']
     pubOrPriv = request.form['publicity']
@@ -23,13 +23,13 @@ def editPostProcessed():
                         content_name = %s, \
                         public = %s, \
                         timest = CURRENT_TIMESTAMP \
-                   WHERE content.id = '+global_post_id
+                   WHERE content.id = %s'
 
-    cursor.execute(updateQuery, (filepath, postContent, pubOrPriv))
+    cursor.execute(updateQuery, (filepath, postContent, pubOrPriv, post_id))
     conn.commit()
     cursor.close()
 
-    return redirect(url_for('index'))
+    return redirect(url_for('main'))
 
 #deletes a post and redirects to indicate the post was deleted
 @app.route('/delete-post/<post_id>')
