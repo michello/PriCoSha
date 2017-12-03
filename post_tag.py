@@ -41,5 +41,6 @@ def tagUserProcessed(post_id):
     cursor = conn.cursor()
     query = 'INSERT into tag (id, username_tagger, username_taggee, timest, status) values (%s, %s, %s, %s, %s)'
     cursor.execute(query, (post_id, username_tagger, username_taggee, timest, 0))
+    conn.commit()
     cursor.close()
     return redirect(url_for('main'))
