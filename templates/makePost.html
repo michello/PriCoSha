@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+  
+  {% if not session['logged_in'] %}
+    <div>
+      <a href="/login">Login</a>
+    </div>
+  {% else %}
+    <h1> Make Post </h1>
+    <form action="/makePost" method = "POST">
+      File Path <br>
+      <input type="text" name = "file_path" placeholder="filepath of your image" required/> </br>
+      <br>Public
+      <input type="radio" name = "public" id="public" value="1"> Yes </input>
+      <input type="radio" name = "public" id="private" value="0"> No </input> </br>
+      <input type="submit" value = Update />
+    </form>
+    <a href="/">Go back</a>
+
+{% endblock %}

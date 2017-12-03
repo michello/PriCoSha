@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+  
+  <h1> Tag a User in a Post </h1>
+  {{ post_id }}
+  <form action="/tagUser/processing-{{post_id}}" method="POST">
+    <br>Person to Tag <br>
+    <input type="text" name = "username_taggee" placeholder="friend to tag" required/> </br>
+    <input type="submit" value = Submit />
+    <br>
+  </form>
+  <a href="/">Go back</a>
+
+{% endblock %}
