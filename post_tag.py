@@ -13,18 +13,16 @@ def makePost():
     cursor = conn.cursor()
     timest = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     "need to save the image in the static folder"
-    maxID = 'SELECT max(id)+1 FROM Content'
-    cursor.execute(maxID)
+    query = 'SELECT max(id) as postID FROM Content' #to get the id of this post
+    cursor.execute(query)
+    postID = cursor.fetchone()['postID']
     query = 'INSERT into Content (maxID, username, timest, file_path, content_name, public) values (%s, %s, %s, %s, %s)'
     cursor.execute(query, (maxID, username, timest, file_path, content_name, public))
 
-    if (public == '0'):
-        friend_group_name = request.form['friendgroup']
-        query = 'SELECT max(id) AS max FROM Content'
-        cursor.execute(query)
-        postID = cursor.fetchone()['max']
-        query = '''INSERT into share VALUES( %s, %s, %s)'''
-        cursor.execute(query, (postID, friend_group_name, username))
+    if (public == '0'): #need to know which friendgroup to share it with
+        group_name = request.form['friendgroup']
+        query = 'INSERT into share VALUES(postID, friend_group_name, username)'
+        cursor.execute(query, (postID, group_name, username))
         conn.commit()
         cursor.close()
         return redirect(url_for('main'))
