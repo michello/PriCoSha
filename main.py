@@ -33,6 +33,10 @@ def main():
         postData = cursor.fetchall()
         cursor.close()
 
+        # get all the likes
+        likesQuery = 'SELECT * FROM likes WHERE liked = 1'
+        likesData = getData(likesQuery)
+
         # get all the tags
         tagsQuery = 'SELECT * FROM tag WHERE status = 1'
         tagsData = getData(tagsQuery)

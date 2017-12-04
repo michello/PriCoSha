@@ -17,6 +17,14 @@
           <i>Posted on {{ post['timest'] }}</i>
         </p>
         <p>
+          <i>Liked by: </i>
+            {% for likes in likesData %}
+                {% if likes['id'] == post['id'] %}
+                  {{ likes['username_liker'] }} {{ likes['id'] }} {{ post['id'] }}
+                {% endif %}
+            {% endfor %}
+        </p>
+        <p>
           <i>Tags:</i>
             {% for tag in tagsData %}
                 {% if tag['id'] == post['id'] %}
@@ -37,6 +45,8 @@
               {% endif %}
           {% endfor %}
         </p>
+        <a href = "/like-post/{{ post['id'] }}"> like</a>
+          <br>
         {% if session['username'] == post['username'] %}
           <!-- change href url for dynamic urls -->
           <a href = "/edit-post/{{ post['id'] }}"> edit</a>

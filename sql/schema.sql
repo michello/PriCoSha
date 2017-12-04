@@ -17,6 +17,15 @@ CREATE TABLE Content(
 	FOREIGN KEY (username) REFERENCES Person (username)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE Likes (
+	id INT,
+	username_liker VARCHAR (50),
+	liked BOOLEAN,
+	PRIMARY KEY (id, username_liker, liked),
+	FOREIGN KEY (username_liker) REFERENCES Person (username),
+	FOREIGN KEY (id) REFERENCES Content (id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE Tag(
 	id INT,
 	username_tagger VARCHAR (50),
