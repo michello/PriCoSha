@@ -65,6 +65,7 @@ def getData(query):
     cursor = conn.cursor()
     cursor.execute(query)
     data = cursor.fetchall()
+    conn.commit()
     cursor.close()
     return(data)
 
