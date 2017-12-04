@@ -2,11 +2,8 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from appdef import app, conn
 import tags, main
 
-global_post_id = ''
-
 @app.route('/edit-post/<post_id>')
 def editPost(post_id):
-    global_post_id = post_id
     return render_template("content_edit.html", post_id=post_id)
 
 @app.route('/edit-post/processing-<post_id>', methods=['GET', 'POST'])
@@ -41,3 +38,30 @@ def deletePost(post_id):
     conn.commit() #commit the change to DB
     cursor.close()
     return render_template('content_delete.html', post_id=post_id)
+
+#likes a post via INSERT into likes table, and then redirect to homepage
+@app.route('/like-post/<post_id>')
+def likePost(post_id):
+    cursor = conn.cursor()
+    likePostQuery = 'INSERT INTO likes (id, username_liker) VALUES ('+post_id+', "'+session['username']+'")'
+
+    cursor.execute(likePostQuery)
+    conn.commit()
+    cursor.close()
+
+    return redirect(url_for('main'))
+
+@app.route('/unlike-post/<post_id>')
+def dislikePost(post_id):
+    cursor = conn.cursor()
+    dislikePostQuery = 'DELETE FROM likes WHERE username_liker="'+session['username']+'" AND id='+post_id
+
+    cursor.execute(dislikePostQuery)
+    conn.commit()
+    cursor.close()
+
+    return redirect(url_for('main'))
+
+
+
+

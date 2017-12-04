@@ -24,9 +24,9 @@ INSERT INTO content (id, username, timest, file_path, content_name, public) VALU
 (5, 'jh383', TIMESTAMP("2016-12-25",  "13:10:11"), "/static/posts_pic/image_5.jpg", "I love pusheens~", 1);
 
 --- likes
-INSERT INTO likes (id, username_liker, liked) VALUES
-(1, 'cy986', 1),
-(5, 'ml4963', 1)
+INSERT INTO likes (id, username_liker) VALUES
+(1, 'cy986'),
+(5, 'ml4963')
 
 --- tag
 INSERT INTO tag (id, username_tagger, username_taggee, timest, status) VALUES

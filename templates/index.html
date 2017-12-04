@@ -18,9 +18,17 @@
         </p>
         <p>
           <i>Liked by: </i>
+            {% for userLikes in userLikesData %}
+              <a href = "/like-post/{{ post['id'] }}"> like</a>
+              {% if userLikes['id'] == post['id'] %}
+                <a href = "/unlike-post/{{ post['id'] }}"> unlike</a>
+              {% endif %}
+                
+            {% endfor %}
+
             {% for likes in likesData %}
                 {% if likes['id'] == post['id'] %}
-                  {{ likes['username_liker'] }} {{ likes['id'] }} {{ post['id'] }}
+                  {{ likes['username_liker'] }}
                 {% endif %}
             {% endfor %}
         </p>
@@ -45,8 +53,6 @@
               {% endif %}
           {% endfor %}
         </p>
-        <a href = "/like-post/{{ post['id'] }}"> like</a>
-          <br>
         {% if session['username'] == post['username'] %}
           <!-- change href url for dynamic urls -->
           <a href = "/edit-post/{{ post['id'] }}"> edit</a>
@@ -55,7 +61,6 @@
           <br>
           <a href = "/tagUser/{{ post['id'] }}"> tag </a>
         {% endif %}
-
       </div>
       <hr>
     {% endfor %}

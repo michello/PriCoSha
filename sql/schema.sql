@@ -20,8 +20,7 @@ CREATE TABLE Content(
 CREATE TABLE Likes (
 	id INT,
 	username_liker VARCHAR (50),
-	liked BOOLEAN,
-	PRIMARY KEY (id, username_liker, liked),
+	PRIMARY KEY (id, username_liker),
 	FOREIGN KEY (username_liker) REFERENCES Person (username),
 	FOREIGN KEY (id) REFERENCES Content (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
