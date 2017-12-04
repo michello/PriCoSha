@@ -1,34 +1,54 @@
 {% extends 'base.html' %}
 {% block content %}
-
-  <p>
-    <a href = "/friends">View Friends</a> | <a href = "/addFriends">Add Friends</a> |
-    <a href="/createFriend">Create Friend Group</a>
+  <p style = "margin-top:80px;font-size:16px;">
+  Hi {{ session['users'][session['username']]['first_name'] }}!
+   <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
   </p>
 
-  {% for friend in data %}
-  <div clas = "friend">
-    {% if friend['group_name'] in gname_list %}
+  <h1>Friends</h1>
+  <nav id = "friends">
+    <a href = "/friends">View Friends</a>
+    <a href="/groups">View Friend Groups</a>
+    <a href = "/addFriends">Add Friends</a>
+    <a href="/createFriend">Create Friend Groups</a>
+  </nav>
 
-      <a href = "/delete-{{friend['username']}}-from-{{friend['group_name']}}">Remove user</a>
-    {% endif %}
-      <div id = "name">
-        <!-- if the friend is a member of a group you own -->
-        {% if (friend['username']): %}
-          {% set name = friend['username'] %}
-          {{ name }}
-        {% else %}
-          <!-- if the friend is a creator of a group you're a member of -->
-          {% set name = friend['username_creator'] %}
-          {{ name }}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">User</th>
+        <th scope="col">Group</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for friend in data %}
+    <tr>
+      <th>
+        {% if friend['group_name'] in gname_list %}
+          <a href = "/delete-{{friend['username']}}-from-{{friend['group_name']}}">X</a>
         {% endif %}
-        {{ session['users'][name]['first_name'] }}
-        {{ session['users'][name]['last_name'] }}
-      </div>
-      <div id = "group">
-        {{ friend['group_name'] }}
-      </div>
-  </div>
+      </th>
+      <th>
+          <!-- if the friend is a member of a group you own -->
+          {% if (friend['username']): %}
+            {% set name = friend['username'] %}
+          {% else %}
+            <!-- if the friend is a creator of a group you're a member of -->
+            {% set name = friend['username_creator'] %}
+          {% endif %}
+          {{ session['users'][name]['first_name'] }}
+          {{ session['users'][name]['last_name'] }}
+          <br>
+            {{ name }}
+
+      </th>
+      <th>
+          {{ friend['group_name'] }}
+      </th>
+    </tr>
   {% endfor %}
+  </tbody>
+</table>
 
 {% endblock %}

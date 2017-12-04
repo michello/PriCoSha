@@ -1,14 +1,63 @@
 {% extends 'base.html' %}
 {% block content %}
-  
-  <h1> Tag a User in a Post </h1>
-  {{ post_id }}
-  <form action="/tagUser/processing-{{post_id}}" method="POST">
+
+  <p style = "margin-top:80px;font-size:16px;">
+  Hi {{ session['users'][session['username']]['first_name'] }}!
+   <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
+  </p>
+  <a href="/" style="font-size:16px;">Go back</a>
+  <h1> Tag User </h1>
+  <div class = "post" style="margin-top:20px;">
+      <div class = "post-content">
+      <div class = "info">
+
+        <span class="postID">
+          {{ post_id  }}
+        </span>
+        <h1 class = "name" style="text-transform:uppercase;">
+          {{ session['users'][session['username']]['first_name'] }} (You)
+        </h1>
+        {% for post in session['postData'] %}
+          {% if (post['id']|string == post_id|string ): %}
+
+          <span class="date">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+              {{ post['timest'].date() }}
+            </span>
+            <br>
+            <span class="time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              {{ post['timest'].time()  }}
+            </span>
+          {% endif %}
+        {% endfor %}
+
+      </div>
+      <div class = "picture">
+        {% for post in session['postData'] %}
+          {% if (post['id']|string == post_id|string ): %}
+            <img src = {{ post['file_path'] }} />
+            {% endif %}
+          {% endfor %}
+      </div>
+      <div class = "description">
+        <div class = "post-description">
+          {% for post in session['postData'] %}
+            {% if (post['id']|string == post_id|string ): %}
+                {{ post['content_name'] }}
+            {% endif %}
+          {% endfor %}
+        </div>
+        <br>
+      </div>
+    </div>
+  </div>
+  <form action="/tagUser/processing-{{post_id}}" method="POST" style="margin: 0 auto;">
     <br>Person to Tag <br>
     <input type="text" name = "username_taggee" placeholder="friend to tag" required/> </br>
     <input type="submit" value = Submit />
     <br>
   </form>
-  <a href="/">Go back</a>
+
 
 {% endblock %}

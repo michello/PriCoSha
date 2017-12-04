@@ -9,8 +9,6 @@ def friends():
     friends = getfriends.getFriend()
     data = session['users'][session['username']]['friends']
 
-
-
     if (friends != data):
         data = friends
 
@@ -19,7 +17,7 @@ def friends():
         gname_list.append(group['group_name'])
 
 
-    return render_template('friends.html', data=data, groups=group, gname_list=gname_list)
+    return render_template('friends.html', data=data, gname_list=gname_list)
 
 @app.route('/delete-<user>-from-<group>')
 def deleteFriends(user, group):

@@ -42,7 +42,7 @@ def main():
         cursor.execute(userLikesQuery, (username))
         userLikesData = cursor.fetchall()
         cursor.close()
-        
+
         # get all the tags
         tagsQuery = 'SELECT * FROM tag WHERE status = 1'
         tagsData = getData(tagsQuery)
@@ -50,6 +50,7 @@ def main():
         # get comments for posts
         commentsQuery = 'SELECT * FROM comment'
         commentsData = getData(commentsQuery)
+        comments = storeComments(commentsData)
 
         # get all the users
         userQuery = 'SELECT username, first_name, last_name FROM person'
@@ -94,3 +95,13 @@ def addGroups(groupList):
     cursor.execute(friendGroup, (session['username']))
     groupList.extend(cursor.fetchall())
     cursor.close()
+
+def storeComments(data):
+    session['comments'] = {}
+    for info in data:
+        if info['id'] not in session['comments'].keys():
+            session['comments'][info['id']] = []
+        session['comments'][info['id']].append({'username': info['username'],
+                                            'comment_text': info['comment_text'],
+                                            'time': info['timest']})
+    return;
