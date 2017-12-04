@@ -7,13 +7,17 @@
     </div>
   {% else %}
     <h1> Make Post </h1>
-    <form action="/makePost" method = "POST">
+    <form action="/makePost/" method = "POST" enctype = "multipart/form-data">
+      <br> Content name
+      <input type="text" name = "content_name" placeholder="content name" required/> </br>
       File Path <br>
-      <input type="text" name = "file_path" placeholder="filepath of your image" required/> </br>
-      <br>Public
-      <input type="radio" name = "public" id="public" value="1"> Yes </input>
-      <input type="radio" name = "public" id="private" value="0"> No </input> </br>
-      <input type="submit" value = Update />
+      <input type="file" name = "file_path" placeholder="filepath of your image" required/> </br>
+      <br> Public
+      <input type="radio" name = "public" value="1"> Yes </input>
+      <input type="radio" name = "public" value="0"> No </input> </br>
+      <br> Friend Group
+      <input type="text" name = "friend_group_name" placeholder="share to friend group" required/> </br>
+      <input type="submit" value = Submit />
     </form>
     <a href="/">Go back</a>
   {% endif %}

@@ -1,22 +1,59 @@
-from flask import Flask, render_template, flash, redirect, session, url_for, request, g
+from flask import send_from_directory, render_template, flash, redirect, session, url_for, request, g
 from appdef import app, conn
 import tags, main, time, datetime
 from werkzeug.utils import secure_filename
+from appdef import app
 
-@app.route('/makepost')
+UPLOAD_FOLDER = '/static/posts_pic'
+#UPLOAD_FOLDER = 'path/to/static/posts_pic'
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit a empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return redirect(url_for('uploaded_file',
+                                    filename=filename))
+    return
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/makePost/', methods=['GET', 'POST'])
 def makePost():
     return render_template('makePost.html')
 
 @app.route('/makePost/processing', methods=['GET', 'POST'])
 def makePostProcessed():
     content_name = request.form['content_name']
-    file_path = request.files['file_path'] #file_path = request.form['file_path']
-    public = request.form['ispublic']
-
-    file_path.save(secure_filename(file_path.filename))
-    #needs more work here
-    #"need to save the image in the static folder"
-
+    public = request.form['public']
+    
+    uploadfile = request.files['file_path']
+    if uploadfile and allowed_file(uploadfile.filename):    
+        filename = (secure_filename(uploadfile.filename))
+        uploadfile.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        #return redirect(url_for('makePostProcessed', filename=filename))
+                  
     username = session['username']
     cursor = conn.cursor()
     timest = datetime.datetime.now().strftime('%y-%m-%d %H:%M:%S')
@@ -24,7 +61,7 @@ def makePostProcessed():
     cursor.execute(query)
     postID = cursor.fetchone()['postID']
     query = 'INSERT into Content (id, username, timest, file_path, content_name, public) values (%s, %s, %s, %s, %s, %s)'
-    cursor.execute(query, (postID, username, timest, file_path, content_name, public))
+    cursor.execute(query, (postID, username, timest, uploadfile, content_name, public))
 
     #If the content item is private, PriCoSha gives the user a way to designate
     #FriendGroups (that the user owns) with which the Photo is shared.
