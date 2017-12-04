@@ -2,6 +2,7 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from appdef import app, conn
 import tags, content_edit_delete, friends, group, post_tag
 import getfriends
+from post_tag import makePost
 
 @app.route('/')
 def main():
