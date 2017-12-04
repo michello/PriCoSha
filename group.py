@@ -7,14 +7,16 @@ import getfriends
 def groups():
 
     data = {}
-    command = 'SELECT group_name \
+    command = 'SELECT * \
                 FROM friendgroup \
-                WHERE username = %s;'
+                WHERE username = %s'
     data['owner'] = getData(command, session['username'])
 
-    command = 'SELECT group_name \
+    command = 'SELECT member.username, member.group_name, friendgroup.description \
                 FROM member \
-                WHERE username= %s;'
+                INNER JOIN friendgroup \
+                WHERE member.username = %s \
+                GROUP BY member.group_name'
     data['member'] = getData(command, session['username'])
 
     return render_template('groups.html', data=data)

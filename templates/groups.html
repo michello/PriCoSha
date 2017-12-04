@@ -1,20 +1,46 @@
 {% extends 'base.html' %}
 {% block content %}
 
-  <p>
-    <a href = "/friends">View Friends</a> | <a href = "/addFriends">Add Friends</a> |
-    <a href = "/groups">View Groups</a> | <a href="/createFriend">Create Friend Group</a>
-  </p>
+<p style = "margin-top:80px;font-size:16px;">
+Hi {{ session['users'][session['username']]['first_name'] }}!
+ <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
+</p>
+
+  <h1>Friends</h1>
+  <nav id = "friends">
+    <a href = "/friends">View Friends</a>
+    <a href = "/addFriends">Add Friends</a>
+    <a href="/createFriend">Create Friend Groups</a>
+    <a href="/createFriend">View Friend Groups</a>
+  </nav>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Group</th>
+        <th scope="col">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for group in data['owner'] %}
+        <tr>
+          <th><a href = "/delete-group-{{ group['group_name'] }}">Delete Group</a></th>
+          <th>{{ group['group_name'] }}</th>
+          <th>{{ group['description'] }}</th>
+        </tr>
+      {% endfor %}
+
+      {% for group in data['member'] %}
+        <tr>
+          <th><a href = "/leave-group-{{ group['group_name'] }}">Leave Group</a></a></th>
+          <th>{{ group['group_name'] }}</th>
+          <th>{{ group['description'] }}</th>
+        </tr>
+      {% endfor %}
 
 
-  {% for group in data['owner'] %}
-    <h3>{{ group['group_name'] }}</h3>
-    <a href = "/delete-group-{{ group['group_name'] }}">Delete Group</a>
-  {% endfor %}
-
-  {% for group in data['member'] %}
-    <h3>{{ group['group_name'] }}</h3>
-    <a href = "/leave-group-{{ group['group_name'] }}">Leave Group</a>
-  {% endfor %}
+    </tbody>
+</table>
 
 {% endblock %}
