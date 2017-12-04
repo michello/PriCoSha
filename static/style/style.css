@@ -191,7 +191,12 @@ span.time {
 }
 
 span.likes {
-    margin-top: 29px;
+    margin-top: 37px;
+    position: absolute;
+}
+
+span.tags {
+    margin-top: 72px;
     position: absolute;
 }
 

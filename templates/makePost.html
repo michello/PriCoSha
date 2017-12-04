@@ -1,24 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
 
-  {% if not session['logged_in'] %}
-    <div>
-      <a href="/login">Login</a>
-    </div>
-  {% else %}
-    <h1> Make Post </h1>
-    <form action="/makePost/processing" method = "POST" enctype = "multipart/form-data">
-      <br> Content name
-      <input type="text" name = "content_name" placeholder="content name" required/> </br>
-      File Path <br>
-      <input type="file" name = "file_path" required/> </br>
-      <br> Public
-      <input type="radio" name = "public" value="1"> Yes </input>
-      <input type="radio" name = "public" value="0"> No </input> </br>
-      <br> Friend Group
-      <input type="text" name = "friend_group_name" placeholder="share to friend group" required/> </br>
-      <input type="submit" value = Submit />
-    </form>
-    <a href="/">Go back</a>
-  {% endif %}
+
+    {% if not session['logged_in'] %}
+      <div>
+        <a href="/login">Login</a>
+      </div>
+    {% else %}
+    <p style = "margin-top:80px;font-size:16px;">
+    Hi {{ session['users'][session['username']]['first_name'] }}!
+     <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
+    </p>
+      <h1> Make Post </h1>
+      <form action="/makePost/processing" method = "POST" enctype = "multipart/form-data">
+        <br> Content name
+        <input type="text" name = "content_name" placeholder="content name" required/> </br>
+        File Path <br>
+        <input type="file" name = "file_path" required/> </br>
+        <br> Public
+        <input type="radio" name = "public" value="1"> Yes </input>
+        <input type="radio" name = "public" value="0"> No </input> </br>
+        <br> Friend Group
+        <input type="text" name = "friend_group_name" placeholder="share to friend group" required/> </br>
+        <input type="submit" value = Submit />
+      </form>
+      <a href="/">Go back</a>
+    {% endif %}
+
+
 {% endblock %}

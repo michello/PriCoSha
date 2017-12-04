@@ -29,7 +29,7 @@
               <i class="fa fa-clock-o" aria-hidden="true"></i>
               {{ post['timest'].time() }}
             </span>
-            <span class="likes">
+            <span class="likes" style="font-size:10px;">
               <i class="fa fa-heart fa-1" aria-hidden="true"></i>
 
               {% if likesData|length == 0: %}
@@ -50,6 +50,18 @@
                     {% endif %}
                 {% endfor %}
               </i>
+            </span>
+            <span class="tags" style="font-size:10px;">
+              <i class="fa fa-tags" aria-hidden="true"></i>
+              {% if tagsData|length == 0 %}
+                  0 tagged
+              {% else %}
+                  {% for tag in tagsData %}
+                    {% if tag['id'] == post['id'] %}
+                      {{ tag['username_taggee'] }}
+                    {% endif %}
+                  {% endfor %}
+              {% endif %}
             </span>
           </div>
           <div class = "picture">
@@ -74,7 +86,6 @@
         </div>
         <div class = "post-react">
           <span class = "postComment" id ={{post['id']}}>Comments</span>
-          <span class = "postDelete">Tags</span>
           {% set commentId = "comment" + post['id']|string %}
           <div class = "comment" id ={{commentId}}>
             <div class = "triangle-tip"></div>

@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 from appdef import app
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
-UPLOAD_FOLDER = os.path.join(APP_ROOT, 'static\posts_pic')
+UPLOAD_FOLDER = os.path.join(APP_ROOT, r'static/posts_pic')
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 app.config[UPLOAD_FOLDER] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
@@ -31,13 +31,13 @@ def makePostProcessed():
     public = request.form['public']
 
     UPLOAD_FOLDER = os.path.join(APP_ROOT, 'static\posts_pic')
-    
+
     uploadfile = request.files['file_path']
-    if uploadfile and allowed_file(uploadfile.filename):    
+    if uploadfile and allowed_file(uploadfile.filename):
         filename = (secure_filename(uploadfile.filename))
         uploadfile.save(app.config[UPLOAD_FOLDER], filename)
         #return redirect(url_for('makePostProcessed', filename=filename))
-                  
+
     username = session['username']
     cursor = conn.cursor()
     timest = datetime.datetime.now().strftime('%y-%m-%d %H:%M:%S')
