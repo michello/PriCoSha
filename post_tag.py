@@ -1,39 +1,20 @@
 from flask import send_from_directory, render_template, flash, redirect, session, url_for, request, g
 from appdef import app, conn
-import tags, main, time, datetime
+import tags, main, time, datetime, os
 from werkzeug.utils import secure_filename
 from appdef import app
 
-UPLOAD_FOLDER = '/static/posts_pic'
-#UPLOAD_FOLDER = 'path/to/static/posts_pic'
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+UPLOAD_FOLDER = os.path.join(APP_ROOT, 'static\posts_pic')
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config[UPLOAD_FOLDER] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
-
-@app.route('/upload', methods=['GET', 'POST'])
-def upload():
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        file = request.files['file']
-        # if user does not select file, browser also
-        # submit a empty part without filename
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file',
-                                    filename=filename))
-    return
-
-@app.route('/uploads/<filename>')
+'''
+@app.route('uploads/<filename>')
 def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+    return send_from_directory(app.config[UPLOAD_FOLDER], filename)
+'''
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -46,12 +27,15 @@ def makePost():
 @app.route('/makePost/processing', methods=['GET', 'POST'])
 def makePostProcessed():
     content_name = request.form['content_name']
+    public = 0 #default value is 0 (private)
     public = request.form['public']
+
+    UPLOAD_FOLDER = os.path.join(APP_ROOT, 'static\posts_pic')
     
     uploadfile = request.files['file_path']
     if uploadfile and allowed_file(uploadfile.filename):    
         filename = (secure_filename(uploadfile.filename))
-        uploadfile.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        uploadfile.save(app.config[UPLOAD_FOLDER], filename)
         #return redirect(url_for('makePostProcessed', filename=filename))
                   
     username = session['username']
