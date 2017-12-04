@@ -346,11 +346,12 @@ input.button {
 	float: right;
 }
 
-input[type="name"], input[type="name"]:focus {
+
+input[type="username"], input[type="name"], input[type="name"]:focus {
 	border: none;
 }
 
-input[type="name"]:focus {
+input[type="name"]:focus, input[type="username"]:focus {
 		color: #ff5c50;
     border-bottom: 2px solid #ff5c50;
 		outline:none;

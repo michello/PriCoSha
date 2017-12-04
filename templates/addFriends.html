@@ -15,7 +15,7 @@ Hi {{ session['users'][session['username']]['first_name'] }}!
   </nav>
 
   {% if error %}
-    <p class="error"><strong>Error:</strong> {{ error }}</p>
+    <p class="error" style="font-size:14px;"><strong>Error:</strong> {{ error }}</p>
   {% endif %}
   <form id = "form" action="/addingFriends" method="POST">
     <div id="questions">
