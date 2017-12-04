@@ -30,6 +30,7 @@ def main():
         username = session['username']
         cursor.execute(postQuery, (username, username, username, username))
         postData = cursor.fetchall()
+        session['postData'] = postData
         cursor.close()
 
         # get all the tags
@@ -39,6 +40,7 @@ def main():
         # get comments for posts
         commentsQuery = 'SELECT * FROM comment'
         commentsData = getData(commentsQuery)
+        comments = storeComments(commentsData)
 
         # get all the users
         userQuery = 'SELECT username, first_name, last_name FROM person'
@@ -46,7 +48,7 @@ def main():
 
         storeUsers(userData)
 
-        return render_template("index.html", data=postData, tagsData=tagsData, commentsData=commentsData, userData=userData)
+        return render_template("index.html", data=postData, tagsData=tagsData, commentsData=comments, userData=userData)
     return render_template("index.html")
 
 # function to make queries to database to acquire info
@@ -82,3 +84,13 @@ def addGroups(groupList):
     cursor.execute(friendGroup, (session['username']))
     groupList.extend(cursor.fetchall())
     cursor.close()
+
+def storeComments(data):
+    session['comments'] = {}
+    for info in data:
+        if info['id'] not in session['comments'].keys():
+            session['comments'][info['id']] = []
+        session['comments'][info['id']].append({'username': info['username'],
+                                            'comment_text': info['comment_text'],
+                                            'time': info['timest']})
+    return;

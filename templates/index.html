@@ -1,51 +1,81 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    {% for post in data %}
-    <div id = "post">
-        <h2>{{ post['data'] }}</h2>
-        <h3>{{ session['users'][post['username']]['first_name'] }} ({{ post['username'] }})</h3>
+    <div id ="posts" style="margin-top:150px;">
+      {% for post in data %}
+        <div class = "post">
+          <div class = "post-content">
+          <div class = "info">
+            <span class="postID">
+              {{ post['id'] }}
+            </span>
+            <h1 class = "name" style="text-transform:uppercase;">
+              {{ session['users'][post['username']]['first_name'] }}
+            </h1>
+            <span class="username">({{ post['username'] }})</span>
 
-        {% if (post['file_path']) %}
-          <img src = {{ post['file_path'] }} />
-        {% endif %}
+            <span class="date">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              {{ post['timest'].date() }}
+            </span>
+            <br>
+            <span class="time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              {{ post['timest'].time() }}
+            </span>
+          </div>
+          <div class = "picture">
+            {% if (post['file_path']) %}
+              <img src = {{ post['file_path'] }} />
+            {% endif %}
+            {% if session['username'] == post['username'] %}
+              <!-- change href url for dynamic urls -->
+              <div class = "links">
+                <a href="/edit-post/{{ post['id'] }}" class = "postEdit">edit</a>
+                <a href="/delete-post/{{ post['id'] }}" class = "postDelete">delete</a>
+              </div>
+            {% endif %}
 
-        <p>
-          {{ post['content_name'] }}
-        </p>
-        <p>
-          <i>Posted on {{ post['timest'] }}</i>
-        </p>
-        <p>
-          <i>Tags:</i>
-            {% for tag in tagsData %}
-                {% if tag['id'] == post['id'] %}
-                  {{ tag['username_taggee'] }}
-                {% endif %}
-            {% endfor %}
-        </p>
-        <p>
-          <i>pid {{ post['id'] }}.</i>
-        </p>
-        <p>
-          <i>Comments:</i>
-        </p>
-        <p id = "comments">
-          {% for comment in commentsData %}
-              {% if comment['id'] == post['id'] %}
-                {{ session['users'][comment['username']]['first_name'] }} ({{ comment['username'] }}) says {{ comment['comment_text'] }} on {{ comment['timest'] }}
+          </div>
+          <div class = "description">
+            <div class = "post-description">
+              {{ post['content_name'] }}
+            </div>
+            <br>
+          </div>
+        </div>
+        <div class = "post-react">
+          <span class = "postComment" id ={{post['id']}}>Comments</span>
+          <span class = "postDelete">Tags</span>
+          {% set commentId = "comment" + post['id']|string %}
+          <div class = "comment" id ={{commentId}}>
+            <div class = "triangle-tip"></div>
+            <div class = "comments">
+              {% if session['comments'][post['id']]|length > 0 %}
+                {% for comment in session['comments'][post['id']] %}
+                <div id ="aComment" style="margin-bottom:2px">
+                    <div id = "comment-info" style="clear:both;">
+                      <div id = "comment-name" style = "float:left">{{ session['users'][comment['username']]['first_name']}}({{ comment['username'] }})</div>
+                      <div id = "comment-time" style="float:right">{{ comment['time'].date() }}</div>
+                      <div id = "comment-time" style="float:right">{{ comment['time'].time() }}</div>
+                    </div>
+                    <div id = "comment-content" style="color:#fff; font-size:10px;">{{ comment['comment_text']}}</div>
+                </div>
+                {% endfor %}
+                <hr>
+
+                <a href = "" style="font-size: 12px; margin-left: 128px;margin-top: 21px; color: #ccc;">Reply</a>
+              {% else %}
+                There are no comments!
+                <hr>
+                <a href = "" style="font-size: 12px;position: absolute; margin-left: 128px;margin-top: -4px; color: #ccc;">Reply</a>
               {% endif %}
-          {% endfor %}
-        </p>
-        {% if session['username'] == post['username'] %}
-          <!-- change href url for dynamic urls -->
-          <a href = "/edit-post/{{ post['id'] }}"> edit</a>
-          <br>
-          <a href = "/delete-post/{{ post['id'] }}"> delete </a>
-        {% endif %}
 
-      </div>
-      <hr>
-    {% endfor %}
 
+            </div>
+          </div>
+        </div>
+        </div>
+      {% endfor %}
+    </div>
 {% endblock %}

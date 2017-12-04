@@ -3,6 +3,8 @@
 <head>
   <title>PriCoSha</title>
   <link rel = "stylesheet" href = "{{ url_for('static', filename='style/style.css') }}"></style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
 </head>
 <body>
 
@@ -11,12 +13,30 @@
     <a href="/login">Login</a>
   </div>
   {% else %}
-    <i>Hi {{ session['users'][session['username']]['first_name'] }} ! </i>
-    <a href="/logout">Logout</a>
-    <a href="/tags">Tags</a>
-    <a href="/friends">Friends</a>
+  <div class="container" id = "mainContent">
+		<div id = "navigation">
+			<div id="navigation-left">
+				<div id = "logo">
+		        	<img src = "/static/brand_assets/logo3.png" style="width:62px; height:auto; margin-top:-5px;">
+		        </div>
+		        <div id = "messaging">
+			        <a class="navbar-brand" href="#">PriChoSha</a>
+			        <p class ="navbar-message">Sending messages to the ones you know and love.</p>
+			    </div>
+			</div>
+			<div id="navigation-right">
+				<a href = "/">home</a>
+				<a href = "/tags">tags</a>
+				<a href="/friends">friends</a>
+				<a href="/posts">posts</a>
+        
+
+			</div>
+		</div>
     {% block content %}{% endblock %}
+  </div>
   {% endif %}
+
 
 </body>
 </html>

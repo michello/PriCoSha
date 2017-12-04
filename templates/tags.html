@@ -6,22 +6,65 @@
       <a href="/login">Login</a>
     </div>
   {% else %}
-    <i>Hi {{ session['users'][session['username']]['first_name'] }} ! </i> <a href="/logout">Logout</a> <a href ="/">Home</a>
-    <p>
+  <p style = "margin-top:80px;font-size:16px;">
+  Hi {{ session['users'][session['username']]['first_name'] }}!
+   <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
+  </p>
+  <div id ="tags">
       {% if (data) %}
-        <p> These are your pending tags: </p>
+        <p style="font-size:16px;color:#ff5c50"> These are your pending tags: </p>
         <form action="/proccessTags" method="POST">
           {% for tagRequest in data %}
-            <p>{{ session['users'][tagRequest['username_tagger']]['first_name'] }} ({{ tagRequest['username_tagger'] }}) has tagged you in  Post ID {{ tagRequest['id'] }}</p>
-            <input type ="radio" name ={{tagRequest['id']}} value=True> Accept</input>
-            <input type ="radio" name ={{tagRequest['id']}} value=False>Decline</input>
-            <input type="submit" value = Submit />
-            <hr>
+            <div id = "choices">
+              <p style="float:left;">{{ session['users'][tagRequest['username_tagger']]['first_name'] }} ({{ tagRequest['username_tagger'] }}) has tagged you in:</p>
+              <p style="float:right;">
+                <input type ="radio" name ={{tagRequest['id']}} value=True> Accept</input>
+                <input type ="radio" name ={{tagRequest['id']}} value=False>Decline</input>
+                <input type="submit" value = Submit />
+              </p>
+            </div>
+            <div class = "post">
+                <div class = "post-content">
+                <div class = "info">
+                  <span class="postID">
+                    {{ tagRequest['id'] }}
+                  </span>
+                  <span class="date">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    {{ tagRequest['timest'].date() }}
+                  </span>
+                  <br>
+                  <span class="time">
+                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                    {{ tagRequest['timest'].time() }}
+                  </span>
+                </div>
+                <div class = "picture">
+                  {% for post in session['postData'] %}
+                    {% if post['id'] == tagRequest['id']%}
+                        <img src = {{ post['file_path'] }} />
+                    {% endif %}
+                  {% endfor %}
+
+                </div>
+                <div class = "description">
+                  <div class = "post-description">
+                    {% for post in session['postData'] %}
+                      {% if post['id'] == tagRequest['id']%}
+                          {{ post['content_name'] }}
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                  <br>
+                </div>
+              </div>
+
           {% endfor %}
         </form>
       {% else %}
         You do not have any pending tags!
       {% endif %}
+    </div>
     </p>
 
   {% endif %}

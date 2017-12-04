@@ -1,36 +1,294 @@
-@font-face {
-	font-family: Futara;
-	src: url("../font/futura medium condensed bt.ttf");
+* {
+	font-family: 'Century Gothic';
+	color: #aaaaaa;
 }
 
-.title {
-	background: -webkit-linear-gradient(#eee, #333);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.content {
+	margin-left: 50px;
+	margin-right: 50px;
 }
 
-img {
-  width: 250px;
-  height: auto;
+div#mainContent {
+    width: 50%;
+    margin: 0 auto;
+    display: table;
 }
 
 
-body {
-	font-family: Futara;
-	width: 500px;
-	margin: 0 auto;
+
+
+
+
+
+a {
+	color: #cccccc;
 }
 
-#logo {
-	width: 100px;
-	height: auto;
+.navbar-brand {
+	color:#ff5c50;
+	text-transform: uppercase;
+	font-size: 30px;
+	margin-left: 2px;
+	margin-top: 6px;
 }
 
-#name {
+.navbar-message {
+    font-size: 9px;
+    color: #999999;
+    margin-left: 3px;
+    position: absolute;
+}
+
+a.navbar-brand:hover {
+    border: none;
+}
+
+div#logo {
+    margin-top: 10px;
+    float: left;
+}
+
+div#messaging {
+    float: left;
+    margin-left: 4px;
+}
+
+#navigation-right {
+	float:right;
+}
+
+#navigation-right a {
+		font-size: 18px;
+		text-decoration: none;
+    display: inline-block;
+    height: 52px;
+    line-height: 52px;
+}
+
+#navigation-right a:hover {
+    color: #ff5c50;
+}
+
+.navbar-nav>li>a {
+    padding-top: 18.5px;
+    padding-bottom: 18.5px;
+}
+
+.post {
+	width:610px;
+	margin-bottom: 40px;
+}
+
+.post-content {
+	display: flex;
+}
+
+
+.post-react span {
+    margin-top: -14px;
+    color: #ff5c50;
+    text-transform: uppercase;
+    font-size: 10px;
+    margin-left: 460px;
+
+}
+
+.post-description {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	color: #515151;
+    font-size: 16px;
+}
+
+.links {
+    width: 280px;
+}
+
+.info {
 	float: left;
-	clear: both;
+	width: 160px;
 }
 
-#group {
+.picture img {
+	float: left;
+    width: 280px;
+    height: auto;
+}
+
+.picture {
+    width: 280px;
+    float: left;
+}
+
+.postEdit, .postComment {
+	float: left;
+}
+
+.postDelete {
 	float: right;
+}
+
+.postEdit, .postDelete, .postComment {
+	color: #ff5c50;
+	text-transform: uppercase;
+	font-size: 10px;
+}
+
+a.postEdit:hover, a.postDelete:hover {
+	color: #ff5c50;
+}
+
+h1.name {
+    position: relative;
+    z-index: 23;
+    margin-top: 0px;
+    font-size: 24px;
+    margin-right: 12px;
+    color: #ff5c50;
+}
+
+span.postID {
+    /* margin-left: 69px; */
+    margin-top: -21px;
+    font-size: 60px;
+    /* float: left; */
+    z-index: 1;
+    position: absolute;
+    font-style: italic;
+}
+
+span.username {
+	z-index: 5;
+    color: #ff5c50;
+    margin-top: -15px;
+    font-size: 14px;
+    position: absolute;
+}
+
+.description {
+    float: left;
+    margin-left: 20px;
+    margin-top: 20px;
+    color: #515151;
+    font-size: 16px;
+    flex: 1;
+}
+
+.time, .date {
+	margin-top: 25px;
+	color: #ff5c50;
+    font-size: 14px;
+}
+
+
+span.time {
+	position: absolute;
+	margin-top: -3px;
+    margin-top: 0px;
+}
+
+.fa {
+    margin-right: 5px;
+}
+
+.comments {
+		padding: 20px;
+		font-size: 8pt;
+		color: #ccc!important;
+    margin-left: 442px;
+    width: 160px;
+    background-color: #ff5c50;
+		height:auto;
+		min-height: 20px;
+}
+
+#comment-name, #comment-time {
+	font-size: 8pt;
+	color: #ccc!important;
+}
+
+div#comment-info:after {
+    clear: both;
+    content: '';
+    display: block;
+}
+
+div#comment-content {
+    position: relative;
+		margin-bottom:5px;
+}
+
+.triangle-tip {
+    margin-left: 475px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #ff5c50;
+}
+
+.comment {
+	display: none;
+}
+
+nav#friends{
+	text-align: center;
+}
+
+#friends a {
+
+    font-size: 15px;
+    width: auto;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#friends a:hover {
+    color: #ff5c50;
+    text-decoration: none;
+    border-bottom: 1px solid #ff5c50;
+}
+
+.table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: #fff!important;
+    color: #ff5c50!important;
+}
+
+.table-striped>tbody>tr:nth-of-type(even) {
+    background-color: #ffdedc!important;
+    color: #767676!important;
+}
+
+td {
+    line-height: 51px!important;
+	font-size: 15px;
+	font-weight: none;
+}
+
+.table>thead:first-child>tr:first-child>th {
+    border-top: 0;
+    font-size: 15px;
+    font-weight:none;
+    text-transform: uppercase;
+    color: #ff5c50;
+}
+
+div#tags {
+    width: 595px;
+		font-size:16px;
+}
+
+div#navigation-left {
+    margin-left: -15px;
+}
+
+#choices {
+
+}
+
+#choices:after {
+	clear:both;
+	display:block;
+	content:'';
+
 }

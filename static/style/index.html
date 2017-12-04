@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>PriCoSha</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- bootstap stuff -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <!-- custom css -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+		$(document).ready(function(){
+    		$(".postComment").click(function(){
+    			let commentName = "#comment"+this.id;
+        		$(commentName).toggle();
+    		});
+		});
+
+    </script>
+</head>
+
+
+
+<body>
+	
+
+	<div class="container" id = "mainContent">
+		<div id = "navigation">
+			<div id="navigation-left">
+				<div id = "logo">
+		        	<img src = "logo.png" style="width:62px; height:auto; margin-top:5px;">
+		        </div>
+		        <div id = "messaging">
+			        <a class="navbar-brand" href="#">PriChoSha</a>
+			        <p class ="navbar-message">Sending messages to the ones you know and love.</p>
+			    </div>
+			</div>
+			<div id="navigation-right">
+				<a href = "">home</a>
+				<a href = "">tags</a>
+				<a href="">friends</a>
+				<a href="">posts</a>
+				
+			</div>
+		</div>
+
+		<p style = "margin-top:80px;margin-bottom: 40px;">
+		Hi Michelle! (Logout?)
+		</p>
+		<div id = "posts">
+
+    		<div class = "post">
+    			<div class = "post-content">
+	    			<div class = "info">
+	    				<span class="postID">
+	    					1
+	    				</span>
+	    				<h1 class = "name" style="text-transform:uppercase;">
+	    					Michelle
+	    				</h1>
+	    				<span class="username">(ml4963)</span>
+	    				
+	    				<span class="date"><i class="fa fa-calendar" aria-hidden="true"></i>11.25.2017</span>
+	    				<br>
+	    				<span class="time"><i class="fa fa-clock-o" aria-hidden="true"></i></i>11:52:46 PM</span>
+	    			</div>
+	    			<div class = "picture">
+	    				<img src="image_1.jpg">
+		    			<div class = "links">
+		    				<a href="edit" class = "postEdit">edit</a>
+		    				<a href="delete" class = "postDelete">delete</a>
+		    			</div>
+	    			</div>
+	    			<div class = "description">
+	    				<div class = "post-description">
+	    					My birthday!
+	    				</div>
+	    				<br>
+	    			</div>
+	    		</div>
+	    		<div class = "post-react">
+	    			<span class = "postComment" id ="1">Comments</span>
+	    			<span class = "postDelete">Tags</span>
+		    		<div class = "comment" id = "comment1">
+		    			<div class = "triangle-tip"></div>
+		    			<div class = "comments"></div>
+		    		</div>
+	    		</div>
+    		</div>
+
+    		<div class = "post">
+    			<div class = "post-content">
+	    			<div class = "info">
+	    				<span class="postID">
+	    					1
+	    				</span>
+	    				<h1 class = "name" style="text-transform:uppercase;">
+	    					Michelle
+	    				</h1>
+	    				<span class="username">(ml4963)</span>
+	    				
+	    				<span class="date"><i class="fa fa-calendar" aria-hidden="true"></i>11.25.2017</span>
+	    				<br>
+	    				<span class="time"><i class="fa fa-clock-o" aria-hidden="true"></i></i>11:52:46 PM</span>
+	    			</div>
+	    			<div class = "picture">
+	    				<img src="image_1.jpg">
+		    			<div class = "links">
+		    				<a href="edit" class = "postEdit">edit</a>
+		    				<a href="delete" class = "postDelete">delete</a>
+		    			</div>
+	    			</div>
+	    			<div class = "description">
+	    				<div class = "post-description">
+	    					My birthday!
+	    				</div>
+	    				<br>
+	    			</div>
+	    		</div>
+	    		<div class = "post-react">
+	    			<span class = "postComment" id ="2">Comments</span>
+	    			<span class = "postDelete">Tags</span>
+		    		<div class = "comment" id = "comment2">
+		    			<div class = "triangle-tip"></div>
+		    			<div class = "comments"></div>
+		    		</div>
+	    		</div>
+    		</div>
+
+
+
+		</div>
+
+
+
+	</div>
+	
+
+
+</body>
