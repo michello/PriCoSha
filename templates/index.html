@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <div id ="posts" style="margin-top:150px;">
+    <p style = "margin-top:80px;font-size:16px;">
+    Hi {{ session['users'][session['username']]['first_name'] }}!
+     <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
+    </p>
+
+
+    <div id ="posts">
       {% for post in data %}
         <div class = "post">
           <div class = "main-post-content">

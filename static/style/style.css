@@ -162,7 +162,7 @@ span.postID {
 span.username {
 	z-index: 5;
     color: #ff5c50;
-    margin-top: -15px;
+		margin-left:35px;
     font-size: 14px;
     position: absolute;
 }
@@ -177,9 +177,10 @@ span.username {
 }
 
 .time, .date {
-	margin-top: 25px;
+	margin-top: 42px;
 	color: #ff5c50;
-    font-size: 14px;
+  font-size: 14px;
+	position:absolute;
 }
 
 

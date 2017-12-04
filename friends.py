@@ -9,8 +9,6 @@ def friends():
     friends = getfriends.getFriend()
     data = session['users'][session['username']]['friends']
 
-
-
     if (friends != data):
         data = friends
 
