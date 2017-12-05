@@ -5,10 +5,9 @@ from werkzeug.utils import secure_filename
 from appdef import app
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
-UPLOAD_FOLDER = os.path.join(APP_ROOT, r'static/posts_pic')
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
-app.config[UPLOAD_FOLDER] = UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+#app.config[UPLOAD_FOLDER] = UPLOAD_FOLDER
+#app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 '''
 @app.route('uploads/<filename>')
@@ -29,15 +28,19 @@ def makePostProcessed():
     content_name = request.form['content_name']
     public = 0 #default value is 0 (private)
     public = request.form['public']
+    #add code for if no selected request, make public = 0
 
-    UPLOAD_FOLDER = os.path.join(APP_ROOT, 'static\posts_pic')
-
+    #UPLOAD_FOLDER = os.path.join(APP_ROOT, 'static/posts_pic')
+    APP_STATIC = os.path.join(APP_ROOT, 'static')
+    APP_IMG = os.path.join(APP_STATIC, 'posts_pic')
+    
     uploadfile = request.files['file_path']
-    if uploadfile and allowed_file(uploadfile.filename):
+    if uploadfile and allowed_file(uploadfile.filename):    
         filename = (secure_filename(uploadfile.filename))
-        uploadfile.save(app.config[UPLOAD_FOLDER], filename)
+        print(APP_IMG)
+        uploadfile.save(app.config[APP_IMG], filename)
         #return redirect(url_for('makePostProcessed', filename=filename))
-
+                  
     username = session['username']
     cursor = conn.cursor()
     timest = datetime.datetime.now().strftime('%y-%m-%d %H:%M:%S')
@@ -67,12 +70,19 @@ def tagUser(post_id):
 @app.route('/tagUser/processing-<post_id>', methods=['GET', 'POST'])
 def tagUserProcessed(post_id):
     username_taggee = request.form['username_taggee']
-
+    
     username_tagger = session['username']
-    timest = datetime.datetime.now().strftime('%y-%m-%d %H:%M:%S')
     cursor = conn.cursor()
-    query = 'INSERT into tag (id, username_tagger, username_taggee, timest, status) values (%s, %s, %s, %s, %s)'
-    cursor.execute(query, (post_id, username_tagger, username_taggee, timest, 0))
-    conn.commit()
-    cursor.close()
-    return redirect(url_for('main'))
+    query = 'SELECT DISTINCT username FROM content WHERE content.id = %s'
+    cursor.execute(query, (post_id))
+    ownerOfPost = cursor.fetchone()['username']
+    if ownerOfPost != username_tagger:
+        flash('You cannot tag this post!')
+        return redirect(url_for('main'))
+    else:
+        timest = datetime.datetime.now().strftime('%y-%m-%d %H:%M:%S')
+        query = 'INSERT into tag (id, username_tagger, username_taggee, timest, status) values (%s, %s, %s, %s, %s)'
+        cursor.execute(query, (post_id, username_tagger, username_taggee, timest, 0))
+        conn.commit()
+        cursor.close()
+        return redirect(url_for('main'))
