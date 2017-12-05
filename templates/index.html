@@ -33,18 +33,21 @@
               <i class="fa fa-heart fa-1" aria-hidden="true"></i>
 
               {% if likesData|length == 0: %}
-                <a href = "/like-post/{{ post['id'] }}" style="font-size:14px;color:#ff5c50;"> like</a>
+                <a href = "/like-post/{{ post['id'] }}" class="likelink" style="font-size:14px;color:#ff5c50;"> like</a>
               {% endif %}
+              
               {% for userLikes in userLikesData %}
-                <a href = "/like-post/{{ post['id'] }}" style="font-size:14px;color:#ff5c50;"> like</a>
                 {% if userLikes['id'] == post['id'] %}
-                    <a href = "/unlike-post/{{ post['id'] }}" style="font-size:14px;color:#ff5c50;"> unlike</a>
+                  <a href = "/unlike-post/{{ post['id'] }}" class="unlikelink" style="font-size:14px;color:#ff5c50;"> unlike</a>
+                {% endif %}
+                {%  if userLikes['id'] != post['id'] %}
+                  <a href = "/like-post/{{ post['id'] }}" class="likelink" style="font-size:14px;color:#ff5c50;"> like</a>
                 {% endif %}
               {% endfor %}
+
               <br>
               <i>liked by
                 {% for likes in likesData %}
-
                     {% if likes['id'] == post['id'] %}
                       {{ likes['username_liker'] }}
                     {% endif %}
@@ -112,4 +115,5 @@
         </div>
       {% endfor %}
     </div>
+   
 {% endblock %}

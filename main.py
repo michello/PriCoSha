@@ -43,6 +43,12 @@ def main():
         cursor.execute(userLikesQuery, (username))
         userLikesData = cursor.fetchall()
         cursor.close()
+        #get count of likes from session username
+        cursor = conn.cursor()
+        likesCountQuery = 'SELECT COUNT(*) FROM `likes` WHERE username_liker = %s'
+        cursor.execute(likesCountQuery, (username))
+        likesCountData = cursor.fetchall()
+        cursor.close()
 
         # get all the tags
         tagsQuery = 'SELECT * FROM tag WHERE status = 1'
@@ -61,7 +67,7 @@ def main():
 
         storeUsers(userData)
 
-        return render_template("index.html", data=postData, likesData=likesData, userLikesData=userLikesData, tagsData=tagsData, commentsData=commentsData, userData=userData, tagz=tagz)
+        return render_template("index.html", data=postData, likesData=likesData, userLikesData=userLikesData, likesCountData=likesCountData, tagsData=tagsData, commentsData=commentsData, userData=userData, tagz=tagz)
     return render_template("index.html")
 
 # function to make queries to database to acquire info
