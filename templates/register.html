@@ -20,10 +20,13 @@
       </div>
 
       <div id="mainContent" style="position:absolute; width:440px;margin-top:100px;">
-        <form action="/loginAuth" method="POST" style="text-align:center;">
-          <input type="username" name = "username" placeholder="enter your username" required/> </br>
-          <input type="password" name = "password" placeholder="enter your password" required style="margin-left:-6px;margin-bottom:20px;"/></br>
-          <input type="submit" value = Login class="button"/>
+        <form action="/register/processing" method="POST" style="text-align:center;">
+          <input type="username" name = "username" placeholder="username" required/> </br>
+          <input type="password" name = "password" placeholder="password" required style="margin-left:-6px;margin-bottom:20px;"/></br>
+          <input type="password" name = "retype" placeholder="please retype password" required style="margin-left:-6px;margin-bottom:20px;"/></br>
+          <input type="text" name = "firstname" placeholder="first name" required/> </br>
+          <input type="text" name = "lastname" placeholder="last name" required/> </br>
+          <input type="submit" value = Submit class="button"/>
           {% if error %}
             <p class="error"><strong>Error:</strong> {{error}}</p>
           {% endif %}
