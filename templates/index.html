@@ -53,14 +53,10 @@
             </span>
             <span class="tags" style="font-size:10px;">
               <i class="fa fa-tags" aria-hidden="true"></i>
-              {% if tagsData|length == 0 %}
+              {% if tagz[post['id']]|length == 0 %}
                   0 tagged
               {% else %}
-                  {% for tag in tagsData %}
-                    {% if tag['id'] == post['id'] %}
-                      {{ tag['username_taggee'] }}
-                    {% endif %}
-                  {% endfor %}
+                  {{ tagz[post['id']]|length }} tagged
               {% endif %}
             </span>
           </div>

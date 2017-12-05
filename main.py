@@ -46,6 +46,8 @@ def main():
         # get all the tags
         tagsQuery = 'SELECT * FROM tag WHERE status = 1'
         tagsData = getData(tagsQuery)
+        orgTagsData = {}
+        tagz = organizeData(orgTagsData, tagsData)
 
         # get comments for posts
         commentsQuery = 'SELECT * FROM comment'
@@ -58,7 +60,7 @@ def main():
 
         storeUsers(userData)
 
-        return render_template("index.html", data=postData, likesData=likesData, userLikesData=userLikesData, tagsData=tagsData, commentsData=commentsData, userData=userData)
+        return render_template("index.html", data=postData, likesData=likesData, userLikesData=userLikesData, tagsData=tagsData, commentsData=commentsData, userData=userData, tagz=tagz)
     return render_template("index.html")
 
 # function to make queries to database to acquire info
@@ -105,3 +107,16 @@ def storeComments(data):
                                             'comment_text': info['comment_text'],
                                             'time': info['timest']})
     return;
+
+# [{'timest': datetime.datetime(2017, 9, 16, 13, 10, 11), 'username_taggee': 'ml4963', 'status': 1, 'id': 3, 'username_tagger': 'cy986'}, {'timest': datetime.datetime(2017, 9, 16, 13, 10, 11), 'username_taggee': 'ml4963', 'status': 1, 'id': 4, 'username_tagger': 'jy1906'}]
+def organizeData(diction, data):
+    for mem in data:
+        if mem['id'] not in diction.keys():
+            diction[mem['id']] = []
+        diction[mem['id']].append({
+            'timest': mem['timest'],
+            'username_tagee': mem['username_taggee'],
+            'status':mem['status'],
+            'username_tager': mem['username_tagger']
+        })
+    return(diction)
