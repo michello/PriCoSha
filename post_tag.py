@@ -12,6 +12,32 @@ photos = UploadSet('photos', IMAGES)
 app.config['UPLOADED_PHOTOS_DEST'] = 'static/posts_pic'
 configure_uploads(app, photos)
 
+@app.route('/posts')
+def posts():
+    query = "SELECT * FROM content WHERE username=%s"
+    cursor = conn.cursor()
+    cursor.execute(query, (session['username']))
+    data = cursor.fetchall()
+    cursor.close()
+    return render_template('posts.html', data=data)
+
+@app.route('/sharePost')
+def sharePosts():
+    query = "SELECT * FROM content WHERE username=%s"
+    cursor = conn.cursor()
+    cursor.execute(query, (session['username']))
+    data = cursor.fetchall()
+    cursor.close()
+    return render_template('sharePosts.html', data=data)
+
+@app.route('/sharingPost')
+def sharingPosts():
+    post_id = request.form['post_id']
+    group = request.form['group']
+    query = "INSERT INTO share (id, group_name, username) VALUES \
+                (%s, %s, %s)"
+    
+
 @app.route('/makePost/', methods=['GET', 'POST'])
 def makePost():
     return render_template('makePost.html')
@@ -24,7 +50,7 @@ def makePostProcessed():
 
     img_filepath = '/static/posts_pic/'
 
-    if request.method == 'POST' and 'photo' in request.files:  
+    if request.method == 'POST' and 'photo' in request.files:
         filename = photos.save(request.files['photo'])
         img_filepath = img_filepath + filename
 
@@ -36,7 +62,7 @@ def makePostProcessed():
     postID = cursor.fetchone()['postID'] + 1
     query = 'INSERT into Content (id, username, timest, file_path, content_name, public) values (%s, %s, %s, %s, %s, %s)'
     cursor.execute(query, (postID, username, timest, img_filepath, content_name, public))
-    
+
     #If the content item is private, PriCoSha gives the user a way to designate
     #FriendGroups (that the user owns) with which the Photo is shared.
 
@@ -57,7 +83,7 @@ def tagUser(post_id):
 @app.route('/tagUser/processing-<post_id>', methods=['GET', 'POST'])
 def tagUserProcessed(post_id):
     username_taggee = request.form['username_taggee']
-    
+
     username_tagger = session['username']
     cursor = conn.cursor()
     query = 'SELECT DISTINCT username FROM content WHERE content.id = %s'

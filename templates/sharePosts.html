@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<p style = "margin-top:80px;font-size:16px;">
+Hi {{ session['users'][session['username']]['first_name'] }}!
+ <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
+</p>
+
+<h1>Posts</h1>
+<nav id = "friends">
+  <a href = "/posts">View Posts</a>
+  <a href = "/sharePost">Share Posts</a>
+  <a href="/makePost/">Make New Posts</a>
+  <a href="">Tag a Post</a>
+</nav>
+
+  {% if error %}
+    <p class="error" style="font-size:14px;"><strong>Error:</strong> {{ error }}</p>
+  {% endif %}
+  <form id = "form" action="/sharingPosts" method="POST">
+    <div id="questions">
+      <div id = "question1">
+        {% if session['users'][session['username']]['groups']|length == 0 %}
+            You don't belong to any groups! <a href="/createFriend">Make one?</a>
+        {% else %}
+        1. Select a group to share your post to:
+        <br>
+          {% for group in session['users'][session['username']]['groups'] %}
+            <p>
+              <input type="radio" name="group" value="{{ group['group_name'] }}" required />
+              {{ group['group_name'] }}
+              <br>
+              {{ group['description'] }}
+            </p>
+          {% endfor %}
+      </div>
+          {% endif %}
+      <div id ="question2">
+        2. Select the post you would like to share!
+        <br>
+        {% if data|length == 0 %}
+            You haven't made any posts! <a href="/makePost/">Make one now?</a>
+            {{ data }}
+        {% else %}
+          {% for post in data %}
+            <p>
+              <input type="radio" name="post_id" value="{{ post['id'] }}" required />
+              {{ post['id'] }} - {{ post['content_name'] }}
+            </p>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+    <p style="text-align:center;">
+      <input type="submit" value = Submit class = "button"/>
+    </p>
+  </form>
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <p style = "margin-top:80px;font-size:16px;">
+    Hi {{ session['users'][session['username']]['first_name'] }}!
+     <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
+    </p>
+
+    <h1>Posts</h1>
+    <nav id = "friends">
+      <a href = "/posts">View Posts</a>
+      <a href = "/sharePost">Share Posts</a>
+      <a href="/makePost/">Make New Posts</a>
+      <a href="">Tag a Post</a>
+    </nav>
+
+    {% if data|length == 0 %}
+        You haven't made any posts! <a href="/makePost/">Make one now?</a>
+        {{ data }}
+    {% else %}
+    <div id ="posts">
+      {% for post in data %}
+        <div class = "post">
+          <div class = "main-post-content">
+          <div class = "info">
+            <span class="postID">
+              {{ post['id'] }}
+            </span>
+            <span class="date" style="margin-top:0; margin-left:40px;">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              {{ post['timest'].date() }}
+            </span>
+            <br>
+            <span class="time" style="margin-top:0; margin-left:40px;">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              {{ post['timest'].time() }}
+            </span>
+          </div>
+          <div class = "picture">
+            {% if (post['file_path']) %}
+              <img src = {{ post['file_path'] }} />
+            {% endif %}
+            <div class = "links">
+              <a href="/edit-post/{{ post['id'] }}" class = "postEdit">edit</a>
+              <a href="/delete-post/{{ post['id'] }}" class = "postDelete">delete</a>
+            </div>
+
+          </div>
+          <div class = "description">
+            <div class = "post-description">
+              {{ post['content_name'] }}
+            </div>
+            <br>
+          </div>
+        </div>
+        </div>
+
+      {% endfor %}
+    </div>
+    {% endif %}
+{% endblock %}

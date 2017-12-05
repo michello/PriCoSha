@@ -347,11 +347,11 @@ div#navigation-left {
 }
 
 
-input[type="username"], input[type="name"], input[type="name"]:focus {
+input {
 	border: none;
 }
 
-input[type="name"]:focus, input[type="username"]:focus {
+input:focus, input:focus {
 		color: #ff5c50;
     border-bottom: 2px solid #ff5c50;
 		outline:none;
