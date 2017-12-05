@@ -318,7 +318,7 @@ div#navigation-left {
     margin-left: -15px;
 }
 
-input.button {
+.button {
     border: none;
     color: white;
     padding: 8px 8px;
