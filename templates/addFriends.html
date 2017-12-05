@@ -20,6 +20,7 @@ Hi {{ session['users'][session['username']]['first_name'] }}!
   <form id = "form" action="/addingFriends" method="POST">
     <div id="questions">
       <div id = "question1">
+        
       1. Select a group you own:
       <br>
         {% if (data): %}

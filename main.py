@@ -108,7 +108,7 @@ def storeComments(data):
                                             'time': info['timest']})
     return;
 
-# [{'timest': datetime.datetime(2017, 9, 16, 13, 10, 11), 'username_taggee': 'ml4963', 'status': 1, 'id': 3, 'username_tagger': 'cy986'}, {'timest': datetime.datetime(2017, 9, 16, 13, 10, 11), 'username_taggee': 'ml4963', 'status': 1, 'id': 4, 'username_tagger': 'jy1906'}]
+
 def organizeData(diction, data):
     for mem in data:
         if mem['id'] not in diction.keys():

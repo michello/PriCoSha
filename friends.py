@@ -46,13 +46,17 @@ def addingFriends():
     # are two people with the same first and last name
     username = request.form.get('username', None)
 
+
+    groupQuery = 'SELECT * FROM `friendgroup` WHERE username = %s'
+    group = getData(groupQuery, session['username'])
+
     # if user entered a proper first name and last name
     if len(fullname.split()) == 2:
         first_name = fullname.split()[0]
         last_name = fullname.split()[1]
     else:
         error = "Please enter a first name and a last name."
-        return render_template('addFriends.html', error=error)
+        return render_template('addFriends.html', error=error, data=group)
 
     # if the username parameter is not filled, check for the username
     # with the person's first and last name
@@ -71,11 +75,11 @@ def addingFriends():
         # if there are multiple users with the same first and last name
         if (len(data) > 1):
             error = "Please include a username."
-            return render_template('addFriends.html', error=error)
+            return render_template('addFriends.html', error=error, data=group)
         # if the user cannot be found, send an error message
         elif (len(data) < 1):
             error = "User not found."
-            return render_template('addFriends.html', error=error)
+            return render_template('addFriends.html', error=error, data=group)
         else:
              query = "INSERT INTO member (username, group_name, username_creator) VALUES (%s, %s, %s)"
              cursor = conn.cursor()
@@ -93,6 +97,7 @@ def addingFriends():
         data = cursor.fetchone()
         cursor.close()
 
+
         # if the username is collected
         if (data):
             query = "INSERT INTO member (username, group_name, username_creator) VALUES (%s, %s, %s)"
@@ -103,7 +108,7 @@ def addingFriends():
             return redirect(url_for('friends'))
         else:
             error = "Username was not found. Please enter a valid one."
-            return render_template('addFriends.html', error=error)
+            return render_template('addFriends.html', error=error,data=group)
     return render_template('addFriends.html')
 
 @app.route('/createFriend', methods=['GET', 'POST'])
