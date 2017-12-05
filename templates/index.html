@@ -98,12 +98,11 @@
                 </div>
                 {% endfor %}
                 <hr>
-
-                <a href = "" style="font-size: 12px; margin-left: 128px;margin-top: 21px; color: #ccc;">Reply</a>
+                <a href = "/reply-{{ post['id'] }}" style="font-size: 12px; margin-left: 128px;margin-top: 21px; color: #ccc;">Reply</a>
               {% else %}
                 There are no comments!
                 <hr>
-                <a href = "" style="font-size: 12px;position: absolute; margin-left: 128px;margin-top: -4px; color: #ccc;">Reply</a>
+                <a href = "/reply-{{post['id']}}" style="font-size: 12px;position: absolute; margin-left: 128px;margin-top: -4px; color: #ccc;">Reply</a>
               {% endif %}
 
 
