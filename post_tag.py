@@ -2,22 +2,15 @@ from flask import send_from_directory, render_template, flash, redirect, session
 from appdef import app, conn
 import tags, main, time, datetime, os
 from werkzeug.utils import secure_filename
+from flask.ext.uploads import UploadSet, configure_uploads, IMAGES
 from appdef import app
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
-#app.config[UPLOAD_FOLDER] = UPLOAD_FOLDER
-#app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
-'''
-@app.route('uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config[UPLOAD_FOLDER], filename)
-'''
+photos = UploadSet('photos', IMAGES)
 
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+app.config['UPLOADED_PHOTOS_DEST'] = 'static/posts_pic'
+configure_uploads(app, photos)
 
 @app.route('/makePost/', methods=['GET', 'POST'])
 def makePost():
@@ -26,37 +19,31 @@ def makePost():
 @app.route('/makePost/processing', methods=['GET', 'POST'])
 def makePostProcessed():
     content_name = request.form['content_name']
-    public = 0 #default value is 0 (private)
     public = request.form['public']
-    #add code for if no selected request, make public = 0
+    #add code for if no selected request, make public = 0 - make the form a check as well
 
-    #UPLOAD_FOLDER = os.path.join(APP_ROOT, 'static/posts_pic')
-    APP_STATIC = os.path.join(APP_ROOT, 'static')
-    APP_IMG = os.path.join(APP_STATIC, 'posts_pic')
-    
-    uploadfile = request.files['file_path']
-    if uploadfile and allowed_file(uploadfile.filename):    
-        filename = (secure_filename(uploadfile.filename))
-        print(APP_IMG)
-        uploadfile.save(app.config[APP_IMG], filename)
-        #return redirect(url_for('makePostProcessed', filename=filename))
-                  
+    img_filepath = '/static/posts_pic/'
+
+    if request.method == 'POST' and 'photo' in request.files:  
+        filename = photos.save(request.files['photo'])
+        img_filepath = img_filepath + filename
+
     username = session['username']
     cursor = conn.cursor()
     timest = datetime.datetime.now().strftime('%y-%m-%d %H:%M:%S')
     query = 'SELECT max(id) as postID FROM Content' #to get the id of this post
     cursor.execute(query)
-    postID = cursor.fetchone()['postID']
+    postID = cursor.fetchone()['postID'] + 1
     query = 'INSERT into Content (id, username, timest, file_path, content_name, public) values (%s, %s, %s, %s, %s, %s)'
-    cursor.execute(query, (postID, username, timest, uploadfile, content_name, public))
-
+    cursor.execute(query, (postID, username, timest, img_filepath, content_name, public))
+    
     #If the content item is private, PriCoSha gives the user a way to designate
     #FriendGroups (that the user owns) with which the Photo is shared.
 
     if (public == '0'): #need to know which friendgroup to share it with if not public
         group_name = request.form['friend_group_name']
-        query = 'INSERT into share values(postID, friend_group_name, username) values (%s, %s, %s)'
-        cursor.execute(query, (postID, friend_group_name, username))
+        query = 'INSERT into share (id, group_name, username) values (%s, %s, %s)'
+        cursor.execute(query, (postID, group_name, username))
 
     conn.commit()
     cursor.close()
