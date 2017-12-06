@@ -35,8 +35,11 @@ def addFriends():
 @app.route('/addingFriends', methods=['GET', 'POST'])
 def addingFriends():
 
+    if (request.form['group'] == None) or (request.form['name'] == None):
+        error = "Please include a group name or a user's name"
+        return render_template('addFriends.html', error=error, data=group)
     # creating variables from the form
-    group = request.form['group']
+    formGroup = request.form['group']
     fullname = request.form['name']
     first_name = ""
     last_name = ""
@@ -47,7 +50,7 @@ def addingFriends():
     username = request.form.get('username', None)
 
 
-    groupQuery = 'SELECT * FROM `friendgroup` WHERE username = %s'
+    groupQuery = 'SELECT group_name FROM `friendgroup` WHERE username = %s'
     group = getData(groupQuery, session['username'])
 
     # if user entered a proper first name and last name
@@ -81,13 +84,17 @@ def addingFriends():
             error = "User not found."
             return render_template('addFriends.html', error=error, data=group)
         else:
-             query = "INSERT INTO member (username, group_name, username_creator) VALUES (%s, %s, %s)"
-             cursor = conn.cursor()
-             cursor.execute(query, (data[0]['username'], group, session['username']))
-             conn.commit()
-             cursor.close()
-             return redirect(url_for('friends'))
+
+            query = "INSERT INTO member (username, group_name, username_creator) VALUES (%s, %s, %s)"
+            cursor = conn.cursor()
+            cursor.execute(query, (data[0]['username'], formGroup, session['username']))
+            conn.commit()
+            cursor.close()
+            # return redirect(url_for('friends'))
+            return render_template("result.html", data=group)
     else:
+
+
 
         cursor = conn.cursor()
         query = "SELECT username \
@@ -100,9 +107,14 @@ def addingFriends():
 
         # if the username is collected
         if (data):
+            data=group
+            for mem in group:
+                if (mem['group_name'] == formGroup):
+                    error = "This person is already in the group!"
+                    return render_template('addFriends.html', error=error,data=group)
             query = "INSERT INTO member (username, group_name, username_creator) VALUES (%s, %s, %s)"
             cursor = conn.cursor()
-            cursor.execute(query, (data['username'], group, session['username']))
+            cursor.execute(query, (data['username'], formGroup, session['username']))
             conn.commit()
             cursor.close()
             return redirect(url_for('friends'))

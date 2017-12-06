@@ -23,7 +23,7 @@
       <div id = "question1">
       1. Give a name for your group:
       <p>
-        <input type="name" name="name" placeholder="group name">
+        <input type="name" name="name" placeholder="group name" required>
       </p>
       </div>
       <div id ="question2">
@@ -31,7 +31,7 @@
           <p>
             {% for member in session['users'].keys() %}
                 {% if member != session['username'] %}
-                  <input type="radio" name={{member}} value={{member}}>
+                  <input type="checkbox" name={{member}} value={{member}}>
                   {{ session['users'][member]['first_name']}} {{ session['users'][member]['last_name'] }} ({{member}})<br>
                 {% endif %}
             {% endfor %}
