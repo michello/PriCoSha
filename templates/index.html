@@ -28,6 +28,8 @@
               <span class="likes" style="font-size:10px;">
                 <i class="fa fa-heart fa-1" aria-hidden="true"></i>
 
+                {{ allLikes }}
+
                 {% if likesData|length == 0: %}
                   <a href = "/like-post/{{ post['id'] }}" class="likelink" style="font-size:14px;color:#ff5c50;"> like</a>
                 {% endif %}
