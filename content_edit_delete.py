@@ -4,7 +4,12 @@ import tags, main
 
 @app.route('/edit-post/<post_id>')
 def editPost(post_id):
-    return render_template("content_edit.html", post_id=post_id)
+    cursor = conn.cursor()
+    query = 'SELECT * FROM content WHERE id = %s'
+    cursor.execute(query, (post_id))
+    data = cursor.fetchall()
+    cursor.close()
+    return render_template("content_edit.html", post_id=post_id, data=data)
 
 @app.route('/edit-post/processing-<post_id>', methods=['GET', 'POST'])
 def editPostProcessed(post_id):
@@ -61,7 +66,3 @@ def dislikePost(post_id):
     cursor.close()
 
     return redirect(url_for('main'))
-
-
-
-

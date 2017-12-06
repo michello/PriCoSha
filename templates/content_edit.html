@@ -4,19 +4,53 @@
     <p style = "margin-top:80px;font-size:16px;">
     Hi {{ session['users'][session['username']]['first_name'] }}!
      <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
-    </p>
+   </p>
 
     <h1> Edit Post </h1>
-    {{ post_id }}
+    <div class = "post" style="margin-top:20px;">
+      <div class = "main-post-content">
+      <div class = "info">
+        <span class="postID">
+          {{ post_id }}
+        </span>
+        <span class="date" style="margin-top:0; margin-left:40px;">
+          <i class="fa fa-calendar" aria-hidden="true"></i>
+          {{ data[0]['timest'].date() }}
+        </span>
+        <br>
+        <span class="time" style="margin-top:0; margin-left:40px;">
+          <i class="fa fa-clock-o" aria-hidden="true"></i>
+          {{ data[0]['timest'].time() }}
+        </span>
+      </div>
+      <div class = "picture">
+        {% if (data[0]['file_path']) %}
+          <img src = {{ data[0]['file_path'] }} />
+        {% endif %}
+
+      </div>
+      <div class = "description">
+        <div class = "post-description">
+          {{ data[0]['content_name'] }}
+        </div>
+        <br>
+      </div>
+    </div>
+    </div>
+
     <form action="/edit-post/processing-{{post_id}}" method="POST">
-      File Path <br>
+      <div id="question1">
+      <p style="font-size:14px;">1. Choose another image.</p>
       <input type="text" name = "filepath" placeholder="filepath of your image" required/> </br>
-      <br>Post Content <br>
+      <p style="font-size:14px;">2. Update your content name.</p>
       <input type="text" name = "content" placeholder="your updated content" required/></br>
-      <br>Public
+    </div>
+    <div id="question2">
+      <p style="font-size:14px;">3. Is this post public or private?</p>
       <input type="radio" name = "publicity" id="public" value="1"> Yes </input>
       <input type="radio" name = "publicity" id="private" value="0"> No </input> </br>
-      <input type="submit" value = Update />
+    </div>
+    <input type="submit" style="margin-top:100px;margin-left:-27.5px"class="button" value = Update />
     </form>
 
     <a href="/">Go back</a>

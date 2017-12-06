@@ -157,7 +157,7 @@ def creatingFriends():
 def getData(query, param):
     cursor = conn.cursor()
     cursor.execute(query, (session['username']))
-    data = cursor.fetchall()
+    data = cursor.fetchone()
     cursor.close()
     return data
 
