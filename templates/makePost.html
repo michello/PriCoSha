@@ -11,7 +11,12 @@
     Hi {{ session['users'][session['username']]['first_name'] }}!
      <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
     </p>
-      <h1> Make Post </h1>
+    <h1>Posts</h1>
+    <nav id = "friends">
+      <a href = "/posts">View Posts</a>
+      <a href = "/sharePost">Share Posts</a>
+      <a href="/makePost/">Make New Posts</a>
+    </nav>
       <form action="/makePost/processing" method = "POST" enctype = "multipart/form-data">
         <div id="question1">
           <p style="font-size:14px;">1. Give your post a content name!</p>

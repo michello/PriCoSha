@@ -11,7 +11,6 @@ Hi {{ session['users'][session['username']]['first_name'] }}!
   <a href = "/posts">View Posts</a>
   <a href = "/sharePost">Share Posts</a>
   <a href="/makePost/">Make New Posts</a>
-  <a href="">Tag a Post</a>
 </nav>
 
   {% if error %}
@@ -40,7 +39,6 @@ Hi {{ session['users'][session['username']]['first_name'] }}!
         <br>
         {% if data|length == 0 %}
             You haven't made any posts! <a href="/makePost/">Make one now?</a>
-            {{ data }}
         {% else %}
           {% for post in data %}
             <p>

@@ -11,7 +11,6 @@
       <a href = "/posts">View Posts</a>
       <a href = "/sharePost">Share Posts</a>
       <a href="/makePost/">Make New Posts</a>
-      <a href="">Tag a Post</a>
     </nav>
 
 
@@ -50,8 +49,8 @@
     </div>
 
     <form action="/replying-{{post_id}}" method="POST" style="text-align:center;">
-      <textarea name="description" style="margin-top: -24px;margin-left: -221px;position: absolute;width: 280px;">Enter your reply here!</textarea>
-      <input type="submit" value =Submit class="button" style="margin-top:100px;margin-left: -204px;"/>
+      <textarea name="description" style="margin-top: -24px; margin-left: -138px; position: absolute; width: 280px;">Enter your reply here!</textarea>
+      <input type="submit" value =Submit class="button" style="margin-bottom:20px;margin-top: 20px; margin-left: -26px; position: absolute;"/>
       {% if error %}
         <p class="error"><strong>Error:</strong> {{error}}</p>
       {% endif %}
