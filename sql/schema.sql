@@ -71,5 +71,6 @@ group_name VARCHAR (50),
 username VARCHAR (50),
 PRIMARY KEY (id, group_name, username),
 FOREIGN KEY (id) REFERENCES Content(id),
-FOREIGN KEY (group_name, username) REFERENCES FriendGroup(group_name, username)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+FOREIGN KEY (username) REFERENCES Person(username),
+FOREIGN KEY (group_name) REFERENCES FriendGroup(group_name))
+ENGINE=InnoDB DEFAULT CHARSET=latin1;

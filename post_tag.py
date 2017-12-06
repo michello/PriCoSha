@@ -90,7 +90,7 @@ def tagUserProcessed(post_id):
     cursor.execute(query, (post_id))
     ownerOfPost = cursor.fetchone()['username']
     if ownerOfPost != username_tagger:
-        flash('You cannot tag this post!')
+        flash('You cannot tag this post!') #how to make this work?
         return redirect(url_for('main'))
     else:
         timest = datetime.datetime.now().strftime('%y-%m-%d %H:%M:%S')
