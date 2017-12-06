@@ -9,16 +9,16 @@ Run `python init.py` in command prompt or terminal at the root folder of this pr
 - [x] View content items and information
 - [x] Manage tags
 ### finish the following by `Dec. 2`:
-- [ ] Post a content item `assigned to Ammy`
-- [ ] Tag a content item `assigned to Ammy`
+- [x] Post a content item `assigned to Ammy`
+- [x] Tag a content item `assigned to Ammy`
 - [x] Add friend `assigned to Michelle`
 - [x] Feature No. 1 - Create/delete/defriend friend group `assigned to Michelle`
-- [ ] Feature No. 2 - Update/delete content item `assigned to Corinna`
-- [ ] Feature No. 3 - Like/Dislike feature for content item `assigned to Corinna`
+- [x] Feature No. 2 - Update/delete content item `assigned to Corinna`
+- [x] Feature No. 3 - Like/Dislike feature for content item `assigned to Corinna`
 ### test & fix features from `Dec. 5` to `Dec. 7`
 ### finish by `Dec. 9/10`
-- [ ] Feature No. 4 - Register users
-- [ ] Feature No. 5 - Add comments
+- [x] Feature No. 4 - Register users
+- [x] Feature No. 5 - Add comments
 ### suggested feature
 - profile page for user
 - page that displays which friend group user belongs to
