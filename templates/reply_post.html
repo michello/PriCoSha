@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <p style = "margin-top:80px;font-size:16px;">
+    Hi {{ session['users'][session['username']]['first_name'] }}!
+     <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
+    </p>
+
+    <h1>Posts</h1>
+    <nav id = "friends">
+      <a href = "/posts">View Posts</a>
+      <a href = "/sharePost">Share Posts</a>
+      <a href="/makePost/">Make New Posts</a>
+      <a href="">Tag a Post</a>
+    </nav>
+
+
+    <div class = "post">
+        <div class = "main-post-content">
+        <div class = "info">
+          <span class="postID">
+            {{ post_id }}
+          </span>
+          <h1 class = "name" style="text-transform:uppercase;">
+            {{ session['users'][data[0]['username']]['first_name'] }}
+          </h1>
+          <span class="username">({{ data[0]['username'] }})</span>
+          <span class="date" style="margin-left:40px;">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            {{ data[0]['timest'].date() }}
+          </span>
+          <br>
+          <span class="time" style="margin-top:0; margin-left:40px;">
+            <i class="fa fa-clock-o" aria-hidden="true"></i>
+            {{ data[0]['timest'].time() }}
+          </span>
+        </div>
+        <div class = "picture">
+          {% if (data[0]['file_path']) %}
+            <img src = {{ data[0]['file_path'] }} />
+          {% endif %}
+        </div>
+        <div class = "description">
+          <div class = "post-description">
+            {{ data[0]['content_name'] }}
+          </div>
+          <br>
+        </div>
+      </div>
+    </div>
+
+    <form action="/replying-{{post_id}}" method="POST" style="text-align:center;">
+      <textarea name="description" style="margin-top: -24px;margin-left: -221px;position: absolute;width: 280px;">Enter your reply here!</textarea>
+      <input type="submit" value =Submit class="button" style="margin-top:100px;margin-left: -204px;"/>
+      {% if error %}
+        <p class="error"><strong>Error:</strong> {{error}}</p>
+      {% endif %}
+    </form>
+
+
+  {% endblock %}

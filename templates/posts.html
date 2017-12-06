@@ -16,7 +16,6 @@
 
     {% if data|length == 0 %}
         You haven't made any posts! <a href="/makePost/">Make one now?</a>
-        {{ data }}
     {% else %}
     <div id ="posts">
       {% for post in data %}
