@@ -26,30 +26,29 @@
                 {{ post['timest'].time() }}
               </span>
               <span class="likes" style="font-size:10px;">
-                <i class="fa fa-heart fa-1" aria-hidden="true"></i>
+                <i class="fa fa-heart fa-1" aria-hidden="true">
 
-                {{ allLikes }}
+                {% if post['id'] in userLikesData.keys() and userLikesData[post['id']]['people']|length > 0 and (session['username'] in userLikesData[post['id']]['people'])%}
 
-                {% if likesData|length == 0: %}
-                  <a href = "/like-post/{{ post['id'] }}" class="likelink" style="font-size:14px;color:#ff5c50;"> like</a>
-                {% endif %}
-
-                {% for userLikes in userLikesData %}
-                  {% if userLikes['id'] == post['id'] %}
                     <a href = "/unlike-post/{{ post['id'] }}" class="unlikelink" style="font-size:14px;color:#ff5c50;"> unlike</a>
-                  {% endif %}
-                  {%  if userLikes['id'] != post['id'] %}
-                    <a href = "/like-post/{{ post['id'] }}" class="likelink" style="font-size:14px;color:#ff5c50;"> like</a>
-                  {% endif %}
-                {% endfor %}
 
-                <br>
-                <i>liked by
-                  {% for likes in likesData %}
-                      {% if likes['id'] == post['id'] %}
-                        {{ likes['username_liker'] }}
+                {% else %}
+                    <a href = "/like-post/{{ post['id'] }}" class="likelink" style="font-size:14px;color:#ff5c50;"> like</a>
+                {% endif %}
+                <div id = "people">
+                </div>
+
+                <div id = "people">
+                  liked by
+                    {% if post['id'] in userLikesData.keys() %}
+                      {% if userLikesData[post['id']]['people']|length > 0 %}
+                          {{ userLikesData[post['id']]['people'] }}
                       {% endif %}
-                  {% endfor %}
+                    {% else %}
+                        none
+                    {% endif %}
+                </div>
+
                 </i>
               </span>
               <span class="tags" style="font-size:10px;">
@@ -114,6 +113,5 @@
         {% endfor %}
       </div>
 
-     <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
     </p>
 {% endblock %}

@@ -205,6 +205,10 @@ span.tags {
     margin-right: 5px;
 }
 
+.fa-heart:hover {
+
+}
+
 .comments {
 		padding: 20px;
 		font-size: 8pt;
