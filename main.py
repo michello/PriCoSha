@@ -38,6 +38,7 @@ def main():
         likesQuery = 'SELECT * FROM likes'
         likesData = getData(likesQuery)
 
+        # get all the likes for the post each time
         allLikes = {}
         for post in likesData:
             if post['id'] not in allLikes.keys():
@@ -62,7 +63,6 @@ def main():
 
         storeUsers(userData)
 
-        #return render_template("result.html", data=userLikesData)
         return render_template("index.html", data=postData, allLikes=allLikes, likesData=likesData, userLikesData=allLikes, tagsData=tagsData, commentsData=commentsData, userData=userData, tagz=tagz)
     return render_template("index.html")
 

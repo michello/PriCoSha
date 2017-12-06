@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <p style = "margin-top:80px;font-size:16px;">
-      {{ session['username'] }}
-      <div id ="posts">
+  <p style = "margin-top:80px;font-size:16px;">
+  Hi {{ session['users'][session['username']]['first_name'] }}!
+   <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
+  </p>
+
+  <div id ="posts">
         {% for post in data %}
           <div class = "post">
             <div class = "main-post-content">
@@ -35,14 +38,14 @@
                 {% else %}
                     <a href = "/like-post/{{ post['id'] }}" class="likelink" style="font-size:14px;color:#ff5c50;"> like</a>
                 {% endif %}
-                <div id = "people">
-                </div>
 
-                <div id = "people">
+                <div class = "people">
                   liked by
                     {% if post['id'] in userLikesData.keys() %}
                       {% if userLikesData[post['id']]['people']|length > 0 %}
-                          {{ userLikesData[post['id']]['people'] }}
+                        {% for user in userLikesData[post['id']]['people'] %}
+                          {{ user }} 
+                        {% endfor %}
                       {% endif %}
                     {% else %}
                         none
@@ -113,5 +116,5 @@
         {% endfor %}
       </div>
 
-    </p>
+
 {% endblock %}

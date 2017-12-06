@@ -195,8 +195,39 @@ span.likes {
     position: absolute;
 }
 
+.likes .people {
+    visibility: hidden;
+    width: 120px;
+    background-color: #ff5c50;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    margin-left: -9px;
+    margin-top: 5px;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.likes:hover .people {
+    visibility: visible;
+}
+
+.likes .people::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -48px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #ff5c50 transparent;
+}
+
 span.tags {
-    margin-top: 72px;
+	font-size:14px;
+    margin-top: 61px;
     position: absolute;
 }
 
@@ -207,6 +238,10 @@ span.tags {
 
 .fa-heart:hover {
 
+}
+
+.fa-heart:before {
+	margin-right: 5px;
 }
 
 .comments {
