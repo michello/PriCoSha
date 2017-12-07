@@ -10,6 +10,7 @@
   Hi {{ session['users'][session['username']]['first_name'] }}!
    <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
   </p>
+
   <div id ="tags">
       {% if (data) %}
         <p style="font-size:16px;color:#ff5c50"> These are your pending tags: </p>
@@ -39,12 +40,13 @@
                     {{ tagRequest['timest'].time() }}
                   </span>
                 </div>
-                <div class = "picture">
+                <div class = "picture" style="min-height:200px;background-color:white;">
                   {% for post in session['postData'] %}
                     {% if post['id'] == tagRequest['id']%}
                         <img src = {{ post['file_path'] }} />
                     {% endif %}
                   {% endfor %}
+
 
                 </div>
                 <div class = "description">
