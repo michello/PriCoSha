@@ -17,6 +17,9 @@
       <a href = "/sharePost">Share Posts</a>
       <a href="/makePost/">Make New Posts</a>
     </nav>
+    {% if error %}
+      <p class="error" style="font-size:14px;"><strong>Error:</strong> {{ error }}</p>
+    {% endif %}
       <form action="/makePost/processing" method = "POST" enctype = "multipart/form-data">
         <div id="question1">
           <p style="font-size:14px;">1. Give your post a content name!</p>

@@ -36,7 +36,7 @@ def sharingPosts():
     group = request.form['group']
     query = "INSERT INTO share (id, group_name, username) VALUES \
                 (%s, %s, %s)"
-    
+
 
 @app.route('/makePost/', methods=['GET', 'POST'])
 def makePost():
@@ -68,12 +68,25 @@ def makePostProcessed():
 
     if (public == '0'): #need to know which friendgroup to share it with if not public
         group_name = request.form['friend_group_name']
-        query = 'INSERT into share (id, group_name, username) values (%s, %s, %s)'
-        cursor.execute(query, (postID, group_name, username))
+        # check if group exists
+        query = "SELECT * FROM friendgroup WHERE group_name=%s"
+        cursor = conn.cursor()
+        cursor.execute(query, (request.form['friend_group_name']))
+        data = cursor.fetchall()
+        cursor.close()
 
-    conn.commit()
-    cursor.close()
-    return redirect(url_for('main'))
+        if (len(data) == 0):
+            error = "The group doesn't exist."
+            return render_template('makePost.html', error=error)
+
+        else:
+            cursor = conn.cursor()
+            query = 'INSERT into share (id, group_name, username) values (%s, %s, %s)'
+            cursor.execute(query, (postID, group_name, username))
+            conn.commit()
+            cursor.close()
+    return render_template('result.html', data=data)
+    #return redirect(url_for('main'))
 
 
 @app.route('/tagUser/<post_id>')
