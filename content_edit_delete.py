@@ -66,7 +66,7 @@ def deletePost(post_id):
 
     cursor = conn.cursor()
     #two delete queries; must delete tag because foreign key constraint
-    deleteQuery = 'DELETE FROM tag WHERE tag.id='+post_id+'; DELETE FROM content WHERE content.id = '+post_id
+    deleteQuery = 'DELETE FROM tag WHERE tag.id='+post_id+'; DELETE FROM likes WHERE likes.id='+post_id+'; DELETE FROM content WHERE content.id = '+post_id
     cursor.execute(deleteQuery)
     conn.commit() #commit the change to DB
     cursor.close()
