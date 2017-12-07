@@ -32,8 +32,12 @@ def deleteFriends(user, group):
 
 @app.route('/addFriends')
 def addFriends():
+  cursor = conn.cursor()
   groupQuery = 'SELECT * FROM `friendgroup` WHERE username = %s'
-  group = getData(groupQuery, session['username'])
+  cursor.execute(groupQuery, session['username'])
+  group = cursor.fetchall()
+  cursor.close()
+  
   return render_template('addFriends.html', data=group)
 
 @app.route('/addingFriends', methods=['GET', 'POST'])
@@ -94,8 +98,8 @@ def addingFriends():
             cursor.execute(query, (data[0]['username'], formGroup, session['username']))
             conn.commit()
             cursor.close()
-            # return redirect(url_for('friends'))
-            return render_template("result.html", data=group)
+            return redirect(url_for('friends'))
+            #return render_template("result.html", data=group)
     else:
 
 
