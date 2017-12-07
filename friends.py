@@ -42,10 +42,14 @@ def addFriends():
 
 @app.route('/addingFriends', methods=['GET', 'POST'])
 def addingFriends():
-
-    if (request.form['group'] == None) or (request.form['name'] == None):
+    
+    groupQuery = 'SELECT group_name FROM `friendgroup` WHERE username = %s'
+    group = getData(groupQuery, session['username'])
+    
+    if (len(group) == 0):
         error = "Please include a group name or a user's name"
         return render_template('addFriends.html', error=error, data=group)
+    
     # creating variables from the form
     formGroup = request.form['group']
     fullname = request.form['name']
@@ -56,10 +60,6 @@ def addingFriends():
     # username field is filled only if there
     # are two people with the same first and last name
     username = request.form.get('username', None)
-
-
-    groupQuery = 'SELECT group_name FROM `friendgroup` WHERE username = %s'
-    group = getData(groupQuery, session['username'])
 
     # if user entered a proper first name and last name
     if len(fullname.split()) == 2:
@@ -92,7 +92,6 @@ def addingFriends():
             error = "User not found."
             return render_template('addFriends.html', error=error, data=group)
         else:
-
             query = "INSERT INTO member (username, group_name, username_creator) VALUES (%s, %s, %s)"
             cursor = conn.cursor()
             cursor.execute(query, (data[0]['username'], formGroup, session['username']))
@@ -101,9 +100,6 @@ def addingFriends():
             return redirect(url_for('friends'))
             #return render_template("result.html", data=group)
     else:
-
-
-
         cursor = conn.cursor()
         query = "SELECT username \
                 FROM person \
