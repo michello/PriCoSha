@@ -97,6 +97,10 @@ def tagUser(post_id):
 def tagUserProcessed(post_id):
     username_taggee = request.form['username_taggee']
 
+    if (username_taggee not in session['users'].keys()):
+        error = "User does not exist."
+        return render_template('tagUser.html', error=error, post_id=post_id)
+
     username_tagger = session['username']
     cursor = conn.cursor()
     query = 'SELECT DISTINCT username FROM content WHERE content.id = %s'

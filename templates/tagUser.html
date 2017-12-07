@@ -5,8 +5,11 @@
   Hi {{ session['users'][session['username']]['first_name'] }}!
    <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
   </p>
-  <a href="/" style="font-size:16px;">Go back</a>
+  <a href="/" style="font-size:14px;">Go back</a>
   <h1> Tag User </h1>
+  {% if error %}
+    <p class="error" style="font-size:14px;"><strong>Error:</strong> {{error}}</p>
+  {% endif %}
   <div class = "post" style="margin-top:20px;">
       <div class = "post-content">
       <div class = "info">
