@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <p style = "margin-top:80px;font-size:16px;">
+    Hi {{ session['users'][session['username']]['first_name'] }}!
+     <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
+   </p>
+
+   <p>
+     <img src="/">
+   </p>
+   <p>Username: {{ username }}</p>
+   <p>Full Name: {{ session['users'][username]['first_name'] }} {{ session['users'][username]['last_name'] }}</p>
+   <p>Bio: </p>
+   <p>Posts: </p>
+
+{% endblock %}

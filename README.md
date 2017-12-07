@@ -14,7 +14,7 @@ Run `python init.py` in command prompt or terminal at the root folder of this pr
 - [x] Feature No. 1 - Create/delete/defriend friend group `assigned to Michelle`
 - [x] Feature No. 2 - Update/delete content item `assigned to Corinna`
 - [x] Feature No. 3 - Like/Dislike feature for content item `assigned to Corinna`
-~- [x] Feature No. 4 - Register users~
+- [x] ~Feature No. 4 - Register users~
 - [ ] Feature No. 4 - Profile page for users
 - [x] Feature No. 5 - Add comments
 ### suggested feature
