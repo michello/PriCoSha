@@ -38,3 +38,11 @@ INSERT INTO tag (id, username_tagger, username_taggee, timest, status) VALUES
 --- adding comments
 INSERT INTO comment (	id,	username,	timest, comment_text) VALUES
 (2, 'ml4963', TIMESTAMP("2017-07-23",  "14:10:11"), "Artichokes are great! 8D");
+
+--- adding to share
+INSERT INTO share (	id, group_name, username) VALUES
+(1, 'James the Bae', 'ml4963'),
+(2, 'MAC', 'al4604'),
+(3, 'MAC', 'cy986')
+
+
