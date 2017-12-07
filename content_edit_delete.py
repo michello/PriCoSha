@@ -15,7 +15,19 @@ def editPost(post_id):
     cursor.execute(query, (post_id))
     data = cursor.fetchall()
     cursor.close()
-    return render_template("content_edit.html", post_id=post_id, data=data)
+
+    #checks if there is a post with the given post_id, spit out error otherwise 
+    cursor = conn.cursor()
+    editCountQuery = 'SELECT COUNT(*) FROM content WHERE id = %s'
+    cursor.execute(editCountQuery, (post_id))
+    countData = cursor.fetchone()
+    cursor.close()
+    
+    if (countData['COUNT(*)'] > 0):
+        return render_template("content_edit.html", post_id=post_id, data=data, countData=countData)
+    else:
+        editError = "Post ID does not exist. Please edit a valid post."
+        return render_template("content_edit.html", post_id=post_id, data=data, editError=editError)
 
 @app.route('/edit-post/processing-<post_id>', methods=['GET', 'POST'])
 def editPostProcessed(post_id):
