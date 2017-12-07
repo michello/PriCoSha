@@ -55,8 +55,16 @@ def makePostProcessed():
 
     img_filepath = '/static/posts_pic/'
 
+    #checks for image files, spits error if not
+    if request.method == 'POST' and request.files['photo'].filename:
+        filenameTest = photos.url(request.files['photo'])
+        if (filenameTest.find('.jpg') == -1) or (filenameTest.find('.png') == -1) or (filenameTest.find('.jpeg') == -1) or (filenameTest.find('.JPG') == -1) or (filenameTest.find('.JPEG') == -1):
+            error = 'Please attach image files only.'
+            return render_template('makePost.html', error=error)
+        
+
     if request.method == 'POST' and 'photo' in request.files:
-        filename = photos.save(request.files['photo'])
+        filename = photos.save(request.files['photo']) 
         img_filepath = img_filepath + filename
 
     username = session['username']
