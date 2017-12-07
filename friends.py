@@ -2,7 +2,6 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask_login import login_user, logout_user, current_user, login_required
 from appdef import app, conn
 import getfriends
-import loginCheck
 
 @app.route('/friends')
 def friends():
@@ -48,7 +47,7 @@ def addFriends():
     group = cursor.fetchall()
     cursor.close()
 
-  return render_template('addFriends.html', data=group)
+    return render_template('addFriends.html', data=group)
 
 @app.route('/addingFriends', methods=['GET', 'POST'])
 def addingFriends():
