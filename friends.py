@@ -132,32 +132,45 @@ def creatingFriends():
 
 
     # get all the info from the form
-    data = request.form
     groupName = request.form['name']
+    description = request.form["description"]
+    data = request.form
+
+    # check if group name exists
+    query = "SELECT COUNT(group_name) FROM friendgroup WHERE group_name = %s"
+    allGroups = getData(query, groupName)
+
+    if (allGroups[0]['COUNT(group_name)'] == 1):
+        error = "The group name already exists. Please enter another one."
+        return render_template('createFriend.html', error=allGroups)
+    else:
 
 
-    cursor = conn.cursor()
-    command = "INSERT INTO friendgroup (group_name, username, description) VALUES (%s, %s, %s)"
-    cursor.execute(command, (groupName, session['username'], "hullo"))
-    conn.commit()
-    cursor.close()
 
-    # create a query for each member
-    cursor = conn.cursor()
-    for member in data:
-        if (member != 'name'):
-            if (member != session['username']):
+        cursor = conn.cursor()
+        command = "INSERT INTO friendgroup (group_name, username, description) VALUES (%s, %s, %s)"
+        cursor.execute(command, (groupName, session['username'], description))
+        conn.commit()
+        cursor.close()
+
+
+        # create a query for each member
+        cursor = conn.cursor()
+        stuff = []
+        exclude = ["name", "description"]
+        for member in data:
+            if (member not in exclude):
+
                 query = "INSERT INTO member (username, group_name, username_creator) VALUES (%s, %s, %s)"
                 cursor.execute(query, (member, groupName, session['username']))
                 conn.commit()
-    cursor.close()
-
+        cursor.close()
     return redirect(url_for('friends'))
-
+    
 def getData(query, param):
     cursor = conn.cursor()
-    cursor.execute(query, (session['username']))
-    data = cursor.fetchone()
+    cursor.execute(query, (param))
+    data = cursor.fetchall()
     cursor.close()
     return data
 

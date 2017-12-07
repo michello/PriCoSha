@@ -16,7 +16,7 @@
 
 
   {% if error %}
-    <p class="error"><strong>Error:</strong> {{ error }}</p>
+    <p class="error" style="font-size:14px;"><strong>Error:</strong> {{ error }}</p>
   {% endif %}
   <form id="form" action="/creatingFriends" method="POST">
     <div id="questions">
@@ -25,9 +25,13 @@
       <p>
         <input type="name" name="name" placeholder="group name" required>
       </p>
+      2. Write a description for your group:
+      <p>
+        <textarea name="description" style="width: 280px;" placeholder="Enter your group description!"></textarea>
+      </p>
       </div>
       <div id ="question2">
-        2. Add people to your friend group!
+      3. Add people to your friend group:
           <p>
             {% for member in session['users'].keys() %}
                 {% if member != session['username'] %}
