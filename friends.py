@@ -7,17 +7,21 @@ import getfriends
 def friends():
     # gotta update this data every time someone successfully adds a user
     friends = getfriends.getFriend()
-    data = session['users'][session['username']]['friends']
-
-    if (friends != data):
-        data = friends
+    session['users'][session['username']]['friends'] = friends
 
     gname_list = []
     for group in session['users'][session['username']]['groups']:
         gname_list.append(group['group_name'])
 
+    gname_list = session['users'][session['username']]['groups']
 
-    return render_template('friends.html', data=data, gname_list=gname_list)
+    # get all the groups the person is the owner of
+    query = 'SELECT group_name FROM `friendgroup` WHERE username = %s'
+    groups = getData(query, session['username'])
+    allGroups = []
+    for group in groups:
+        allGroups.append(group['group_name'])
+    return render_template('friends.html', data=friends, gname_list=gname_list, groups=allGroups)
 
 @app.route('/delete-<user>-from-<group>')
 def deleteFriends(user, group):
@@ -166,7 +170,7 @@ def creatingFriends():
                 conn.commit()
         cursor.close()
     return redirect(url_for('friends'))
-    
+
 def getData(query, param):
     cursor = conn.cursor()
     cursor.execute(query, (param))

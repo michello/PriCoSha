@@ -25,7 +25,7 @@
     {% for friend in data %}
     <tr>
       <th>
-        {% if friend['group_name'] in gname_list %}
+        {% if friend['group_name'] in groups %}
           <a href = "/delete-{{friend['username']}}-from-{{friend['group_name']}}">X</a>
         {% endif %}
       </th>
