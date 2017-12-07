@@ -6,6 +6,12 @@ CREATE TABLE Person(
 	PRIMARY KEY (username)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE Profile (
+	bio VARCHAR (50),
+	username VARCHAR(50),
+	FOREIGN KEY(username) REFERENCES Person(username)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE Content(
 	id INT AUTO_INCREMENT,
 	username VARCHAR (50),
@@ -67,7 +73,7 @@ CREATE TABLE Member(
 
 CREATE TABLE Share(
 	id INT,
-group_name VARCHAR (50),	
+group_name VARCHAR (50),
 username VARCHAR (50),
 PRIMARY KEY (id, group_name, username),
 FOREIGN KEY (id) REFERENCES Content(id),
