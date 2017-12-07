@@ -31,7 +31,6 @@ def editPost(post_id):
 
 @app.route('/edit-post/processing-<post_id>', methods=['GET', 'POST'])
 def editPostProcessed(post_id):
-    filepath = request.form['filepath']
     postContent = request.form['content']
     pubOrPriv = request.form['publicity']
 
