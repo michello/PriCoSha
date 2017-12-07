@@ -36,12 +36,30 @@ def editPostProcessed(post_id):
 #deletes a post and redirects to indicate the post was deleted
 @app.route('/delete-post/<post_id>')
 def deletePost(post_id):
+
+    # check if post is in table
+    shareQuery = 'SELECT * FROM share WHERE id = %s'
+    cursor = conn.cursor()
+    cursor.execute(shareQuery, (post_id))
+    data = cursor.fetchall()
+    conn.commit()
+    cursor.close()
+
+    if (data != []):
+        delete = 'DELETE FROM share WHERE id = %s'
+        cursor = conn.cursor()
+        cursor.execute(delete, (post_id))
+        conn.commit() #commit the change to DB
+        cursor.close()
+
     cursor = conn.cursor()
     #two delete queries; must delete tag because foreign key constraint
     deleteQuery = 'DELETE FROM tag WHERE tag.id='+post_id+'; DELETE FROM content WHERE content.id = '+post_id
     cursor.execute(deleteQuery)
     conn.commit() #commit the change to DB
     cursor.close()
+
+
     return render_template('content_delete.html', post_id=post_id)
 
 #likes a post via INSERT into likes table, and then redirect to homepage
@@ -60,7 +78,6 @@ def likePost(post_id):
 def dislikePost(post_id):
     cursor = conn.cursor()
     dislikePostQuery = 'DELETE FROM likes WHERE username_liker="'+session['username']+'" AND id='+post_id
-
     cursor.execute(dislikePostQuery)
     conn.commit()
     cursor.close()
