@@ -42,31 +42,30 @@ def addFriends():
     if (not session.get('logged_in')):
         return redirect(url_for('main'))
 
-  cursor = conn.cursor()
-  groupQuery = 'SELECT * FROM `friendgroup` WHERE username = %s'
-  cursor.execute(groupQuery, session['username'])
-  group = cursor.fetchall()
-  cursor.close()
+    cursor = conn.cursor()
+    groupQuery = 'SELECT * FROM `friendgroup` WHERE username = %s'
+    cursor.execute(groupQuery, session['username'])
+    group = cursor.fetchall()
+    cursor.close()
 
   return render_template('addFriends.html', data=group)
 
 @app.route('/addingFriends', methods=['GET', 'POST'])
 def addingFriends():
-<<<<<<< HEAD
     if (not session.get('logged_in')):
         return redirect(url_for('main'))
 
     if (request.form['group'] == None) or (request.form['name'] == None):
-=======
-    
-    groupQuery = 'SELECT group_name FROM `friendgroup` WHERE username = %s'
-    group = getData(groupQuery, session['username'])
-    
-    if (len(group) == 0):
->>>>>>> b898367ae7014b45196827e5462adfc9754d8381
         error = "Please include a group name or a user's name"
         return render_template('addFriends.html', error=error, data=group)
-    
+
+    groupQuery = 'SELECT group_name FROM `friendgroup` WHERE username = %s'
+    group = getData(groupQuery, session['username'])
+
+    if (len(group) == 0):
+        error = "Please include a group name or a user's name"
+        return render_template('addFriends.html', error=error, data=group)
+
     # creating variables from the form
     formGroup = request.form['group']
     fullname = request.form['name']
@@ -133,6 +132,7 @@ def addingFriends():
                 if (mem['group_name'] == formGroup):
                     error = "This person is already in the group!"
                     return render_template('addFriends.html', error=error,data=group)
+
             query = "INSERT INTO member (username, group_name, username_creator) VALUES (%s, %s, %s)"
             cursor = conn.cursor()
             cursor.execute(query, (data['username'], formGroup, session['username']))
