@@ -5,6 +5,10 @@ INSERT INTO person (username, password, first_name, last_name) VALUES ('ml4963',
 ('jy1906', '07d380f2853c965800dc2a1676717dda', 'Joanne', 'Yang'),
 ('jh383', 'b88408e274bf3f175b86ec0edc1631bf', 'James', 'Ha');
 
+--- profile page
+INSERT INTO profile (username, bio, file_path) VALUES ('ml4963', '', '')
+
+
 --- friend group
 INSERT INTO friendgroup (group_name, username, description) VALUES ('MAC', 'ml4963', 'A group that started from Junior Year'),
 ('James the Bae', 'jy1906', 'Freshman year squad');

@@ -10,6 +10,8 @@ configure_uploads(app, photos)
 
 @app.route('/edit-post/<post_id>')
 def editPost(post_id):
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
     cursor = conn.cursor()
     query = 'SELECT * FROM content WHERE id = %s'
     cursor.execute(query, (post_id))
@@ -19,6 +21,8 @@ def editPost(post_id):
 
 @app.route('/edit-post/processing-<post_id>', methods=['GET', 'POST'])
 def editPostProcessed(post_id):
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
     filepath = request.form['filepath']
     postContent = request.form['content']
     pubOrPriv = request.form['publicity']
@@ -48,35 +52,42 @@ def editPostProcessed(post_id):
 #deletes a post and redirects to indicate the post was deleted
 @app.route('/delete-post/<post_id>')
 def deletePost(post_id):
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
 
-    # check if post is in table
-    shareQuery = 'SELECT * FROM share WHERE id = %s'
-    cursor = conn.cursor()
-    cursor.execute(shareQuery, (post_id))
-    data = cursor.fetchall()
-    conn.commit()
-    cursor.close()
+    userQuery = 'SELECT username FROM share WHERE id = %s'
+    user = getData(userQuery, post_id)
 
-    if (data != []):
-        delete = 'DELETE FROM share WHERE id = %s'
+    if (user != session['username']):
+        return redirect(url_for('main'))
+    else:
+        # check if post is in table
+        shareQuery = 'SELECT * FROM share WHERE id = %s'
+        data = getData(shareQuery, post_id)
+
+        if (data != []):
+            delete = 'DELETE FROM share WHERE id = %s'
+            cursor = conn.cursor()
+            cursor.execute(delete, (post_id))
+            conn.commit() #commit the change to DB
+            cursor.close()
+
         cursor = conn.cursor()
-        cursor.execute(delete, (post_id))
+        #two delete queries; must delete tag because foreign key constraint
+        deleteQuery = 'DELETE FROM tag WHERE tag.id='+post_id+'; DELETE FROM likes WHERE likes.id='+post_id+'; DELETE FROM content WHERE content.id = '+post_id
+        cursor.execute(deleteQuery)
         conn.commit() #commit the change to DB
         cursor.close()
-
-    cursor = conn.cursor()
-    #two delete queries; must delete tag because foreign key constraint
-    deleteQuery = 'DELETE FROM tag WHERE tag.id='+post_id+'; DELETE FROM likes WHERE likes.id='+post_id+'; DELETE FROM content WHERE content.id = '+post_id
-    cursor.execute(deleteQuery)
-    conn.commit() #commit the change to DB
-    cursor.close()
 
 
     return render_template('content_delete.html', post_id=post_id)
 
+
 #likes a post via INSERT into likes table, and then redirect to homepage
 @app.route('/like-post/<post_id>')
 def likePost(post_id):
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
     cursor = conn.cursor()
     likePostQuery = 'INSERT INTO likes (id, username_liker) VALUES ('+post_id+', "'+session['username']+'")'
 
@@ -88,6 +99,9 @@ def likePost(post_id):
 
 @app.route('/unlike-post/<post_id>')
 def dislikePost(post_id):
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
+    
     cursor = conn.cursor()
     dislikePostQuery = 'DELETE FROM likes WHERE username_liker="'+session['username']+'" AND id='+post_id
     cursor.execute(dislikePostQuery)
@@ -95,3 +109,11 @@ def dislikePost(post_id):
     cursor.close()
 
     return redirect(url_for('main'))
+
+def getData(query, item):
+    cursor = conn.cursor()
+    cursor.execute(query, (item))
+    data = cursor.fetchone()
+    conn.commit()
+    cursor.close()
+    return data

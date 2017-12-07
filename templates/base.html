@@ -10,23 +10,23 @@
 <body>
 
   {% if not session['logged_in'] %}
-  <div id = "mainContent" style = "width:610px margin-auto;">
-    <div id="homepage">
+    <div id = "mainContent" style = "width:610px margin-auto;">
+      <div id="homepage">
 
-      <div id="navigation-left" style="margin-bottom:100px;">
-        <div id = "logo">
-              <img src = "/static/brand_assets/logo3.png" style="width:150px; height:auto; margin-top:-5px;">
+        <div id="navigation-left" style="margin-bottom:100px;">
+          <div id = "logo">
+                <img src = "/static/brand_assets/logo3.png" style="width:150px; height:auto; margin-top:-5px;">
+              </div>
+              <div id = "messaging">
+                <a class="navbar-brand" href="/" style="font-size:36px;margin-left:2px;margin-top:22px;position:absolute;">PriChoSha</a>
+                <p class ="navbar-message" style="font-size:12px;margin-left:3px;position:absolute;margin-top:62px;">Sending messages to the ones you know and love.</p>
             </div>
-            <div id = "messaging">
-              <a class="navbar-brand" href="/" style="font-size:36px;margin-left:2px;margin-top:22px;position:absolute;">PriChoSha</a>
-              <p class ="navbar-message" style="font-size:12px;margin-left:3px;position:absolute;margin-top:62px;">Sending messages to the ones you know and love.</p>
-          </div>
-      </div>
+        </div>
 
-      <a href="/login" class="button" style="margin-top:130px; position: absolute;">Login</a>
-      <a href="/register" class="button" style="margin-left: 100px;margin-top:130px; position: absolute;">Register</a>
+        <a href="/login" class="button" style="margin-top:130px; position: absolute;">Login</a>
+        <a href="/register" class="button" style="margin-left: 100px;margin-top:130px; position: absolute;">Register</a>
+      </div>
     </div>
-  </div>
   {% else %}
   <div class="container" id = "mainContent" style = "width:610px;">
 		<div id = "navigation">
@@ -44,8 +44,6 @@
 				<a href = "/tags">tags</a>
 				<a href="/friends">friends</a>
 				<a href="/posts">posts</a>
-
-
 			</div>
 		</div>
     {% block content %}{% endblock %}

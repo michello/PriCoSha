@@ -5,7 +5,9 @@
   Hi {{ session['users'][session['username']]['first_name'] }}!
    <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
   </p>
-
+  {% if error %}
+    <p class="error"><strong>Error:</strong> {{error}}</p>
+  {% endif %}
   <div id ="posts">
         {% for post in data %}
           <div class = "post">
@@ -44,7 +46,7 @@
                     {% if post['id'] in userLikesData.keys() %}
                       {% if userLikesData[post['id']]['people']|length > 0 %}
                         {% for user in userLikesData[post['id']]['people'] %}
-                          {{ user }} 
+                          {{ user }}
                         {% endfor %}
                       {% endif %}
                     {% else %}

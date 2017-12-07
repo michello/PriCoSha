@@ -11,6 +11,8 @@ configure_uploads(app, photos)
 
 @app.route('/posts')
 def posts():
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
     query = "SELECT * FROM content WHERE username=%s"
     cursor = conn.cursor()
     cursor.execute(query, (session['username']))
@@ -20,6 +22,8 @@ def posts():
 
 @app.route('/sharePost')
 def sharePosts():
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
     query = "SELECT * FROM content WHERE username=%s"
     cursor = conn.cursor()
     cursor.execute(query, (session['username']))
@@ -29,17 +33,23 @@ def sharePosts():
 
 @app.route('/sharingPost')
 def sharingPosts():
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
     post_id = request.form['post_id']
     group = request.form['group']
     query = "INSERT INTO share (id, group_name, username) VALUES \
                 (%s, %s, %s)"
-    
+
 @app.route('/makePost/')
 def makePost():
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
     return render_template('makePost.html')
 
 @app.route('/makePost/processing', methods=['GET', 'POST'])
 def makePostProcessed():
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
     content_name = request.form['content_name']
     public = request.form['public']
 
@@ -73,10 +83,14 @@ def makePostProcessed():
 
 @app.route('/tagUser/<post_id>')
 def tagUser(post_id):
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
     return render_template('tagUser.html', post_id = post_id)
 
 @app.route('/tagUser/processing-<post_id>', methods=['GET', 'POST'])
 def tagUserProcessed(post_id):
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
     username_taggee = request.form['username_taggee']
 
     username_tagger = session['username']
@@ -87,18 +101,18 @@ def tagUserProcessed(post_id):
     NATURAL JOIN friendgroup)"
     cursor.execute(query, (username_taggee))
     visiblePosts = cursor.fetchall() #posts visible to the taggee
-    
+
     query = 'SELECT share.id FROM share WHERE %s in (SELECT member.username\
     FROM member WHERE share.group_name = member.group_name) OR (SELECT username\
     FROM friendgroup WHERE share.group_name = friendgroup.group_name)'
-    cursor.execute(query, (username_taggee)) 
+    cursor.execute(query, (username_taggee))
     visiblePostsShared = cursor.fetchall() #posts shared to the groups this person is in
 
     if post_id not in visiblePosts or visiblePostsShared:
         errormsg = "Cannot tag: post is not visible to this person!" #how to display this error msg
         return redirect(url_for('main'))
-    
-    #else if username_taggee is not in 
+
+    #else if username_taggee is not in
     timest = datetime.datetime.now().strftime('%y-%m-%d %H:%M:%S')
     query = 'INSERT into tag (id, username_tagger, username_taggee, timest, status) values (%s, %s, %s, %s, %s)'
     cursor.execute(query, (post_id, username_tagger, username_taggee, timest, 0))

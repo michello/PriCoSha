@@ -2,9 +2,13 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask_login import login_user, logout_user, current_user, login_required
 from appdef import app, conn
 import getfriends
+import loginCheck
 
 @app.route('/friends')
 def friends():
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
+
     # gotta update this data every time someone successfully adds a user
     friends = getfriends.getFriend()
     session['users'][session['username']]['friends'] = friends
@@ -25,6 +29,9 @@ def friends():
 
 @app.route('/delete-<user>-from-<group>')
 def deleteFriends(user, group):
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
+
     command = "DELETE FROM member \
                 WHERE group_name = %s AND username="+ "'" + user + "'"
     execute(command, (group))
@@ -32,16 +39,21 @@ def deleteFriends(user, group):
 
 @app.route('/addFriends')
 def addFriends():
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
+
   cursor = conn.cursor()
   groupQuery = 'SELECT * FROM `friendgroup` WHERE username = %s'
   cursor.execute(groupQuery, session['username'])
   group = cursor.fetchall()
   cursor.close()
-  
+
   return render_template('addFriends.html', data=group)
 
 @app.route('/addingFriends', methods=['GET', 'POST'])
 def addingFriends():
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
 
     if (request.form['group'] == None) or (request.form['name'] == None):
         error = "Please include a group name or a user's name"
@@ -133,11 +145,14 @@ def addingFriends():
 
 @app.route('/createFriend', methods=['GET', 'POST'])
 def createFriend():
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
     return render_template('createFriend.html')
 
 @app.route('/creatingFriends', methods=['GET', 'POST'])
 def creatingFriends():
-
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
 
     # get all the info from the form
     groupName = request.form['name']

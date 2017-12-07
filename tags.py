@@ -4,6 +4,8 @@ from appdef import app, conn
 
 @app.route('/tags')
 def tags():
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
     # making an sql query to obtain tag requests that the user has yet
     # to approve (when status = 0)
     cursor = conn.cursor()
@@ -16,6 +18,8 @@ def tags():
 
 @app.route('/proccessTags', methods=['GET', 'POST'])
 def proccessTags():
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
     # obtains all the info from the form fields (which is used to allow user to
     # accept or reject tag requests)
     data = request.form
@@ -35,6 +39,7 @@ def proccessTags():
 
 
 def executeQuery(command, post, user):
+    
     cursor = conn.cursor()
     cursor.execute(command, (post, user))
     cursor.close()

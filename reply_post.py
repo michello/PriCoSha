@@ -6,6 +6,8 @@ from post_tag import makePost
 
 @app.route('/reply-<post_id>')
 def replyPost(post_id):
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
     query = 'SELECT * \
             FROM content \
             WHERE id =%s'
@@ -17,6 +19,8 @@ def replyPost(post_id):
 
 @app.route('/replying-<post_id>', methods=['GET', 'POST'])
 def replyingPost(post_id):
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
 
     content = request.form['description']
     time = datetime.datetime.now().strftime('%y-%m-%d %H:%M:%S')

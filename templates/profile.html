@@ -5,13 +5,19 @@
     Hi {{ session['users'][session['username']]['first_name'] }}!
      <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
    </p>
-
-   <p>
-     <img src="/">
-   </p>
-   <p>Username: {{ username }}</p>
-   <p>Full Name: {{ session['users'][username]['first_name'] }} {{ session['users'][username]['last_name'] }}</p>
-   <p>Bio: </p>
-   <p>Posts: </p>
+   {% if error %}
+      <b>Error:</b> {{ error }}
+   {% else%}
+     {% if session['username'] == username%}
+        <a href ="/profile/edit-{{username}}">edit profile</a>
+     {% endif %}
+     <p>
+       <img src="{{ data['file_path']}}">
+     </p>
+     <p>Username: {{ username }}</p>
+     <p>Full Name: {{ session['users'][username]['first_name'] }} {{ session['users'][username]['last_name'] }}</p>
+     <p>Bio: {{ data['bio']}}</p>
+     <p>Posts: </p>
+    {% endif %}
 
 {% endblock %}

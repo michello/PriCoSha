@@ -5,6 +5,8 @@ import getfriends
 
 @app.route('/groups')
 def groups():
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
 
     data = {}
     command = 'SELECT * \
@@ -23,6 +25,9 @@ def groups():
 
 @app.route('/delete-group-<group_name>')
 def deleteGroups(group_name):
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
+
     # delete all the members in the group first
     command = 'DELETE FROM member \
                 WHERE group_name = %s;'
@@ -36,6 +41,8 @@ def deleteGroups(group_name):
 
 @app.route('/leave-group-<group_name>')
 def leaveGroups(group_name):
+    if (not session.get('logged_in')):
+        return redirect(url_for('main'))
     command = "DELETE FROM member \
                 WHERE group_name = %s AND username="+ "'" + session['username'] + "'"
     execute(command, group_name)
