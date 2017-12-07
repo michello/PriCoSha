@@ -7,8 +7,8 @@ CREATE TABLE Person(
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE Profile (
-	bio VARCHAR (50),
 	username VARCHAR(50),
+	bio VARCHAR (50),
 	file_path VARCHAR (100),
 	FOREIGN KEY(username) REFERENCES Person(username)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
