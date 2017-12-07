@@ -6,6 +6,10 @@
      <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
    </p>
 
+   {% if session['username'] != data['username'] %}
+      You are not the creator of this post! <a href="/">Go back?</a>
+  {% else %}
+
     <h1> Edit Post </h1>
     <div class = "post" style="margin-top:20px;">
       <div class = "main-post-content">
@@ -54,5 +58,5 @@
     </form>
 
     <a href="/">Go back</a>
-
+    {% endif %}
 {% endblock %}
