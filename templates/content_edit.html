@@ -6,7 +6,10 @@
      <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
    </p>
 
-
+    {% if error %}
+      <p class="error" style="font-size:14px;"><strong>Error:</strong> {{ error }}</p>
+      <a href="/edit-post/{{post_id}}">Go back?</a>
+   {% endif %}
    {% if editError %}
       <p class="error" style="font-size:14px;"><strong>Error:</strong> {{ editError }}</p>
       <a href="/">Go back?</a>
