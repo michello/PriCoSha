@@ -1,6 +1,12 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from appdef import app, conn
+from flask.ext.uploads import UploadSet, configure_uploads, IMAGES
 import tags, main
+
+photos = UploadSet('photos', IMAGES)
+
+app.config['UPLOADED_PHOTOS_DEST'] = 'static/posts_pic'
+configure_uploads(app, photos)
 
 @app.route('/edit-post/<post_id>')
 def editPost(post_id):
@@ -17,6 +23,12 @@ def editPostProcessed(post_id):
     postContent = request.form['content']
     pubOrPriv = request.form['publicity']
 
+    img_filepath = '/static/posts_pic/'
+
+    if request.method == 'POST' and 'photo' in request.files:
+        filename = photos.save(request.files['photo'])
+        img_filepath = img_filepath + filename
+
     # conducts queries to update post
     cursor = conn.cursor()
     updateQuery = 'UPDATE content \
@@ -27,7 +39,7 @@ def editPostProcessed(post_id):
                         timest = CURRENT_TIMESTAMP \
                    WHERE content.id = %s'
 
-    cursor.execute(updateQuery, (filepath, postContent, pubOrPriv, post_id))
+    cursor.execute(updateQuery, (img_filepath, postContent, pubOrPriv, post_id))
     conn.commit()
     cursor.close()
 

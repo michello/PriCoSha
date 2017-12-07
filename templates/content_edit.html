@@ -38,17 +38,17 @@
     </div>
     </div>
 
-    <form action="/edit-post/processing-{{post_id}}" method="POST">
+    <form action="/edit-post/processing-{{post_id}}" method="POST" enctype = "multipart/form-data">
       <div id="question1">
       <p style="font-size:14px;">1. Choose another image.</p>
-      <input type="text" name = "filepath" placeholder="filepath of your image" required/> </br>
+      <input type="file" name = "photo" required/> </br>
       <p style="font-size:14px;">2. Update your content name.</p>
       <input type="text" name = "content" placeholder="your updated content" required/></br>
     </div>
     <div id="question2">
       <p style="font-size:14px;">3. Is this post public or private?</p>
-      <input type="radio" name = "publicity" id="public" value="1"> Yes </input>
-      <input type="radio" name = "publicity" id="private" value="0"> No </input> </br>
+      <input type="radio" name = "publicity" value="1" required> Public </input>
+      <input type="radio" name = "publicity" value="0" required> Private </input> </br>
     </div>
     <input type="submit" style="margin-top:100px;margin-left:-27.5px"class="button" value = Update />
     </form>

@@ -21,11 +21,11 @@
 
       <div id="mainContent" style="position:absolute; width:440px;margin-top:100px;">
         <form action="/register/processing" method="POST" style="text-align:center;">
-          <input type="username" name = "username" placeholder="username" required/> </br>
-          <input type="password" name = "password" placeholder="password" required style="margin-left:-6px;margin-bottom:20px;"/></br>
-          <input type="password" name = "retype" placeholder="please retype password" required style="margin-left:-6px;margin-bottom:20px;"/></br>
-          <input type="text" name = "firstname" placeholder="first name" required/> </br>
-          <input type="text" name = "lastname" placeholder="last name" required/> </br>
+          <input type="username" name = "username" placeholder="1. Username" required/> </br>
+          <input type="password" name = "password" placeholder="2. Password" required style="margin-left:-6px;margin-bottom:20px;"/></br>
+          <input type="password" name = "retype" placeholder="3. Retype Password" required style="margin-left:-6px;margin-bottom:20px;"/></br>
+          <input type="text" name = "firstname" placeholder="4. First Name" required/> </br>
+          <input type="text" name = "lastname" placeholder="5. Last Name" required/> </br>
           <input type="submit" value = Submit class="button"/>
           {% if error %}
             <p class="error"><strong>Error:</strong> {{error}}</p>
