@@ -6,10 +6,17 @@
      <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
    </p>
 
+
+   {% if editError %}
+      <p class="error" style="font-size:14px;"><strong>Error:</strong> {{ editError }}</p>
+      <a href="/">Go back?</a>
+   {% endif %}
+
+`{% if data: %}
    {% if session['username'] != data[0]['username'] %}
       
       You are not the creator of this post! <a href="/">Go back?</a>
-  {% else %}
+   {% else %}
 
     <h1> Edit Post </h1>
     <div class = "post" style="margin-top:20px;">
@@ -55,9 +62,10 @@
       <input type="radio" name = "publicity" value="1" required> Public </input>
       <input type="radio" name = "publicity" value="0" required> Private </input> </br>
     </div>
-    <input type="submit" style="margin-top:100px;margin-left:-27.5px"class="button" value = Update />
+    <input type="submit" style="margin-top:100px;margin-left:-27.5px" class="button" value="Update" />
     </form>
 
     <a href="/">Go back</a>
+    {% endif %}
     {% endif %}
 {% endblock %}
