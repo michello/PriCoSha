@@ -36,9 +36,15 @@ def proccessTags():
     # obtains all the info from the form fields (which is used to allow user to
     # accept or reject tag requests)
     data = request.form
+
+    if (len(list(request.form.keys())) == 0):
+        return redirect(url_for('tags'))
+
     post = list(request.form.keys())[0]
     choice = data[post]
     user = session['username']
+
+
 
     # if user approves, make a query to database that updates the tag request
     # status to true

@@ -19,8 +19,8 @@
             <div id = "choices">
               <p style="float:left;">{{ session['users'][tagRequest['username_tagger']]['first_name'] }} ({{ tagRequest['username_tagger'] }}) has tagged you in:</p>
               <p style="float:right;">
-                <input type ="radio" name ={{tagRequest['id']}} value=True required>Accept</input>
-                <input type ="radio" name ={{tagRequest['id']}} value=False required>Decline</input>
+                <input type ="radio" name ={{tagRequest['id']}} value=True>Accept</input>
+                <input type ="radio" name ={{tagRequest['id']}} value=False>Decline</input>
                 <input type="submit" value = Submit class="button" />
               </p>
             </div>
