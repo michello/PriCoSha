@@ -84,7 +84,7 @@ def makePostProcessed():
         if (group['group_name'] == request.form['friend_group_name']):
             present = True
 
-    if (present == False):
+    if (present == False and public == '0'):
         error = "Group does not exist."
         return render_template('makePost.html', error=error)
 
@@ -122,14 +122,15 @@ def makePostProcessed():
 
 @app.route('/tagUser/<post_id>')
 def tagUser(post_id):
+    """
     if (not session.get('logged_in')):
         return redirect(url_for('main'))
+    """
     return render_template('tagUser.html', post_id = post_id)
 
 @app.route('/tagUser/processing-<post_id>', methods=['GET', 'POST'])
 def tagUserProcessed(post_id):
-    if (not session.get('logged_in')):
-        return redirect(url_for('main'))
+
     username_taggee = request.form['username_taggee']
 
     username_tagger = session['username']

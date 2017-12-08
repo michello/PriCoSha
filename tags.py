@@ -13,7 +13,7 @@ def tags():
     cursor.execute(query, (session['username']))
     dataTwo = cursor.fetchall()
     cursor.close()
-    #return render_template("result.html", data=data)
+
     request_id = {}
     for item in dataTwo:
         post_id = int(item['id'])
@@ -25,7 +25,6 @@ def tags():
         request_id[post_id] = ""
         request_id[post_id] = data[0]['file_path']
 
-    #return render_template("result.html", data=request_id)
     return render_template("tags.html", data=dataTwo, request_id=request_id)
 
 
