@@ -7,6 +7,11 @@ photos = UploadSet('photos', IMAGES)
 
 app.config['UPLOADED_PHOTOS_DEST'] = 'static/posts_pic'
 configure_uploads(app, photos)
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/profile/<username>')
 def profile(username):
@@ -38,6 +43,10 @@ def editProfileProcessed(username):
     biography = request.form['bio']
 
     img_filepath = '/static/posts_pic/'
+
+    if not allowed_file(request.files['photo'].filename):
+        error = 'Please attach image files only.'
+        return render_template('makePost.html', error=error)
 
     if len(biography) > 50:
         error = 'Bio is too long. 50 characters max.'
