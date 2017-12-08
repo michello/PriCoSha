@@ -31,7 +31,7 @@ def registerProcessing():
     if retype != password:
         errormsg = "Passwords do not match."
         return render_template('register.html', error = errormsg)
-    
+
     firstname = request.form['firstname']
     lastname = request.form['lastname']
     cursor = conn.cursor()
@@ -39,7 +39,13 @@ def registerProcessing():
     cursor.execute(query, (username, password, firstname, lastname))
     conn.commit()
     cursor.close()
-    
+
+    query = "INSERT INTO profile (username, bio, file_path) VALUES (%s, '', '')"
+    cursor = conn.cursor()
+    cursor.execute(query, (username))
+    conn.commit()
+    cursor.close()
+
     session['logged_in'] = True
     session['username'] = username
     return redirect(url_for('main', username = session['username']))
