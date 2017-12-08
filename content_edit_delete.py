@@ -24,7 +24,7 @@ def editPost(post_id):
     cursor.execute(editCountQuery, (post_id))
     countData = cursor.fetchone()
     cursor.close()
-        
+
     if (countData['COUNT(*)'] > 0):
         return render_template("content_edit.html", post_id=post_id, data=data, countData=countData)
     else:
@@ -70,17 +70,19 @@ def deletePost(post_id):
     if (not session.get('logged_in')):
         return redirect(url_for('main'))
 
-    userQuery = 'SELECT username FROM share WHERE id = %s'
+    userQuery = 'SELECT username FROM content WHERE id = %s'
     user = getData(userQuery, post_id)
 
-    if (user != session['username']):
+    if (user['username'] != session['username']):
+        #return render_template('result.html', data=user['username'])
+        error = "This is not your post to delete!"
         return redirect(url_for('main'))
     else:
         # check if post is in table
         shareQuery = 'SELECT * FROM share WHERE id = %s'
         data = getData(shareQuery, post_id)
 
-        if (data != []):
+        if (data is not None):
             delete = 'DELETE FROM share WHERE id = %s'
             cursor = conn.cursor()
             cursor.execute(delete, (post_id))
@@ -89,13 +91,22 @@ def deletePost(post_id):
 
         cursor = conn.cursor()
         #two delete queries; must delete tag because foreign key constraint
-        deleteQuery = 'DELETE FROM tag WHERE tag.id='+post_id+'; DELETE FROM likes WHERE likes.id='+post_id+'; DELETE FROM content WHERE content.id = '+post_id
-        cursor.execute(deleteQuery)
+        delete = 'DELETE FROM tag WHERE tag.id=%s'
+        cursor.execute(delete, (post_id))
+        conn.commit() #commit the change to DB
+        delete = 'DELETE FROM likes WHERE likes.id=%s'
+        cursor.execute(delete, (post_id))
+        conn.commit() #commit the change to DB
+        delete = 'DELETE FROM comment WHERE comment.id=%s'
+        cursor.execute(delete, (post_id))
+        conn.commit() #commit the change to DB
+        delete = 'DELETE FROM content WHERE content.id=%s'
+        cursor.execute(delete, (post_id))
         conn.commit() #commit the change to DB
         cursor.close()
 
-
-    return render_template('content_delete.html', post_id=post_id)
+    return redirect(url_for('main'))
+    # return render_template('content_delete.html', post_id=post_id)
 
 
 #likes a post via INSERT into likes table, and then redirect to homepage
