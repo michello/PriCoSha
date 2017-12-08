@@ -38,9 +38,37 @@ def main():
                                         FROM member \
                                         WHERE username_creator=%s) \
                     ORDER BY timest DESC'
-
+        '''
+        postQuery = '(SELECT content.id\
+                    FROM content\
+                    WHERE content.public = 1\
+                        OR content.username = %s\
+                        OR username in\
+                    (SELECT username\
+                    FROM person NATURAL JOIN friendgroup))\
+                    UNION\
+                    (SELECT share.id\
+                    FROM share\
+                    WHERE %s in\
+                    (SELECT member.username\
+                    FROM member\
+                    WHERE share.group_name = member.group_name)\
+                    OR (SELECT username\
+                    FROM friendgroup\
+                    WHERE share.group_name = friendgroup.group_name))'
+        '''
         cursor = conn.cursor()
         username = session['username']
+        '''
+        cursor.execute(postQuery, (username, username)) #ids of all the visible posts
+        post_id_data = cursor.fetchall()
+
+        query = 'SELECT content.id, content.username, content.timest, content.file_path, content.content_name\
+                FROM content\
+                WHERE content.id = %s'
+        #for id_data in post_id_data:
+        '''
+            
         cursor.execute(postQuery, (username, username, username, username))
         postData = cursor.fetchall()
         cursor.close()

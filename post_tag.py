@@ -75,7 +75,7 @@ def makePostProcessed():
     if len(content_name) > 50:
         error = 'Description is too long. 50 characters max.'
         return render_template('makePost.html', error=error)
-
+    
     # checks if group exists
     query = 'SELECT group_name FROM friendgroup'
     groups = getData(query)
@@ -99,7 +99,7 @@ def makePostProcessed():
 
     #If the content item is private, PriCoSha gives the user a way to designate
     #FriendGroups (that the user owns) with which the Photo is shared.
-
+    
     if (public == '0'): #need to know which friendgroup to share it with if not public
         group_name = request.form['friend_group_name']
         #this is for if the poster is attempting to share a post to a group they are not in
@@ -112,7 +112,7 @@ def makePostProcessed():
             return render_template('makePost.html', error=error)
         query = 'INSERT into share (id, group_name, username) values (%s, %s, %s)'
         cursor.execute(query, (postID, group_name, username))
-
+            
     conn.commit()
     cursor.close()
     return redirect(url_for('main'))
@@ -153,6 +153,15 @@ def tagUserProcessed(post_id):
         return redirect(url_for('main'))
 
     #else if username_taggee is not in
+
+    queryDuplicate = 'SELECT * FROM tag WHERE id = %s AND username_tagger = %s AND username_taggee = %s'
+    cursor.execute(queryDuplicate, (post_id, username_tagger, username_taggee))
+    duplicate = cursor.fetchone()
+
+    if duplicate:
+        errormsg = "Cannot tag this person: this tag already exists." #how to display this?
+        return redirect(url_for('main'))
+    
     timest = datetime.datetime.now().strftime('%y-%m-%d %H:%M:%S')
     query = 'INSERT into tag (id, username_tagger, username_taggee, timest, status) values (%s, %s, %s, %s, %s)'
     cursor.execute(query, (post_id, username_tagger, username_taggee, timest, 0))
