@@ -2,7 +2,7 @@
 {% block content %}
 
     <p style = "margin-top:80px;font-size:16px;">
-    Hi {{ session['users'][session['username']]['first_name'] }}!
+    Hi <a href = "/profile/{{ session['username'] }}"> {{ session['users'][session['username']]['first_name'] }}</a>! 
      <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
     </p>
 

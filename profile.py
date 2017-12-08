@@ -61,14 +61,14 @@ def editProfileProcessed(username):
     updateQuery = 'UPDATE profile \
                    SET \
                         bio = %s, \
-                        file_path = %s, \
+                        file_path = %s \
                    WHERE profile.username = %s'
 
     cursor.execute(updateQuery, (biography, img_filepath, username))
     conn.commit()
     cursor.close()
 
-    return redirect(url_for('profile'))
+    return redirect(url_for('profile', username=username))
 
 def getInfo(username):
     query = "SELECT * FROM profile WHERE username=%s"

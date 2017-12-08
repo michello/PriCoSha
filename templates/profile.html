@@ -2,22 +2,21 @@
 {% block content %}
 
     <p style = "margin-top:80px;font-size:16px;">
-    Hi {{ session['users'][session['username']]['first_name'] }}!
+    Hi <a href = "/profile/{{ session['username'] }}"> {{ session['users'][session['username']]['first_name'] }}</a>! 
      <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
    </p>
    {% if error %}
       <b>Error:</b> {{ error }}
    {% else%}
-     {% if session['username'] == username%}
-        <a href ="/profile/edit-{{username}}">edit profile</a>
+     {% if session['username'] == username %}
+        <a href="/profile/edit-{{username}}">edit profile</a>
      {% endif %}
      <p>
-       <img src="{{ data['file_path']}}">
+       <img src="{{ data['file_path']}}" style="max-width:25%;">
      </p>
      <p>Username: {{ username }}</p>
      <p>Full Name: {{ session['users'][username]['first_name'] }} {{ session['users'][username]['last_name'] }}</p>
      <p>Bio: {{ data['bio']}}</p>
-     <p>Posts: </p>
     {% endif %}
 
 {% endblock %}
