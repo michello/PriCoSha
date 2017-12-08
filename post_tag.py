@@ -8,6 +8,11 @@ photos = UploadSet('photos', IMAGES)
 
 app.config['UPLOADED_PHOTOS_DEST'] = 'static/posts_pic'
 configure_uploads(app, photos)
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/posts')
 def posts():
@@ -48,6 +53,7 @@ def makePost():
 
 @app.route('/makePost/processing', methods=['GET', 'POST'])
 def makePostProcessed():
+
     if (not session.get('logged_in')):
         return redirect(url_for('main'))
     content_name = request.form['content_name']
@@ -55,17 +61,28 @@ def makePostProcessed():
 
     img_filepath = '/static/posts_pic/'
 
-    #checks for image files, spits error if not
-    if request.method == 'POST' and request.files['photo'].filename:
-        filenameTest = photos.url(request.files['photo'])
-        if (filenameTest.find('.jpg') == -1) or (filenameTest.find('.png') == -1) or (filenameTest.find('.jpeg') == -1) or (filenameTest.find('.JPG') == -1) or (filenameTest.find('.JPEG') == -1):
-            error = 'Please attach image files only.'
-            return render_template('makePost.html', error=error)
-        
+    filenameTest = photos.url(request.files['photo'])
+
+    if not allowed_file(request.files['photo'].filename):
+        error = 'Please attach image files only.'
+        return render_template('makePost.html', error=error)
 
     if request.method == 'POST' and 'photo' in request.files:
-        filename = photos.save(request.files['photo']) 
+        filename = photos.save(request.files['photo'])
         img_filepath = img_filepath + filename
+
+
+    # checks if group exists
+    query = 'SELECT group_name FROM friendgroup'
+    groups = getData(query)
+    present = False
+    for group in groups:
+        if (group['group_name'] == request.form['friend_group_name']):
+            present = True
+
+    if (present == False):
+        error = "Group does not exist."
+        return render_template('makePost.html', error=error)
 
     username = session['username']
     cursor = conn.cursor()
@@ -127,3 +144,10 @@ def tagUserProcessed(post_id):
     conn.commit()
     cursor.close()
     return redirect(url_for('main'))
+
+def getData(query):
+    cursor = conn.cursor()
+    cursor.execute(query)
+    data = cursor.fetchall()
+    cursor.close()
+    return data
