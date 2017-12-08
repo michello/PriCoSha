@@ -17,9 +17,15 @@ def registerProcessing():
     if len(username) < 4:
         errormsg = "Username is too short. Must be more than 3 characters."
         return render_template('register.html', error = errormsg)
+    elif len(username) > 50:
+        errormsg = "Username and/or other fields are too long. 50 characters max."
+        return render_template('register.html', error = errormsg)
     password = request.form['password']
     if len(password) < 4:
         errormsg = "Password is too short (needs to be greater than 3 characters)."
+        return render_template('register.html', error = errormsg)
+    elif len(password) > 50:
+        errormsg = "Password is too long. 50 characters max."
         return render_template('register.html', error = errormsg)
     retype = request.form['retype']
     if retype != password:

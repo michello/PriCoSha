@@ -61,6 +61,7 @@ def makePostProcessed():
 
     img_filepath = '/static/posts_pic/'
 
+
     filenameTest = photos.url(request.files['photo'])
 
     if not allowed_file(request.files['photo'].filename):
@@ -71,7 +72,10 @@ def makePostProcessed():
         filename = photos.save(request.files['photo'])
         img_filepath = img_filepath + filename
 
-
+    if len(content_name) > 50:
+        error = 'Description is too long. 50 characters max.'
+        return render_template('makePost.html', error=error)
+    
     # checks if group exists
     query = 'SELECT group_name FROM friendgroup'
     groups = getData(query)
