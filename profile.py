@@ -46,7 +46,7 @@ def editProfileProcessed(username):
 
     if not allowed_file(request.files['photo'].filename):
         error = 'Please attach image files only.'
-        return render_template('makePost.html', error=error)
+        return render_template('editProfile.html', error=error)
 
     if len(biography) > 50:
         error = 'Bio is too long. 50 characters max.'
