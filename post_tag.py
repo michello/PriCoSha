@@ -117,9 +117,6 @@ def makePostProcessed():
     cursor.close()
     return redirect(url_for('main'))
 
-
-
-
 @app.route('/tagUser/<post_id>')
 def tagUser(post_id):
     """

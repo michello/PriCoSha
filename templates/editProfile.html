@@ -5,29 +5,30 @@
     Hi <a href = "/profile/{{ session['username'] }}"> {{ session['users'][session['username']]['first_name'] }}</a>! 
      <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
    </p>
+
    {% if error %}
       <b>Error:</b> {{ error }}
-   {% else%}
-     {% if session['username'] == username%}
-        <a href ="/profile/edit-{{username}}">edit profile</a>
-     {% endif %}
+   {% endif %}
+     
      <p>
-       <img src="{{ data['file_path']}}">
+       <img src="{{ data['file_path']}}" style="width:25%;">
      </p>
      <p>Username: {{ username }}</p>
      <p>Full Name: {{ session['users'][username]['first_name'] }} {{ session['users'][username]['last_name'] }}</p>
      <p>Bio: {{ data['bio']}}</p>
      <p>Posts: </p>
 
-     <form action="/edit-profile/processing-{{username}}" method="POST" enctype = "multipart/form-data">
-      <div id="question1">
-      <p style="font-size:14px;">1. Choose another image.</p>
-      <input type="file" name = "photo" required/> </br>
-      <p style="font-size:14px;">2. Update your bio.</p>
-      <input type="text" name = "bio" placeholder="your updated biography" required/></br>
-    </div>
-    <input type="submit" style="margin-top:100px;margin-left:-27.5px" class="button" value="Update" />
-    </form>
+    {% if session['username'] == username%}
+      <a href ="/profile/edit-{{username}}">edit profile</a>
+      <form action="/edit-profile/processing-{{username}}" method="POST" enctype = "multipart/form-data">
+        <div id="question1">
+        <p style="font-size:14px;">1. Choose another image.</p>
+        <input type="file" name = "photo" required/> </br>
+        <p style="font-size:14px;">2. Update your bio.</p>
+        <input type="text" name = "bio" placeholder="your updated biography" required/></br>
+      </div>
+      <input type="submit" style="margin-top:100px;margin-left:-27.5px" class="button" value="Update" />
+      </form>
 
     <a href="/">Go back</a>
     {% endif %}

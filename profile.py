@@ -31,7 +31,10 @@ def editProfile(username):
         return redirect(url_for('main'))
     data = getInfo(username)
 
-    #TO DO: Cannot edit another user's profile. Check for that error.
+    #Cannot edit another user's profile. Checks for that error.
+    if (session['username'] != username):
+        error = 'Cannot edit another user profile.'
+        return render_template('editProfile.html', username=username, data=data, error=error)
 
     return render_template('editProfile.html', username=username, data=data)
 
@@ -40,6 +43,11 @@ def editProfileProcessed(username):
     if (not session.get('logged_in')):
         return redirect(url_for('main'))
 
+    #Cannot edit another user's profile. Checks for that error.
+    if (session['username'] != username):
+        error = 'Cannot edit another user profile.'
+        return render_template('editProfile.html', username=username, error=error)
+    
     biography = request.form['bio']
 
     img_filepath = '/static/posts_pic/'
