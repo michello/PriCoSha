@@ -28,7 +28,7 @@ def editPost(post_id):
     if (countData['COUNT(*)'] > 0):
         return render_template("content_edit.html", post_id=post_id, data=data, countData=countData)
     else:
-        editError = "Post ID does not exist. Please edit a valid post."
+        editError = "Post does not exist. Please edit a valid post."
         return render_template("content_edit.html", post_id=post_id, data=data, editError=editError)
 
 @app.route('/edit-post/processing-<post_id>', methods=['GET', 'POST'])
@@ -40,12 +40,9 @@ def editPostProcessed(post_id):
 
     img_filepath = '/static/posts_pic/'
 
-    #checks for image files, spits error if not
-    if request.method == 'POST' and request.files['photo'].filename:
-        filenameTest = photos.url(request.files['photo'])
-        if (filenameTest.find('.jpg') == -1) or (filenameTest.find('.png') == -1) or (filenameTest.find('.jpeg') == -1) or (filenameTest.find('.JPG') == -1) or (filenameTest.find('.JPEG') == -1):
-            error = 'Please attach image files only.'
-            return render_template('content_edit.html', post_id=post_id, error=error)
+    if len(postContent) > 50:
+        error = 'Description is too long. 50 characters max.'
+        return render_template('content_edit.html', post_id=post_id, error=error)
 
     if request.method == 'POST' and 'photo' in request.files:
         filename = photos.save(request.files['photo'])

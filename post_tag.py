@@ -54,6 +54,10 @@ def makePostProcessed():
     public = request.form['public']
 
     img_filepath = '/static/posts_pic/'
+
+    if len(content_name) > 50:
+        error = 'Description is too long. 50 characters max.'
+        return render_template('makePost.html', error=error)
     
     if request.method == 'POST' and 'photo' in request.files:
         filenameTest = photos.url(request.files['photo']) #checks for image files, spits error if not
