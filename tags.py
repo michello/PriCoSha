@@ -11,9 +11,22 @@ def tags():
     cursor = conn.cursor()
     query = 'SELECT * FROM tag WHERE username_taggee = %s and status = 0'
     cursor.execute(query, (session['username']))
-    data = cursor.fetchall()
+    dataTwo = cursor.fetchall()
     cursor.close()
-    return render_template("tags.html", data=data)
+    #return render_template("result.html", data=data)
+    request_id = {}
+    for item in dataTwo:
+        post_id = int(item['id'])
+        cursor = conn.cursor()
+        query = 'SELECT file_path FROM content WHERE id = %s'
+        cursor.execute(query, (post_id))
+        data = cursor.fetchall()
+        cursor.close()
+        request_id[post_id] = ""
+        request_id[post_id] = data[0]['file_path']
+
+    #return render_template("result.html", data=request_id)
+    return render_template("tags.html", data=dataTwo, request_id=request_id)
 
 
 @app.route('/proccessTags', methods=['GET', 'POST'])
@@ -39,7 +52,7 @@ def proccessTags():
 
 
 def executeQuery(command, post, user):
-    
+
     cursor = conn.cursor()
     cursor.execute(command, (post, user))
     cursor.close()

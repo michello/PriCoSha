@@ -41,12 +41,8 @@
                   </span>
                 </div>
                 <div class = "picture" style="min-height:200px;background-color:white;">
-                  {{ session['postData'] }}
-                  {% for post in session['postData'] %}
-                    {% if post['id'] == tagRequest['id']%}
-                        <img src = {{ post['file_path'] }} />
-                    {% endif %}
-                  {% endfor %}
+
+                    <img src = {{ request_id[tagRequest['id']] }} />
 
 
                 </div>
