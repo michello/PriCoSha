@@ -6,7 +6,9 @@ INSERT INTO person (username, password, first_name, last_name) VALUES ('ml4963',
 ('jh383', 'b88408e274bf3f175b86ec0edc1631bf', 'James', 'Ha');
 
 --- profile page
-INSERT INTO profile (username, bio, file_path) VALUES ('ml4963', '', '')
+INSERT INTO profile (username, bio, file_path) VALUES 
+('ml4963', '', ''),
+('cy986','Hi I like sushi', '/static/posts_pic/image_1.jpg')
 
 
 --- friend group
