@@ -10,6 +10,7 @@
       <p class="error" style="font-size:14px;"><strong>Error:</strong> {{ error }}</p>
       <a href="/edit-post/{{post_id}}">Go back?</a>
    {% endif %}
+   
    {% if editError %}
       <p class="error" style="font-size:14px;"><strong>Error:</strong> {{ editError }}</p>
       <a href="/">Go back?</a>
@@ -61,9 +62,13 @@
       <input type="text" name = "content" placeholder="your updated content" required/></br>
     </div>
     <div id="question2">
-      <p style="font-size:14px;">3. Is this post public or private?</p>
+      <p style="font-size:14px;">3. Public or private?</p>
       <input type="radio" name = "publicity" value="1" required> Public </input>
       <input type="radio" name = "publicity" value="0" required> Private </input> </br>
+      <div id = "groupPost">
+          <p style="font-size:14px;">4. Which friend group would you like to share to?</p>
+          <input type="text" name = "friend_group_name" placeholder="name of friend group" required/> </br>
+      </div>
     </div>
     <input type="submit" style="margin-top:100px;margin-left:-27.5px" class="button" value="Update" />
     </form>

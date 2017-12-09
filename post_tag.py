@@ -61,9 +61,6 @@ def makePostProcessed():
 
     img_filepath = '/static/posts_pic/'
 
-
-    filenameTest = photos.url(request.files['photo'])
-
     if not allowed_file(request.files['photo'].filename):
         error = 'Please attach image files only.'
         return render_template('makePost.html', error=error)
@@ -124,8 +121,6 @@ def makePostProcessed():
     cursor.close()
     
     return redirect(url_for('main'))
-
-
 
 @app.route('/tagUser/<post_id>')
 def tagUser(post_id):

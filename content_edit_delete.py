@@ -43,20 +43,44 @@ def editPostProcessed(post_id):
     postContent = request.form['content']
     pubOrPriv = request.form['publicity']
 
+    if (request.form['friend_group_name']):
+        friendgroup = request.form['friend_group_name']
+    
     img_filepath = '/static/posts_pic/'
 
     if not allowed_file(request.files['photo'].filename):
         error = 'Please attach image files only.'
-        return render_template('makePost.html', error=error)
+        return render_template('content_edit.html', error=error)
 
     if len(postContent) > 50:
         error = 'Description is too long. 50 characters max.'
         return render_template('content_edit.html', post_id=post_id, error=error)
 
+    if (friendgroup and len(friendgroup)) > 50:
+        error = 'Friendgroup is too long. 50 characters max.'
+        return render_template('content_edit.html', post_id=post_id, error=error)
+   
     if request.method == 'POST' and 'photo' in request.files:
         filename = photos.save(request.files['photo'])
         img_filepath = img_filepath + filename
 
+    # checks if group exists
+    checkGroupQuery = 'SELECT group_name FROM friendgroup'
+    cursor = conn.cursor()
+    cursor.execute(checkGroupQuery)
+    groups = cursor.fetchall()
+    cursor.close()
+    
+    present = False
+    
+    for group in groups: #note groups is merely a dictionary.
+        if (group['group_name'] == request.form['friend_group_name']):
+            present = True
+
+    if (present == False and pubOrPriv == '0'):
+        error = "Group does not exist."
+        return render_template('content_edit.html', error=error, post_id=post_id)
+    
     # conducts queries to update post
     cursor = conn.cursor()
     updateQuery = 'UPDATE content \
