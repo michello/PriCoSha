@@ -22,7 +22,7 @@ def loginAuth():
     cursor.close()
 
     if(data):
-        #session['logged_in'] = True
+        session['logged_in'] = True
         session['username'] = username
         return redirect(url_for('main', username=session['username']))
     else:

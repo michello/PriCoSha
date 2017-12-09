@@ -101,6 +101,7 @@ def makePostProcessed():
     query = 'SELECT max(id) as postID FROM Content' #to get the id of this post
     cursor.execute(query)
     postID = cursor.fetchone()['postID'] # + 1
+    
     if (postID is None):
         postID = 1
     else:
