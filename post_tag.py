@@ -59,6 +59,10 @@ def makePostProcessed():
     content_name = request.form['content_name']
     public = request.form['public']
 
+    friendgroup = False
+    if (request.form['friend_group_name']):
+        friendgroup = request.form['friend_group_name']
+
     img_filepath = '/static/posts_pic/'
 
     if not allowed_file(request.files['photo'].filename):
@@ -72,7 +76,13 @@ def makePostProcessed():
     if len(content_name) > 50:
         error = 'Description is too long. 50 characters max.'
         return render_template('makePost.html', error=error)
-    
+
+    #checks if friendgroup form field goes over the defined size
+    if (friendgroup):
+        if (len(friendgroup) > 50):
+            error = 'Friendgroup is too long. 50 characters max.'
+            return render_template('makePost.html', error=error)
+  
     # checks if group exists
     query = 'SELECT group_name FROM friendgroup'
     groups = getData(query)

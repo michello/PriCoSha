@@ -18,7 +18,7 @@
      <p>Bio: {{ data['bio']}}</p>
      <p>Posts: </p>
 
-    {% if session['username'] == username%}
+    {% if session['username'] == username %}
       <a href ="/profile/edit-{{username}}">edit profile</a>
       <form action="/edit-profile/processing-{{username}}" method="POST" enctype = "multipart/form-data">
         <div id="question1">
