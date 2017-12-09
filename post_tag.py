@@ -108,7 +108,7 @@ def makePostProcessed():
                 (SELECT username FROM friendgroup WHERE group_name = %s)'
         cursor.execute(query, (group_name, group_name))
         listPeople = cursor.fetchall() #list of people who can see that post
-        #return render_template('result.html', data=listPeople)
+
         flag = False
         for mem in listPeople:
             if mem['username'] == username:
@@ -156,8 +156,7 @@ def tagUserProcessed(post_id):
     
     cursor.execute(query, (username_taggee, username_taggee, username_taggee))
     visiblePosts = cursor.fetchall() #posts shared to the groups this person is in
-    #return render_template('result.html', data=visiblePosts)
-    #visiblePosts = [{'id': 3}, {'id': 5}, {'id': 7}, {'id': 9}]
+    
     flag = False
     for mem in visiblePosts:
         if mem['id'] == int(post_id):
@@ -168,19 +167,22 @@ def tagUserProcessed(post_id):
         return render_template('tagUser.html', post_id=post_id, error=errormsg)
 
     #checks if tag is a duplicate
-    queryDuplicate = 'SELECT * FROM tag WHERE id = %s AND username_tagger = %s AND username_taggee = %s'
-    cursor.execute(queryDuplicate, (post_id, username_tagger, username_taggee))
+    queryDuplicate = 'SELECT * FROM tag WHERE id = %s AND username_tagger = %s AND username_taggee = %s AND status = %s'
+    cursor.execute(queryDuplicate, (post_id, username_tagger, username_taggee, 0))
     duplicate = cursor.fetchone()
+    cursor.execute(queryDuplicate, (post_id, username_tagger, username_taggee, 1))
+    duplicateAccepted = cursor.fetchone()
+
     #return render_template('result.html', data=duplicate)
 
-    if duplicate:
+    if duplicate or duplicateAccepted:
         error = "Cannot tag this person: this tag already exists."
         return render_template('tagUser.html', post_id=post_id, error=error)
         
     timest = datetime.datetime.now().strftime('%y-%m-%d %H:%M:%S')
     query = 'INSERT into tag (id, username_tagger, username_taggee, timest, status) values (%s, %s, %s, %s, %s)'
 
-    #if user is tagging themselves ****doesnt work yet - problem may be with the two sql queries up there****
+    #if user is tagging themselves 
     if username_taggee == username_tagger:
         cursor.execute(query, (post_id, username_tagger, username_taggee, timest, 1))
     elif username_taggee != username_tagger:
