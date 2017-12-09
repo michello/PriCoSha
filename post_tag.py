@@ -82,7 +82,7 @@ def makePostProcessed():
         if (len(friendgroup) > 50):
             error = 'Friendgroup is too long. 50 characters max.'
             return render_template('makePost.html', error=error)
-  
+
     # checks if group exists
     query = 'SELECT group_name FROM friendgroup'
     groups = getData(query)
@@ -100,14 +100,18 @@ def makePostProcessed():
     timest = datetime.datetime.now().strftime('%y-%m-%d %H:%M:%S')
     query = 'SELECT max(id) as postID FROM Content' #to get the id of this post
     cursor.execute(query)
-    postID = cursor.fetchone()['postID'] + 1
+    postID = cursor.fetchone()['postID'] # + 1
+    if (postID is None):
+        postID = 1
+    else:
+        postID += 1
 
     #If the content item is private, PriCoSha gives the user a way to designate
     #FriendGroups (that the user owns) with which the Photo is shared.
     if (public == '1'):
         query = 'INSERT into Content (id, username, timest, file_path, content_name, public) values (%s, %s, %s, %s, %s, %s)'
         cursor.execute(query, (postID, username, timest, img_filepath, content_name, public))
-    
+
     if (public == '0'): #need to know which friendgroup to share it with if not public
         group_name = request.form['friend_group_name']
         #this is for if the poster is attempting to share a post to a group they are not in
@@ -127,9 +131,9 @@ def makePostProcessed():
         cursor.execute(query, (postID, username, timest, img_filepath, content_name, public))
         query = 'INSERT into share (id, group_name, username) values (%s, %s, %s)'
         cursor.execute(query, (postID, group_name, username))
-    conn.commit()     
+    conn.commit()
     cursor.close()
-    
+
     return redirect(url_for('main'))
 
 @app.route('/tagUser/<post_id>')
@@ -158,10 +162,10 @@ def tagUserProcessed(post_id):
                     OR %s in (SELECT username\
                     FROM friendgroup\
                     WHERE share.group_name = friendgroup.group_name))'
-    
+
     cursor.execute(query, (username_taggee, username_taggee, username_taggee))
     visiblePosts = cursor.fetchall() #posts shared to the groups this person is in
-    
+
     flag = False
     for mem in visiblePosts:
         if mem['id'] == int(post_id):
@@ -183,16 +187,16 @@ def tagUserProcessed(post_id):
     if duplicate or duplicateAccepted:
         error = "Cannot tag this person: this tag already exists."
         return render_template('tagUser.html', post_id=post_id, error=error)
-        
+
     timest = datetime.datetime.now().strftime('%y-%m-%d %H:%M:%S')
     query = 'INSERT into tag (id, username_tagger, username_taggee, timest, status) values (%s, %s, %s, %s, %s)'
 
-    #if user is tagging themselves 
+    #if user is tagging themselves
     if username_taggee == username_tagger:
         cursor.execute(query, (post_id, username_tagger, username_taggee, timest, 1))
     elif username_taggee != username_tagger:
         cursor.execute(query, (post_id, username_tagger, username_taggee, timest, 0))
-        
+
     conn.commit()
     cursor.close()
     return redirect(url_for('main'))

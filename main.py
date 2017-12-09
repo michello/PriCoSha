@@ -118,7 +118,6 @@ def storeComments(data):
                                             'time': info['timest']})
     return;
 
-
 def organizeData(diction, data):
     for mem in data:
         if mem['id'] not in diction.keys():
