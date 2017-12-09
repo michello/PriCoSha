@@ -21,25 +21,6 @@ def main():
     # if the user is logged in, have all the posts available to the user display
     if (session.get('logged_in') == True):
         # query to get all the posts available to the user
-        '''
-        postQuery = 'SELECT content.id, content.username, content.timest, content.file_path, content.content_name \
-                    FROM CONTENT \
-                    WHERE content.public = 1 \
-                        OR username = %s \
-                        OR username in (SELECT username \
-                                        FROM member \
-                                        WHERE group_name in \
-                                        (SELECT group_name \
-                                        FROM member \
-                                        WHERE member.username = %s)) \
-                        OR username in (SELECT username_creator \
-                                        FROM member \
-                                        WHERE username = %s) \
-                        OR username in (SELECT username \
-                                        FROM member \
-                                        WHERE username_creator=%s) \
-                    ORDER BY timest DESC'
-        '''
         postQuery = 'SELECT content.id, content.username, content.timest, content.file_path, content.content_name\
                     FROM content\
                     WHERE content.public = 1\
@@ -55,10 +36,10 @@ def main():
                     FROM friendgroup\
                     WHERE share.group_name = friendgroup.group_name))\
                     ORDER BY timest desc'
-        
+
         cursor = conn.cursor()
         username = session['username']
-        
+
         #ids of all the visible posts
         cursor.execute(postQuery, (username, username, username))
         postData = cursor.fetchall()
