@@ -43,20 +43,47 @@ def editPostProcessed(post_id):
     postContent = request.form['content']
     pubOrPriv = request.form['publicity']
 
+#    friendgroup = False
+##    if (request.form['friend_group_name']):
+##        friendgroup = request.form['friend_group_name']
+    
     img_filepath = '/static/posts_pic/'
 
     if not allowed_file(request.files['photo'].filename):
         error = 'Please attach image files only.'
-        return render_template('makePost.html', error=error)
+        return render_template('content_edit.html', error=error)
 
     if len(postContent) > 50:
         error = 'Description is too long. 50 characters max.'
         return render_template('content_edit.html', post_id=post_id, error=error)
 
+##    #checks if friendgroup form field goes over the defined size
+##    if (friendgroup):
+##        if (len(friendgroup) > 50):
+##            error = 'Friendgroup is too long. 50 characters max.'
+##            return render_template('content_edit.html', post_id=post_id, error=error)
+##   
     if request.method == 'POST' and 'photo' in request.files:
         filename = photos.save(request.files['photo'])
         img_filepath = img_filepath + filename
 
+##    # checks if group exists
+##    checkGroupQuery = 'SELECT group_name FROM friendgroup'
+##    cursor = conn.cursor()
+##    cursor.execute(checkGroupQuery)
+##    groups = cursor.fetchall()
+##    cursor.close()
+##    
+##    present = False
+##    
+##    for group in groups: 
+##        if (group['group_name'] == request.form['friend_group_name']):
+##            present = True
+##
+##    if (present == False and pubOrPriv == '0'):
+##        error = "Group does not exist."
+##        return render_template('content_edit.html', error=error, post_id=post_id)
+    
     # conducts queries to update post
     cursor = conn.cursor()
     updateQuery = 'UPDATE content \
@@ -68,9 +95,29 @@ def editPostProcessed(post_id):
                    WHERE content.id = %s'
 
     cursor.execute(updateQuery, (img_filepath, postContent, pubOrPriv, post_id))
+
+##    username = session['username']
+##    
+##    if (present == True and pubOrPriv == '0'):
+##        group_name = request.form['friend_group_name']
+##        #this is for if the poster is attempting to share a post to a group they are not in
+##        query = '(SELECT username FROM member WHERE group_name = %s) UNION\
+##                (SELECT username FROM friendgroup WHERE group_name = %s)'
+##        cursor.execute(query, (group_name, group_name))
+##        listPeople = cursor.fetchall() #list of people who can see that post
+##        #return render_template('result.html', data=listPeople)
+##        flag = False
+##        for mem in listPeople:
+##            if mem['username'] == username:
+##                flag = True
+##        if flag == False:
+##            error = "You cannot post to this group."
+##            return render_template('content_edit.html', error=error, post_id=post_id)
+##        query = 'INSERT into share (id, group_name, username) values (%s, %s, %s)'
+##        cursor.execute(query, (post_id, group_name, username))
+##    
     conn.commit()
     cursor.close()
-
     return redirect(url_for('main'))
 
 #deletes a post and redirects to indicate the post was deleted
