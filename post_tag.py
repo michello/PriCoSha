@@ -94,28 +94,38 @@ def makePostProcessed():
     query = 'SELECT max(id) as postID FROM Content' #to get the id of this post
     cursor.execute(query)
     postID = cursor.fetchone()['postID'] + 1
-    query = 'INSERT into Content (id, username, timest, file_path, content_name, public) values (%s, %s, %s, %s, %s, %s)'
-    cursor.execute(query, (postID, username, timest, img_filepath, content_name, public))
 
     #If the content item is private, PriCoSha gives the user a way to designate
     #FriendGroups (that the user owns) with which the Photo is shared.
+    if (public == '1'):
+        query = 'INSERT into Content (id, username, timest, file_path, content_name, public) values (%s, %s, %s, %s, %s, %s)'
+        cursor.execute(query, (postID, username, timest, img_filepath, content_name, public))
     
     if (public == '0'): #need to know which friendgroup to share it with if not public
         group_name = request.form['friend_group_name']
         #this is for if the poster is attempting to share a post to a group they are not in
-        query = 'SELECT username FROM member WHERE group_name = %s UNION\
-                SELECT username FROM friendgroup WHERE group_name = %s'
+        query = '(SELECT username FROM member WHERE group_name = %s) UNION\
+                (SELECT username FROM friendgroup WHERE group_name = %s)'
         cursor.execute(query, (group_name, group_name))
-        listPeople = cursor.fetchall()
-        if username in listPeople:
+        listPeople = cursor.fetchall() #list of people who can see that post
+        #return render_template('result.html', data=listPeople)
+        flag = False
+        for mem in listPeople:
+            if mem['username'] == username:
+                flag = True
+        if flag == False:
             error = "You cannot post to this group."
             return render_template('makePost.html', error=error)
+        query = 'INSERT into Content (id, username, timest, file_path, content_name, public) values (%s, %s, %s, %s, %s, %s)'
+        cursor.execute(query, (postID, username, timest, img_filepath, content_name, public))
         query = 'INSERT into share (id, group_name, username) values (%s, %s, %s)'
         cursor.execute(query, (postID, group_name, username))
-            
-    conn.commit()
+    conn.commit()     
     cursor.close()
+    
     return redirect(url_for('main'))
+
+
 
 @app.route('/tagUser/<post_id>')
 def tagUser(post_id):
@@ -149,19 +159,22 @@ def tagUserProcessed(post_id):
         errormsg = "Cannot tag: post is not visible to this person!" #how to display this error msg
         return redirect(url_for('main'))
 
-    #else if username_taggee is not in
-
     queryDuplicate = 'SELECT * FROM tag WHERE id = %s AND username_tagger = %s AND username_taggee = %s'
     cursor.execute(queryDuplicate, (post_id, username_tagger, username_taggee))
     duplicate = cursor.fetchone()
-
+    '''
     if duplicate:
         errormsg = "Cannot tag this person: this tag already exists." #how to display this?
         return redirect(url_for('main'))
-    
+    '''
     timest = datetime.datetime.now().strftime('%y-%m-%d %H:%M:%S')
     query = 'INSERT into tag (id, username_tagger, username_taggee, timest, status) values (%s, %s, %s, %s, %s)'
-    cursor.execute(query, (post_id, username_tagger, username_taggee, timest, 0))
+
+    #if user is tagging themselves ****doesnt work yet - problem may be with the two sql queries up there****
+    if username_taggee == username_tagger:
+        cursor.execute(query, (post_id, username_tagger, username_taggee, timest, 1))
+    elif username_taggee != username_tagger:
+        cursor.execute(query, (post_id, username_tagger, username_taggee, timest, 0))
     conn.commit()
     cursor.close()
     return redirect(url_for('main'))
