@@ -21,6 +21,7 @@ def main():
     # if the user is logged in, have all the posts available to the user display
     if (session.get('logged_in') == True):
         # query to get all the posts available to the user
+        '''
         postQuery = 'SELECT content.id, content.username, content.timest, content.file_path, content.content_name \
                     FROM CONTENT \
                     WHERE content.public = 1 \
@@ -39,37 +40,27 @@ def main():
                                         WHERE username_creator=%s) \
                     ORDER BY timest DESC'
         '''
-        postQuery = '(SELECT content.id\
+        postQuery = 'SELECT content.id, content.username, content.timest, content.file_path, content.content_name\
                     FROM content\
                     WHERE content.public = 1\
-                        OR content.username = %s\
-                        OR username in\
-                    (SELECT username\
-                    FROM person NATURAL JOIN friendgroup))\
-                    UNION\
+                    OR content.username= %s\
+                    OR id in\
                     (SELECT share.id\
                     FROM share\
                     WHERE %s in\
                     (SELECT member.username\
                     FROM member\
                     WHERE share.group_name = member.group_name)\
-                    OR (SELECT username\
+                    OR %s in (SELECT username\
                     FROM friendgroup\
-                    WHERE share.group_name = friendgroup.group_name))'
-        '''
+                    WHERE share.group_name = friendgroup.group_name))\
+                    ORDER BY timest desc'
+        
         cursor = conn.cursor()
         username = session['username']
-        '''
-        cursor.execute(postQuery, (username, username)) #ids of all the visible posts
-        post_id_data = cursor.fetchall()
-
-        query = 'SELECT content.id, content.username, content.timest, content.file_path, content.content_name\
-                FROM content\
-                WHERE content.id = %s'
-        #for id_data in post_id_data:
-        '''
-            
-        cursor.execute(postQuery, (username, username, username, username))
+        
+        #ids of all the visible posts
+        cursor.execute(postQuery, (username, username, username))
         postData = cursor.fetchall()
         cursor.close()
 
