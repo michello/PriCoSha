@@ -129,10 +129,6 @@ def makePostProcessed():
 
 @app.route('/tagUser/<post_id>')
 def tagUser(post_id):
-    """
-    if (not session.get('logged_in')):
-        return redirect(url_for('main'))
-    """
     return render_template('tagUser.html', post_id = post_id)
 
 @app.route('/tagUser/processing-<post_id>', methods=['GET', 'POST'])
@@ -142,31 +138,45 @@ def tagUserProcessed(post_id):
 
     username_tagger = session['username']
     cursor = conn.cursor()
+    #gets all the ids of the visible posts to the taggee
+    query = 'SELECT content.id\
+                    FROM content\
+                    WHERE content.public = 1\
+                    OR content.username= %s\
+                    OR id in\
+                    (SELECT share.id\
+                    FROM share\
+                    WHERE %s in\
+                    (SELECT member.username\
+                    FROM member\
+                    WHERE share.group_name = member.group_name)\
+                    OR %s in (SELECT username\
+                    FROM friendgroup\
+                    WHERE share.group_name = friendgroup.group_name))'
+    
+    cursor.execute(query, (username_taggee, username_taggee, username_taggee))
+    visiblePosts = cursor.fetchall() #posts shared to the groups this person is in
+    #return render_template('result.html', data=visiblePosts)
+    #visiblePosts = [{'id': 3}, {'id': 5}, {'id': 7}, {'id': 9}]
+    flag = False
+    for mem in visiblePosts:
+        if mem['id'] == int(post_id):
+            flag = True
+    #WHY DOESNT THIS WORK
+    if not flag:
+        errormsg = "Cannot tag: post is not visible to this person!"
+        return render_template('tagUser.html', post_id=post_id, error=errormsg)
 
-    query = "SELECT DISTINCT content.id FROM content WHERE content.public = 1\
-    OR content.username = %s OR username in(SELECT username FROM person\
-    NATURAL JOIN friendgroup)"
-    cursor.execute(query, (username_taggee))
-    visiblePosts = cursor.fetchall() #posts visible to the taggee
-
-    query = 'SELECT share.id FROM share WHERE %s in (SELECT member.username\
-    FROM member WHERE share.group_name = member.group_name) OR (SELECT username\
-    FROM friendgroup WHERE share.group_name = friendgroup.group_name)'
-    cursor.execute(query, (username_taggee))
-    visiblePostsShared = cursor.fetchall() #posts shared to the groups this person is in
-
-    if post_id not in visiblePosts or visiblePostsShared:
-        errormsg = "Cannot tag: post is not visible to this person!" #how to display this error msg
-        return redirect(url_for('main'))
-
+    #checks if tag is a duplicate
     queryDuplicate = 'SELECT * FROM tag WHERE id = %s AND username_tagger = %s AND username_taggee = %s'
     cursor.execute(queryDuplicate, (post_id, username_tagger, username_taggee))
     duplicate = cursor.fetchone()
-    '''
+    #return render_template('result.html', data=duplicate)
+
     if duplicate:
-        errormsg = "Cannot tag this person: this tag already exists." #how to display this?
-        return redirect(url_for('main'))
-    '''
+        error = "Cannot tag this person: this tag already exists."
+        return render_template('tagUser.html', post_id=post_id, error=error)
+        
     timest = datetime.datetime.now().strftime('%y-%m-%d %H:%M:%S')
     query = 'INSERT into tag (id, username_tagger, username_taggee, timest, status) values (%s, %s, %s, %s, %s)'
 
@@ -175,6 +185,7 @@ def tagUserProcessed(post_id):
         cursor.execute(query, (post_id, username_tagger, username_taggee, timest, 1))
     elif username_taggee != username_tagger:
         cursor.execute(query, (post_id, username_tagger, username_taggee, timest, 0))
+        
     conn.commit()
     cursor.close()
     return redirect(url_for('main'))
