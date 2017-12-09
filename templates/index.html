@@ -2,7 +2,7 @@
 {% block content %}
 
   <p style = "margin-top:80px;font-size:16px;">
-  Hi <a href = "/profile/{{ session['username'] }}"> {{ session['users'][session['username']]['first_name'] }}</a>! 
+  Hi <a href = "/profile/{{ session['username'] }}"> {{ session['users'][session['username']]['first_name'] }}</a>!
    <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
   </p>
   {% if error %}
@@ -73,9 +73,9 @@
                 <div class = "links">
                   <a href="/edit-post/{{ post['id'] }}" class = "postEdit">edit</a>
                   <a href="/delete-post/{{ post['id'] }}" class = "postDelete">delete</a>
-                  <a href = "/tagUser/{{ post['id'] }}" class="postTag">tag</a>
                 </div>
               {% endif %}
+              <a href = "/tagUser/{{ post['id'] }}" class="postTag">tag</a>
 
             </div>
             <div class = "description">

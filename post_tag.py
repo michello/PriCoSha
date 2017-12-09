@@ -162,7 +162,7 @@ def tagUserProcessed(post_id):
     for mem in visiblePosts:
         if mem['id'] == int(post_id):
             flag = True
-    #WHY DOESNT THIS WORK
+
     if not flag:
         errormsg = "Cannot tag: post is not visible to this person!"
         return render_template('tagUser.html', post_id=post_id, error=errormsg)
