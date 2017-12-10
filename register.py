@@ -50,4 +50,8 @@ def registerProcessing():
 
     session['logged_in'] = True
     session['username'] = username
+    session['users'][username] = {}
+    session['users'][username]['groups'] = []
+    session['users'][username]['first_name'] = firstname
+    session['users'][username]['last_name'] = lastname
     return redirect(url_for('main', username = session['username']))
