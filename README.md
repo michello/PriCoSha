@@ -5,6 +5,7 @@ A system for privately sharing content items among groups of people.
 ## How to run
 1. Dump database schema (and, optional, the inserts) into a db (name it `pricosha`).
 2. Run `python init.py` in command prompt or terminal at the root folder of this project.
+3. Should be running at `localhost:5000`!
 
 ## Available Features
 - Login
