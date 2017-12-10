@@ -5,9 +5,11 @@
   Hi <a href = "/profile/{{ session['username'] }}"> {{ session['users'][session['username']]['first_name'] }}</a>!
    <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
   </p>
+  
   {% if error %}
-    <p class="error"><strong>Error:</strong> {{error}}</p>
+    <p class="error"><strong>Error:</strong> {{error}} </p>
   {% endif %}
+
   <div id ="posts">
         {% for post in data %}
           <div class = "post">

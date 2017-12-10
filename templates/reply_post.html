@@ -6,13 +6,18 @@
      <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
     </p>
 
-    <h1>Posts</h1>
+    {% if error %}
+      <p class="error" style="font-size:14px;"><strong>Error:</strong> {{ error }}</p>
+      <a href="/">Go back?</a>
+    {% endif %}
+ 
+  {% if data|length > 0 %}
+   <h1>Posts</h1>
     <nav id = "friends">
       <a href = "/posts">View Posts</a>
       <a href = "/sharePost">Share Posts</a>
       <a href="/makePost/">Make New Posts</a>
     </nav>
-
 
     <div class = "post">
         <div class = "main-post-content">
@@ -51,10 +56,8 @@
     <form action="/replying-{{post_id}}" method="POST" style="text-align:center;">
       <textarea name="description" style="margin-top: -24px; margin-left: -138px; position: absolute; width: 280px;" placeholder="Enter your reply here!" required></textarea>
       <input type="submit" value =Submit class="button" style="margin-bottom:20px;margin-top: 20px; margin-left: -26px; position: absolute;"/>
-      {% if error %}
-        <p class="error"><strong>Error:</strong> {{error}}</p>
-      {% endif %}
     </form>
+   {% endif %}
 
 
   {% endblock %}

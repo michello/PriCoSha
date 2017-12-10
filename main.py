@@ -84,8 +84,6 @@ def getData(query):
     cursor.close()
     return(data)
 
-
-
 def addGroups(groupList):
     friendGroup = "SELECT group_name, description \
                     FROM friendgroup \
