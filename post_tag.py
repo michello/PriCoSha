@@ -189,7 +189,7 @@ def tagUserProcessed(post_id):
             flag = True
 
     if not flag:
-        errormsg = "Cannot tag: post is not visible to this person!"
+        errormsg = "Cannot tag: post is not visible to this person or s/he doesn't exist!"
         return render_template('tagUser.html', post_id=post_id, error=errormsg)
 
     #checks if tag is a duplicate
@@ -199,7 +199,7 @@ def tagUserProcessed(post_id):
     #return render_template('result.html', data=duplicate)
 
     if duplicate:
-        error = "Cannot tag this person: this tag already exists."
+        error = "Cannot tag this person: this tag already exists or is pending."
         return render_template('tagUser.html', post_id=post_id, error=error)
 
     timest = datetime.datetime.now().strftime('%y-%m-%d %H:%M:%S')
