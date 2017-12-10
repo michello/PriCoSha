@@ -7,7 +7,7 @@ photos = UploadSet('photos', IMAGES)
 
 app.config['UPLOADED_PHOTOS_DEST'] = 'static/posts_pic'
 configure_uploads(app, photos)
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -47,14 +47,18 @@ def editProfileProcessed(username):
     if (session['username'] != username):
         error = 'Cannot edit another user profile.'
         return render_template('editProfile.html', username=username, error=error)
-    
+
     biography = request.form['bio']
 
     img_filepath = '/static/posts_pic/'
 
-    if not allowed_file(request.files['photo'].filename):
+    data = getInfo(username)
+
+
+    if (allowed_file(request.files['photo'].filename) == False):
         error = 'Please attach image files only.'
-        return render_template('editProfile.html', error=error)
+        return render_template('editProfile.html', username=username, error=error, data=data)
+
 
     if len(biography) > 50:
         error = 'Bio is too long. 50 characters max.'
@@ -77,6 +81,7 @@ def editProfileProcessed(username):
     cursor.close()
 
     return redirect(url_for('profile', username=username))
+
 
 def getInfo(username):
     query = "SELECT * FROM profile WHERE username=%s"
