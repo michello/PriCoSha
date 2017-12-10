@@ -4,6 +4,7 @@ import tags, content_edit_delete, friends, group, post_tag
 import getfriends, post_tag, register, profile
 from post_tag import makePost
 import reply_post
+import userInfo
 
 @app.after_request
 def add_header(response):
@@ -64,11 +65,11 @@ def main():
         commentsData = getData(commentsQuery)
         comments = storeComments(commentsData)
 
+        # userInfo.initiate()
+
         # get all the users
         userQuery = 'SELECT username, first_name, last_name FROM person'
         userData = getData(userQuery)
-
-        storeUsers(userData)
 
         return render_template("index.html", data=postData, allLikes=allLikes, likesData=likesData, userLikesData=allLikes, tagsData=tagsData, commentsData=commentsData, userData=userData, tagz=tagz)
     return render_template("index.html")
@@ -82,22 +83,7 @@ def getData(query):
     cursor.close()
     return(data)
 
-def storeUsers(data):
-    # store users in a session users dictionary
-    # which can be used to access users' first name and last name.
-    session['users'] = {}
-    for user in data:
-        session['users'][user['username']] = {}
-        session['users'][user['username']]['first_name'] = user['first_name']
-        session['users'][user['username']]['last_name'] = user['last_name']
-        # adding friends for users
-        session['users'][user['username']]['friends'] = []
-        session['users'][user['username']]['friends'] = getfriends.getFriend()
 
-        # including groups you own
-        session['users'][user['username']]['groups'] = []
-        addGroups(session['users'][user['username']]['groups'])
-    return;
 
 def addGroups(groupList):
     friendGroup = "SELECT group_name, description \

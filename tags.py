@@ -57,7 +57,6 @@ def proccessTags():
 
 
 def executeQuery(command, post, user):
-
     cursor = conn.cursor()
     cursor.execute(command, (post, user))
     cursor.close()

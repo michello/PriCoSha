@@ -1,11 +1,13 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask_login import login_user, logout_user, current_user, login_required
 from appdef import app, conn
-
+import userInfo
 
 
 @app.route('/register')
 def register():
+    #return render_template("result.html", data=session)
+    userInfo.initiate()
     return render_template('register.html')
 
 @app.route('/register/processing', methods=['GET', 'POST'])
