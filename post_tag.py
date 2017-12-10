@@ -157,7 +157,6 @@ def tagUserProcessed(post_id):
     cursor = conn.cursor()
     cursor.execute(query, (username_taggee))
     data = cursor.fetchall()
-    cursor.close()
 
     if (len(data) < 1):
         error = "User not found."
