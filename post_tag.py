@@ -161,7 +161,7 @@ def tagUserProcessed(post_id):
 
     if (len(data) < 1):
         error = "User not found."
-        return render_template('tagUser.html', post_id=post_id, error=error,)
+        return render_template('tagUser.html', post_id=post_id, error=error) #check
     
     username_tagger = session['username']
     #gets all the ids of the visible posts to the taggee
