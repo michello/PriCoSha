@@ -15,6 +15,7 @@ def add_header(response):
 
 @app.route('/')
 def main():
+    #return render_template('result.html', data=session['users'])
     # if the user is logged in, have all the posts available to the user display
     if (session.get('logged_in') == True):
         # query to get all the posts available to the user

@@ -177,15 +177,12 @@ def tagUserProcessed(post_id):
         return render_template('tagUser.html', post_id=post_id, error=errormsg)
 
     #checks if tag is a duplicate
-    queryDuplicate = 'SELECT * FROM tag WHERE id = %s AND username_tagger = %s AND username_taggee = %s AND status = %s'
-    cursor.execute(queryDuplicate, (post_id, username_tagger, username_taggee, 0))
+    queryDuplicate = 'SELECT * FROM tag WHERE id = %s AND username_taggee = %s'
+    cursor.execute(queryDuplicate, (post_id, username_taggee))
     duplicate = cursor.fetchone()
-    cursor.execute(queryDuplicate, (post_id, username_tagger, username_taggee, 1))
-    duplicateAccepted = cursor.fetchone()
-
     #return render_template('result.html', data=duplicate)
 
-    if duplicate or duplicateAccepted:
+    if duplicate:
         error = "Cannot tag this person: this tag already exists."
         return render_template('tagUser.html', post_id=post_id, error=error)
 
