@@ -63,6 +63,12 @@
                 {% else %}
                     {{ tagz[post['id']]|length }} tagged
                 {% endif %}
+                <br>
+                {% if tagz[post['id']]|length > 0 %}
+                    {% for person in tagz[post['id']] %}
+                      {{ person['username_tagee'] }}
+                    {% endfor %}
+                {% endif %}
               </span>
             </div>
             <div class = "picture">
