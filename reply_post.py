@@ -42,9 +42,7 @@ def replyingPost(post_id):
     countData = cursor.fetchone()
     cursor.close()
 
-    if (countData['COUNT(*)'] > 0):
-        return render_template("reply_post.html", post_id=post_id, countData=countData)
-    else:
+    if (countData['COUNT(*)'] <= 0):
         error = "Post does not exist. Please comment on a valid post."
         return render_template("reply_post.html", post_id=post_id, error=error)
 
