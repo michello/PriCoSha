@@ -20,3 +20,4 @@ A system for privately sharing content items among groups of people.
 - Feature No. 5 - Add comments
 
 ## Screenshots
+<img src="static/createGroup.png" width="200px">
