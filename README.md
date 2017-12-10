@@ -3,7 +3,7 @@
 A system for privately sharing content items among groups of people.
 
 ## How to run
-1. Dump database schema (and, optional, the inserts) into a db.
+1. Dump database schema (and, optional, the inserts) into a db (name it `pricosha`).
 2. Run `python init.py` in command prompt or terminal at the root folder of this project.
 
 ## Available Features
@@ -19,6 +19,4 @@ A system for privately sharing content items among groups of people.
 - Feature No. 4 - Profile page for users
 - Feature No. 5 - Add comments
 
-## Testing Purposes
-- `Username` is the person's NYU net id.
-- `Password` is the person's full name without spaces.
+## Screenshots
