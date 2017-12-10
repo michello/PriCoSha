@@ -1,26 +1,23 @@
+![PriCoSha](https://i.gyazo.com/184f69f915334ca8a29d9fb639080be5.png)
 # PriCoSha
-a system for privately sharing content items among groups of people
+A system for privately sharing content items among groups of people.
 
 ## How to run
-Run `python init.py` in command prompt or terminal at the root folder of this project.
+1. Dump database schema (and, optional, the inserts) into a db.
+2. Run `python init.py` in command prompt or terminal at the root folder of this project.
 
-## To do
-- [x] Login
-- [x] View content items and information
-- [x] Manage tags
-- [x] Post a content item `assigned to Ammy`
-- [x] Tag a content item `assigned to Ammy`
-- [x] Add friend `assigned to Michelle`
-- [x] Feature No. 1 - Create/delete/defriend friend group `assigned to Michelle`
-- [x] Feature No. 2 - Update/delete content item `assigned to Corinna`
-- [x] Feature No. 3 - Like/Dislike feature for content item `assigned to Corinna`
-- [x] ~Feature No. 4 - Register users~
-- [ ] Feature No. 4 - Profile page for users
-- [x] Feature No. 5 - Add comments
-### suggested feature
-- profile page for user
-- page that displays which friend group user belongs to
-- search bar for users to find other users
+## Available Features
+- Login
+- View content items and information
+- Manage tags
+- Post a content item
+- Tag a content item
+- Add friend
+- Feature No. 1 - Create/delete/defriend friend group
+- Feature No. 2 - Update/delete content items
+- Feature No. 3 - Like/Dislike feature for content item
+- Feature No. 4 - Profile page for users
+- Feature No. 5 - Add comments
 
 ## Testing Purposes
 - `Username` is the person's NYU net id.
