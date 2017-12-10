@@ -146,8 +146,24 @@ def tagUserProcessed(post_id):
 
     username_taggee = request.form['username_taggee']
 
-    username_tagger = session['username']
+    if (username_taggee):
+        if (len(username_taggee) > 50):
+            error = 'Name is too long. 50 characters max.'
+            return render_template('tagUser.html', post_id=post_id, error=error)
+
+    query = "SELECT username \
+                    FROM person \
+                    WHERE username = %s"
     cursor = conn.cursor()
+    cursor.execute(query, (username_taggee))
+    data = cursor.fetchall()
+    cursor.close()
+
+    if (len(data) < 1):
+        error = "User not found."
+        return render_template('tagUser.html', post_id=post_id, error=error,)
+    
+    username_tagger = session['username']
     #gets all the ids of the visible posts to the taggee
     query = 'SELECT content.id\
                     FROM content\
@@ -177,15 +193,12 @@ def tagUserProcessed(post_id):
         return render_template('tagUser.html', post_id=post_id, error=errormsg)
 
     #checks if tag is a duplicate
-    queryDuplicate = 'SELECT * FROM tag WHERE id = %s AND username_tagger = %s AND username_taggee = %s AND status = %s'
-    cursor.execute(queryDuplicate, (post_id, username_tagger, username_taggee, 0))
+    queryDuplicate = 'SELECT * FROM tag WHERE id = %s AND username_taggee = %s'
+    cursor.execute(queryDuplicate, (post_id, username_taggee))
     duplicate = cursor.fetchone()
-    cursor.execute(queryDuplicate, (post_id, username_tagger, username_taggee, 1))
-    duplicateAccepted = cursor.fetchone()
-
     #return render_template('result.html', data=duplicate)
 
-    if duplicate or duplicateAccepted:
+    if duplicate:
         error = "Cannot tag this person: this tag already exists."
         return render_template('tagUser.html', post_id=post_id, error=error)
 

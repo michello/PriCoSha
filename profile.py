@@ -51,7 +51,6 @@ def editProfileProcessed(username):
     biography = request.form['bio']
 
     img_filepath = '/static/posts_pic/'
-    hello = request.files['photo'].filename
 
     data = getInfo(username)
 
@@ -60,9 +59,7 @@ def editProfileProcessed(username):
         error = 'Please attach image files only.'
         return render_template('editProfile.html', username=username, error=error, data=data)
 
-    return render_template('result.html', username=username, data=data)
 
-"""
     if len(biography) > 50:
         error = 'Bio is too long. 50 characters max.'
         return render_template('editProfile.html', username=username, error=error)
@@ -84,7 +81,7 @@ def editProfileProcessed(username):
     cursor.close()
 
     return redirect(url_for('profile', username=username))
-"""
+
 
 def getInfo(username):
     query = "SELECT * FROM profile WHERE username=%s"
