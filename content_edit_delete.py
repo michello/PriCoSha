@@ -51,7 +51,7 @@ def editPostProcessed(post_id):
 
     if not allowed_file(request.files['photo'].filename):
         error = 'Please attach image files only.'
-        return render_template('content_edit.html', error=error)
+        return render_template('content_edit.html', error=error, post_id=post_id)
 
     if len(postContent) > 50:
         error = 'Description is too long. 50 characters max.'
