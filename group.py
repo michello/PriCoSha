@@ -32,11 +32,13 @@ def deleteGroups(group_name):
     command = 'DELETE FROM member \
                 WHERE group_name = %s;'
     execute(command, group_name)
+    #then delete shares
+    command = 'DELETE FROM share WHERE group_name=%s'
+    execute(command, group_name)
     # then delete the group itself
     command = 'DELETE FROM friendgroup \
                 WHERE group_name=%s;'
     execute(command, group_name)
-
     return redirect(url_for('groups'))
 
 @app.route('/leave-group-<group_name>')

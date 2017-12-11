@@ -49,20 +49,17 @@ def editProfileProcessed(username):
         return render_template('editProfile.html', username=username, error=error)
 
     biography = request.form['bio']
-
     img_filepath = '/static/posts_pic/'
 
     data = getInfo(username)
-
 
     if (allowed_file(request.files['photo'].filename) == False):
         error = 'Please attach image files only.'
         return render_template('editProfile.html', username=username, error=error, data=data)
 
-
     if len(biography) > 50:
         error = 'Bio is too long. 50 characters max.'
-        return render_template('editProfile.html', username=username, error=error)
+        return render_template('editProfile.html', username=username, error=error, data=data)
 
     if request.method == 'POST' and 'photo' in request.files:
         filename = photos.save(request.files['photo'])

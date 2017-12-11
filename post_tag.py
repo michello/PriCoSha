@@ -8,7 +8,7 @@ photos = UploadSet('photos', IMAGES)
 
 app.config['UPLOADED_PHOTOS_DEST'] = 'static/posts_pic'
 configure_uploads(app, photos)
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 def allowed_file(filename):
     return '.' in filename and \

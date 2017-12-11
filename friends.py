@@ -102,6 +102,15 @@ def addingFriends():
         userData = cursor.fetchall()
         cursor.close()
 
+        # if there are multiple users with the same first and last name
+        if (len(userData) > 1):
+            error = "Please include a username."
+            return render_template('addFriends.html', error=error, data=group)
+        # if the user cannot be found, send an error message
+        elif (len(userData) < 1):
+            error = "User not found."
+            return render_template('addFriends.html', error=error, data=group)       
+
         isOwner = False
         cursor = conn.cursor()
         query = "SELECT username \
@@ -128,16 +137,8 @@ def addingFriends():
             if data['username'] == userData[0]['username']:
                 isMember = True
                 
-        # if there are multiple users with the same first and last name
-        if (len(data) > 1):
-            error = "Please include a username."
-            return render_template('addFriends.html', error=error, data=group)
-        # if the user cannot be found, send an error message
-        elif (len(data) < 1):
-            error = "User not found."
-            return render_template('addFriends.html', error=error, data=group)
         #if user already in the group or is group owner, send error message
-        elif (isOwner):
+        if (isOwner):
             error = "Already the group owner."
             return render_template('addFriends.html', error=error, data=group)
         elif (isMember):
@@ -146,7 +147,7 @@ def addingFriends():
         else:
             query = "INSERT INTO member (username, group_name, username_creator) VALUES (%s, %s, %s)"
             cursor = conn.cursor()
-            cursor.execute(query, (data[0]['username'], formGroup, session['username']))
+            cursor.execute(query, (userData[0]['username'], formGroup, session['username']))
             conn.commit()
             cursor.close()
             return redirect(url_for('friends'))

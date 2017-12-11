@@ -5,6 +5,7 @@
     Hi <a href = "/profile/{{ session['username'] }}"> {{ session['users'][session['username']]['first_name'] }}</a>! 
      <a href="/logout" style="font-size:16px;text-decoration:none;">(Logout)</a>
    </p>
+
    {% if error %}
       <b>Error:</b> {{ error }}
    {% else%}
@@ -17,6 +18,6 @@
      <p>Username: {{ username }}</p>
      <p>Full Name: {{ session['users'][username]['first_name'] }} {{ session['users'][username]['last_name'] }}</p>
      <p>Bio: {{ data['bio']}}</p>
-    {% endif %}
+  {% endif %}
 
 {% endblock %}
