@@ -1,9 +1,9 @@
 ![PriCoSha](https://i.gyazo.com/184f69f915334ca8a29d9fb639080be5.png)
 # PriCoSha
-A system for privately sharing content items among groups of people.
+A Flask application that allows users to create and share content items among groups of other users.
 
 ## How to run
-1. Dump database schema (and, optional, the inserts) into a db (name it `pricosha`).
+1. Dump database schema (and, optional, the inserts) into a db (name it `pricosha`). And start the SQL server.
 2. Run `python init.py` in command prompt or terminal at the root folder of this project.
 3. Should be running at `localhost:5000`!
 
