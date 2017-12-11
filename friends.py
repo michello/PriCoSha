@@ -139,10 +139,10 @@ def addingFriends():
                 
         #if user already in the group or is group owner, send error message
         if (isOwner):
-            error = "Already the group owner."
+            error = "Already the group owner or a group member."
             return render_template('addFriends.html', error=error, data=group)
         elif (isMember):
-            error = "Already a group member."
+            error = "Already a group member or the group owner."
             return render_template('addFriends.html', error=error, data=group)
         else:
             query = "INSERT INTO member (username, group_name, username_creator) VALUES (%s, %s, %s)"
@@ -196,13 +196,18 @@ def creatingFriends():
     description = request.form["description"]
     data = request.form
 
+    #check if group name too long
+    if len(groupName) > 50:
+        error = "Group name too long. 50 characters max."
+        return render_template('createFriend.html', error=error)
+        
     # check if group name exists
     query = "SELECT COUNT(group_name) FROM friendgroup WHERE group_name = %s"
     allGroups = getData(query, groupName)
 
     if (allGroups[0]['COUNT(group_name)'] == 1):
         error = "The group name already exists. Please enter another one."
-        return render_template('createFriend.html', error=allGroups)
+        return render_template('createFriend.html', error=error)
     else:
         cursor = conn.cursor()
         command = "INSERT INTO friendgroup (group_name, username, description) VALUES (%s, %s, %s)"
