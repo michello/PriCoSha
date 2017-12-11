@@ -66,7 +66,7 @@ def main():
         commentsData = getData(commentsQuery)
         comments = storeComments(commentsData)
 
-        # userInfo.initiate()
+        userInfo.initiate()
 
         # get all the users
         userQuery = 'SELECT username, first_name, last_name FROM person'
